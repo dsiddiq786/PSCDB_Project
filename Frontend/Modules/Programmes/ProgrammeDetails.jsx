@@ -48,7 +48,7 @@ export default function ProgrammeDetails({ slug }) {
             <h1 id="course-title" className="mt-5 font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">{course.title}</h1>
             <p className="mt-5 text-lg leading-8 text-white/75">{course.summary}</p>
             <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
-              {[["Level", course.level], ["Duration", course.duration], ["Delivery", "Onsite"], ["Center", centre?.name || "To be announced"]].map(([term, value]) => (
+              {[["Level", course.level], ["Duration", course.duration], ["Delivery", "On-Site"], ["Center", centre?.name || "To be announced"]].map(([term, value]) => (
                 <div key={term}>
                   <dt className="text-white/50">{term}</dt>
                   <dd className="font-semibold text-white">{value}</dd>
@@ -84,7 +84,7 @@ export default function ProgrammeDetails({ slug }) {
 
             <Reveal as="section" aria-labelledby="batches-heading">
               <h2 id="batches-heading" className="font-display text-2xl font-bold text-ink">Batches and Seats</h2>
-              <p className="mt-2 text-sm text-muted">Every batch is taught onsite. Seats are limited and are updated as students enroll.</p>
+              <p className="mt-2 text-sm text-muted">Every batch is taught on-site. Seats are limited and are updated as students enroll.</p>
               <div className="mt-5"><BatchTable course={course} /></div>
             </Reveal>
 

@@ -174,7 +174,7 @@ export default function EnrolPage({ slug }) {
             ) : step === 0 ? (
               <fieldset>
                 <legend className="font-display text-xl font-bold text-ink">Choose Your Batch</legend>
-                <p className="mt-1 text-sm text-muted">{course.batches.length === 1 ? "This batch is" : course.batches.length === 2 ? "Both batches are" : "All batches are"} taught onsite at {centreById(course.centre, course)?.name || "our center"}.</p>
+                <p className="mt-1 text-sm text-muted">{course.batches.length === 1 ? "This batch is" : course.batches.length === 2 ? "Both batches are" : "All batches are"} taught on-site at {centreById(course.centre, course)?.name || "our center"}.</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {course.batches.map((item) => {
                     const full = item.seatsAvailable <= 0;

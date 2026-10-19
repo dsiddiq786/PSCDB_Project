@@ -85,7 +85,7 @@ export default function ProgrammesSection() {
         crumbs={[{ label: "Courses" }]}
         eyebrow="Courses"
         title="Advanced Courses in AI and Cyber Security"
-        intro="Every course is taught onsite, ends with a professional skills exam and lists its fees, batches and prerequisites up front."
+        intro="Every course is taught on-site, ends with a professional skills exam and lists its fees, batches and prerequisites up front."
       />
 
       <section aria-label="Course catalog" className="bg-cream-100 py-12 sm:py-16">

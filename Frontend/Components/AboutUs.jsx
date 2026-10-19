@@ -15,7 +15,7 @@ export default function AboutUs() {
         crumbs={[{ label: "About" }]}
         eyebrow="About PSCDB"
         title="A Professional Skills Board for Advanced Technology"
-        intro="The Professional Skills and Community Development Board (PSCDB) delivers onsite courses and professional skills exams in artificial intelligence and cyber security."
+        intro="The Professional Skills and Community Development Board (PSCDB) delivers on-site courses and professional skills exams in artificial intelligence and cyber security."
         image="/images/lab/labs-split.jpg"
         imageAlt="The Advanced AI Lab and the Cyber Security Lab"
         illustrative

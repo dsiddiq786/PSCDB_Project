@@ -32,7 +32,7 @@ This is the single reference for everything PSCDB looks like, sounds like and is
 
 ## 1. Brand Essence
 
-**Who we are.** PSCDB is a professional skills board that teaches artificial intelligence and cyber security in its own onsite labs in Sahiwal, Pakistan. Every course ends with a professional skills exam.
+**Who we are.** PSCDB is a professional skills board that teaches artificial intelligence and cyber security in its own on-site labs in Sahiwal, Pakistan. Every course ends with a professional skills exam.
 
 **Two domains, one board.** The **Advanced AI Lab** and the **Cyber Security Lab**. Never state how many labs or courses there are as a selling point ("2 labs", "20+ courses"); describe what they do instead.
 
@@ -194,6 +194,7 @@ Both fonts load from Google Fonts in `src/index.css`. Headings get `letter-spaci
 | Use | Not |
 |---|---|
 | enroll, enrollment, enrolled | enrol, enrolment |
+| on-site (On-Site in titles) | onsite |
 | center, centers | centre |
 | program (in general text) | programme |
 | inquiry, inquiries | enquiry |
@@ -577,7 +578,7 @@ Copy this, attach this brand book, and replace the last line with your request.
 
 ```
 You are designing and building for PSCDB (Professional Skills and Community Development Board), an
-onsite AI and cyber security training institute in Sahiwal, Pakistan. The attached PSCDB Brand Book is the
+on-site AI and cyber security training institute in Sahiwal, Pakistan. The attached PSCDB Brand Book is the
 source of truth: follow it exactly.
 
 Requirements:

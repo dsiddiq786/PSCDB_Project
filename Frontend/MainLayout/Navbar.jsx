@@ -55,7 +55,7 @@ export default function Navbar() {
     <>
       <div className="hidden bg-emerald-950 text-[13px] text-white/75 md:block">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
-          <p>Onsite courses in AI and cyber security · Sahiwal, Pakistan</p>
+          <p>On-Site Courses in AI and Cyber Security · Sahiwal, Pakistan</p>
           <div className="flex items-center gap-5">
             <a href={`mailto:${institute.email}`} className="hover:text-white">{institute.email}</a>
             <a href="/contact" className="hover:text-white">Contact</a>

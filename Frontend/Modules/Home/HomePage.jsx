@@ -11,7 +11,7 @@ import { leadership } from "../Leadership/leadershipData";
 const facts = [
   ["Two Specialist Labs", "Artificial intelligence and cyber security"],
   ["Professional Skills Exams", "Every course leads to a professional skills exam"],
-  ["Morning and Evening Batches", "Onsite classes in Sahiwal, Pakistan"],
+  ["Morning and Evening Batches", "On-site classes in Sahiwal, Pakistan"],
   ["Published Fees", "See the full cost before you enroll"],
 ];
 
@@ -23,7 +23,7 @@ const steps = [
 ];
 
 const faqs = [
-  { q: "Are the classes online or onsite?", a: "All classes are currently held onsite at our Sahiwal center. Each course runs as a morning batch and an evening batch." },
+  { q: "Are the classes online or on-site?", a: "All classes are currently held on-site at our Sahiwal center. Each course runs as a morning batch and an evening batch." },
   { q: "Is the exam fee included in the course fee?", a: "The professional skills exam fee is paid separately, unless the institute covers it for a course. The course page shows which applies before you enroll." },
   { q: "Which currency am I charged in?", a: "Fees are charged in US dollars. Amounts in Pakistani rupees are shown for reference at the current rate set by the institute." },
   { q: "Do I need a computer science degree?", a: "No. Each course lists its prerequisites. Beginner courses assume basic programming and mathematics, and advanced courses state the experience they expect." },

@@ -11,7 +11,7 @@ function fromLive(course) {
   return {
     id: course.slug,
     ...course,
-    summary: course.summary || `${course.title} is an onsite course taught in the ${labMeta[course.lab]?.name || "PSCDB labs"}, ending with a professional skills exam.`,
+    summary: course.summary || `${course.title} is an on-site course taught in the ${labMeta[course.lab]?.name || "PSCDB labs"}, ending with a professional skills exam.`,
     outcomes: [],
     modules: [],
     tools: [],

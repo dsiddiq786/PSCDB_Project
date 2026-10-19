@@ -51,7 +51,7 @@ export default function HeroSection() {
             Professional Skills in <span className="text-gold-300">AI and Cyber Security</span>, Taught in Real Labs
           </h1>
           <p style={{ "--delay": "160ms" }} className="rise mt-6 max-w-xl text-lg leading-8 text-white/75">
-            Onsite courses that end in a professional skills exam. Choose a course, pick a batch and reserve your seat online in minutes.
+            On-site courses that end in a professional skills exam. Choose a course, pick a batch and reserve your seat online in minutes.
           </p>
 
           <form role="search" onSubmit={submit} style={{ "--delay": "240ms" }} className="rise mt-8 flex max-w-xl items-center gap-2 rounded-xl bg-white p-2 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.6)]">

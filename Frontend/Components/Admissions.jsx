@@ -13,7 +13,7 @@ const checklist = [
 ];
 
 const facts = [
-  { icon: "pin", title: "Onsite Classes", text: "Taught in our labs in Sahiwal" },
+  { icon: "pin", title: "On-Site Classes", text: "Taught in our labs in Sahiwal" },
   { icon: "clock", title: "Two Batch Times", text: "Morning or evening, same syllabus" },
   { icon: "award", title: "Exam in Every Course", text: "A professional skills exam at the end" },
   { icon: "lock", title: "Secure Payment", text: "Processed by Stripe in US dollars" },
@@ -59,7 +59,7 @@ const labFilters = [
 ];
 
 const questions = [
-  { q: "Are any classes held online?", a: "No. Every course is taught onsite in our labs in Sahiwal." },
+  { q: "Are any classes held online?", a: "No. Every course is taught on-site in our labs in Sahiwal." },
   { q: "How long is my seat held while I pay?", a: "Your seat is held for 30 minutes from the moment you continue to payment. If payment is not completed in that time, the seat is released for other students." },
   { q: "Is the exam fee included in the course fee?", a: "It depends on the course. Some courses include the professional skills exam fee, and others charge it separately. Each course page and the fees page show which applies." },
   { q: "Can I move to another batch after enrolling?", a: "Contact admissions with your booking reference. A change depends on seats being available in the batch you want." },

@@ -45,7 +45,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="mt-6 text-sm leading-7 text-white/65">
-              Onsite courses and professional skills exams in artificial intelligence and cyber security.
+              On-site courses and professional skills exams in artificial intelligence and cyber security.
             </p>
             <address className="mt-6 text-sm not-italic leading-7 text-white/75">
               {centres[0].address}
