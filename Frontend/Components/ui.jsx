@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import HeroParticles from "./HeroParticles";
 
 /* Shared UI kit for the public site. */
 
@@ -54,7 +55,8 @@ export function SectionHeading({ eyebrow, title, children, tone = "light", align
 export function PageHeader({ eyebrow, title, intro, crumbs = [], image, imageAlt = "", illustrative = false, children, id = "page-heading" }) {
   return (
     <section aria-labelledby={id} className="surface-dark texture-grid relative overflow-hidden">
-      <Container className={`grid gap-10 py-14 sm:py-20 ${image ? "lg:grid-cols-[1.1fr_0.9fr] lg:items-center" : ""}`}>
+      <HeroParticles />
+      <Container className={`relative grid gap-10 py-14 sm:py-20 ${image ? "lg:grid-cols-[1.1fr_0.9fr] lg:items-center" : ""}`}>
         <div className="rise">
           {crumbs.length > 0 && (
             <nav aria-label="Breadcrumb" className="mb-6 text-sm text-white/60">

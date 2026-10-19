@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HeroParticles from "./HeroParticles";
 
 const slides = [
   { image: "/images/lab/ai-lab-room.jpg", label: "Advanced AI Lab", href: "/labs/ai", alt: "Workstations in the Advanced AI Lab" },
@@ -37,8 +38,10 @@ export default function HeroSection() {
 
   return (
     <section aria-labelledby="hero-heading" className="surface-dark texture-grid relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-0 h-full w-1/2 bg-gradient-to-l from-emerald-800/40 to-transparent" />
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16 lg:px-10 lg:py-24">
+      <HeroParticles shapes />
+      {/* Softens the particles behind the headline so the text stays crisp. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_42%_55%_at_24%_52%,rgba(6,36,27,0.7),transparent_75%)]" />
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14 lg:px-10 lg:py-24">
         <div>
           <p className="rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white/85">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold-400" />
@@ -88,7 +91,7 @@ export default function HeroSection() {
           onFocus={() => setPaused(true)}
           onBlur={() => setPaused(false)}
         >
-          <div className="relative aspect-[4/3.2] overflow-hidden rounded-2xl ring-1 ring-white/10 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]">
+          <div className="relative aspect-[4/3.3] overflow-hidden rounded-2xl ring-1 ring-white/10 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]">
             {slides.map((slide, slideIndex) => {
               const active = slideIndex === index;
               return (
@@ -101,9 +104,8 @@ export default function HeroSection() {
                   className={`absolute inset-0 transition-opacity duration-1000 ease-out ${active ? "opacity-100" : "opacity-0"}`}
                 >
                   <img src={slide.image} alt={active ? slide.alt : ""} loading={slideIndex === 0 ? "eager" : "lazy"} className={`h-full w-full object-cover transition-transform duration-[7000ms] ease-out ${active ? "scale-105" : "scale-100"}`} />
-                  <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-5 pt-16">
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-5 pt-16">
                     <a href={slide.href} tabIndex={active ? 0 : -1} className="font-display text-lg font-bold text-white hover:underline">{slide.label} →</a>
-                    <span className="rounded bg-black/50 px-2 py-0.5 text-[11px] text-white/80">Illustrative image</span>
                   </figcaption>
                 </figure>
               );

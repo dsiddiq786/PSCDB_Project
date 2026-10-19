@@ -119,12 +119,13 @@ body {
   color: #ffffff;
 }
 
-/* Fine texture for dark bands: a faint grid, so flat colour does not look empty. */
+/* Depth for dark bands: a deep green gradient with soft glows instead of a flat fill. */
 .texture-grid {
+  background-color: var(--color-emerald-950);
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+    radial-gradient(ellipse 60% 70% at 85% 30%, rgba(31, 154, 108, 0.22), transparent 70%),
+    radial-gradient(ellipse 45% 55% at 10% 100%, rgba(201, 162, 74, 0.08), transparent 70%),
+    linear-gradient(160deg, #0a3125 0%, #06241b 55%, #041a13 100%);
 }
 
 /* Legacy names kept so older markup still renders cleanly. */
