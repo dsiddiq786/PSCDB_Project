@@ -52,11 +52,11 @@ export function SectionHeading({ eyebrow, title, children, tone = "light", align
 }
 
 /* Standard top band for every inner page: breadcrumb, title, intro and an optional image. */
-export function PageHeader({ eyebrow, title, intro, crumbs = [], image, imageAlt = "", illustrative = false, children, id = "page-heading" }) {
+export function PageHeader({ eyebrow, title, intro, crumbs = [], image, imageAlt = "", illustrative = false, aside, children, id = "page-heading" }) {
   return (
     <section aria-labelledby={id} className="surface-dark texture-grid relative overflow-hidden">
       <HeroParticles />
-      <Container className={`relative grid gap-10 py-14 sm:py-20 ${image ? "lg:grid-cols-[1.1fr_0.9fr] lg:items-center" : ""}`}>
+      <Container className={`relative grid gap-10 py-14 sm:py-20 ${image || aside ? "lg:grid-cols-[1.1fr_0.9fr] lg:items-center" : ""}`}>
         <div className="rise">
           {crumbs.length > 0 && (
             <nav aria-label="Breadcrumb" className="mb-6 text-sm text-white/60">
@@ -76,7 +76,8 @@ export function PageHeader({ eyebrow, title, intro, crumbs = [], image, imageAlt
           {intro && <p className="mt-5 max-w-2xl text-lg leading-8 text-white/75">{intro}</p>}
           {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
         </div>
-        {image && (
+        {aside && <div className="rise min-w-0" style={{ "--delay": "120ms" }}>{aside}</div>}
+        {image && !aside && (
           <figure className="rise relative overflow-hidden rounded-xl ring-1 ring-white/10" style={{ "--delay": "120ms" }}>
             <img src={image} alt={imageAlt} className="aspect-[4/3] w-full object-cover" />
             {illustrative && <IllustrativeTag />}
