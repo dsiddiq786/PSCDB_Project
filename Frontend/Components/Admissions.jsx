@@ -242,7 +242,7 @@ export default function AdmissionsPage() {
                           {list.map((course) => (
                             <li key={course.slug}>
                               <a href={`/programmes/${course.slug}`} className="group/link flex items-center justify-between gap-3 rounded-lg border border-line px-3 py-2 text-sm text-ink transition-colors hover:border-emerald-700/40 hover:bg-emerald-50/50">
-                                <span className="min-w-0 truncate"><span className="font-mono text-[11px] font-semibold text-muted">{course.code}</span> {course.title}</span>
+                                <span className="min-w-0 leading-snug"><span className="font-mono text-[11px] font-semibold text-muted">{course.code}</span> {course.title}</span>
                                 <Icon name="arrow" className="h-4 w-4 shrink-0 text-emerald-700 transition-transform group-hover/link:translate-x-0.5" />
                               </a>
                             </li>

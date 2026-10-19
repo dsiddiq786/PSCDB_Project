@@ -87,11 +87,11 @@ function FeeRow({ course, currency, rate }) {
       </div>
       <dl className="contents">
         <div className="flex items-center justify-between md:block md:text-right">
-          <dt className="text-xs text-muted md:mb-1">Course fee</dt>
+          <dt className="text-xs text-muted md:sr-only">Course fee</dt>
           <dd className="tabular text-sm font-semibold text-ink">{money(t.feeUsd)}</dd>
         </div>
         <div className="flex items-center justify-between md:block md:text-right">
-          <dt className="text-xs text-muted md:mb-1">Exam fee</dt>
+          <dt className="text-xs text-muted md:sr-only">Exam fee</dt>
           <dd>
             {course.examIncludedByInstitute ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800">
@@ -103,7 +103,7 @@ function FeeRow({ course, currency, rate }) {
           </dd>
         </div>
         <div className="flex items-center justify-between md:block md:text-right">
-          <dt className="text-xs text-muted md:mb-1">Total</dt>
+          <dt className="text-xs text-muted md:sr-only">Total</dt>
           <dd>
             <span className="tabular block font-display text-lg font-extrabold text-ink">{money(t.totalUsd)}</span>
             {secondary(t.totalUsd) && <span className="tabular block text-[11px] text-muted">{secondary(t.totalUsd)}</span>}
