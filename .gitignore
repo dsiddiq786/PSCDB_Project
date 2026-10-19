@@ -20,3 +20,6 @@ claude.md
 Frontend/.env
 Frontend/node_modules/
 Frontend/dist/
+
+# Production secrets on the server
+.env.production
