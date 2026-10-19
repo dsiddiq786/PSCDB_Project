@@ -10,6 +10,24 @@ The server already runs a shared `nginx-proxy` container with `nginx-proxy-acme`
 
 Other projects on the server (`restaurant-voice-os` on servio.servicesground.com, `dr-shafiq-classroom`, `edge-8443`) are not touched.
 
+## Security Setup
+
+- The API connects to MongoDB with its own user (`MONGO_APP_USER`), which can only read and write the `pscdb` database. The root account is used only for backups. On a new server the user is created automatically by `deploy/mongo-init.js`; on an existing database create it once with `mongosh` (`db.getSiblingDB("pscdb").createUser({user, pwd, roles: [{role: "readWrite", db: "pscdb"}]})`).
+- `ADMIN_PASSWORD` is only used to create the very first superadmin. Leave it empty afterwards, and manage accounts with `scripts/set-admin-password.js` or the admin panel.
+- Stripe: live keys only. Test keys are refused in production unless `STRIPE_TEST_MODE_ACK=true`, and `STRIPE_WEBHOOK_SECRET` is required whenever a key is set.
+- Containers run with no-new-privileges, memory limits and log rotation; the API container is read-only apart from the uploads volume.
+
+## Admin Accounts
+
+Run these on the server from `/opt/pscdb`. They ask for the password without showing it.
+
+```bash
+docker compose --env-file .env.production exec api node scripts/set-admin-password.js someone@example.org --create "Full Name"
+docker compose --env-file .env.production exec api node scripts/set-admin-password.js someone@example.org
+```
+
+Changing a password signs that account out everywhere.
+
 ## Configuration
 
 Settings and secrets live in `/opt/pscdb/.env.production` (mode 600, never committed). The template is `.env.production.example`. The superadmin account is created on first start from `ADMIN_EMAIL` and `ADMIN_PASSWORD`. Changing those values later does not change an existing account.
@@ -30,12 +48,23 @@ curl -s https://pscdb.org/api/v1/health
 
 The site may be unreachable for a few seconds while the proxy reloads.
 
-## Stripe webhook (sandbox)
+## Stripe Webhook
 
-In the Stripe dashboard (test mode), add the endpoint `https://pscdb.org/api/v1/payments/stripe/webhook` for the `checkout.session.completed` and `checkout.session.expired` events. Put the secret key and the webhook signing secret in `.env.production`, then run `docker compose --env-file .env.production up -d` in `/opt/pscdb`.
+In the Stripe dashboard, add the endpoint `https://pscdb.org/api/v1/payments/stripe/webhook` for these events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed` and `checkout.session.expired`. Put the secret key and the webhook signing secret in `.env.production`, then run `docker compose --env-file .env.production up -d` in `/opt/pscdb`.
+
+For a supervised test with sandbox keys, also set `STRIPE_TEST_MODE_ACK=true`, and set it back to `false` (with live keys) before real students pay. A payment that arrives after its booking expired or was canceled takes a seat if one is free; otherwise the booking is marked **Refund Due** in the admin panel.
 
 ## Backups
 
+`deploy/backup.sh` saves the database and the uploaded pictures to `/var/backups/pscdb` every night and keeps 14 days. Install it once:
+
 ```bash
-cd /opt/pscdb && docker compose --env-file .env.production exec -T mongo sh -c 'mongodump --archive --gzip -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin' > /root/pscdb-$(date +%F).archive.gz
+echo '30 2 * * * root /opt/pscdb/deploy/backup.sh >> /var/log/pscdb-backup.log 2>&1' > /etc/cron.d/pscdb-backup
 ```
+
+Copy `/var/backups/pscdb` to another location (another server or cloud storage) regularly, and test a restore:
+
+```bash
+docker compose --env-file .env.production exec -T mongo sh -c 'mongorestore --archive --gzip --drop -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin' < /var/backups/pscdb/db-<date>.archive.gz
+```
+
