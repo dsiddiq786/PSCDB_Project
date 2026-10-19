@@ -2,6 +2,8 @@ import argon2 from "argon2";
 import Course from "../DBModels/Course.js";
 import Setting from "../DBModels/Setting.js";
 import Admin from "../DBModels/Admin.js";
+import Centre from "../DBModels/Centre.js";
+import Shift from "../DBModels/Shift.js";
 
 const batches = () => [
   { id: "morning", label: "Morning batch", timing: "", capacity: 50, seatsAvailable: 50 },
@@ -19,8 +21,23 @@ export const seedCourses = [
   { slug: "penetration-testing-professional", code: "CY-401", title: "Penetration Testing Professional", lab: "cyber", level: "Advanced", duration: "12 weeks", feeUsdCents: 6500 },
 ];
 
+/* Default shifts. Times are starting values that administrators should confirm. */
+const seedShifts = [
+  { code: "morning", name: "Morning", startTime: "09:00", endTime: "13:00" },
+  { code: "evening", name: "Evening", startTime: "17:00", endTime: "21:00" },
+];
+
 /* Inserts only what is missing, so changes made by administrators are kept. */
 export async function runSeed() {
+  for (const shift of seedShifts) {
+    await Shift.updateOne({ code: shift.code }, { $setOnInsert: { ...shift, days: ["mon", "tue", "wed", "thu", "fri"], graceMinutes: 15, active: true } }, { upsert: true });
+  }
+  await Centre.updateOne(
+    { code: "sahiwal" },
+    { $setOnInsert: { code: "sahiwal", name: "Sahiwal Centre", city: "Sahiwal", address: "Office No. 11, 1st Floor, Star Complex, Stadium Road, Sahiwal, Pakistan", phone: "", active: true } },
+    { upsert: true },
+  );
+
   for (const course of seedCourses) {
     await Course.updateOne(
       { slug: course.slug },

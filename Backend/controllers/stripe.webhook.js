@@ -1,5 +1,6 @@
 import Enrolment from "../DBModels/Enrolment.js";
 import { closeUnpaid } from "../services/enrolment.service.js";
+import { linkStudent } from "../services/people.service.js";
 import { stripe, stripeEnabled } from "../services/stripe.service.js";
 
 /* Receives Stripe events. The raw body is required to verify the signature. */
@@ -18,10 +19,12 @@ export async function stripeWebhook(req, res) {
 
   if (event.type === "checkout.session.completed" && session.payment_status === "paid" && reference) {
     // Idempotent: only a pending booking with this session moves to paid.
-    await Enrolment.updateOne(
+    const paid = await Enrolment.findOneAndUpdate(
       { reference, stripeSessionId: session.id, status: "pending_payment" },
       { $set: { status: "paid", paidAt: new Date() } },
-    );
+      { new: true },
+    ).lean();
+    if (paid) await linkStudent(paid);
   }
 
   if (event.type === "checkout.session.expired" && reference) {

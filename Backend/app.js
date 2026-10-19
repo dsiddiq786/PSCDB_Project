@@ -10,6 +10,7 @@ import PublicRoutes from "./Routes/publicRoutes.js";
 import AdminRoutes from "./Routes/adminRoutes.js";
 import connectDB from "./config/db.js";
 import { runSeed } from "./seed/seed.js";
+import { backfillStudents } from "./services/people.service.js";
 import { stripeWebhook } from "./controllers/stripe.webhook.js";
 import { expireStaleHolds } from "./services/enrolment.service.js";
 
@@ -50,6 +51,16 @@ app.use("/api", (_req, res) => res.status(404).json({ success: false, message: "
 app.use((err, _req, res, _next) => {
   if (err?.type === "entity.parse.failed") return res.status(400).json({ success: false, message: "Invalid request body." });
   if (err?.type === "entity.too.large") return res.status(413).json({ success: false, message: "Request is too large." });
+  if (err?.expose && err.status) return res.status(err.status).json({ success: false, message: err.message, field: err.field });
+  if (err?.code === 11000) {
+    const field = Object.keys(err.keyPattern || {})[0];
+    return res.status(409).json({ success: false, field, message: `A record with this ${field || "value"} already exists.` });
+  }
+  if (err?.name === "ValidationError") {
+    const first = Object.values(err.errors || {})[0];
+    return res.status(400).json({ success: false, field: first?.path, message: first?.message || "Some details are not valid." });
+  }
+  if (err?.name === "CastError") return res.status(400).json({ success: false, field: err.path, message: "Some details are not valid." });
   console.error("Unhandled error:", err?.message);
   res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
 });
@@ -59,6 +70,7 @@ const PORT = process.env.PORT || 3002;
 try {
   await connectDB();
   await runSeed();
+  await backfillStudents();
   setInterval(() => expireStaleHolds().catch((err) => console.error("Hold sweep failed:", err.message)), 60 * 1000);
   app.listen(PORT, () => console.log(`PSCDB API running on port ${PORT}`));
 } catch (err) {

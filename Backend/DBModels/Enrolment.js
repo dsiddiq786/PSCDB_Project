@@ -6,7 +6,9 @@ const enrolmentSchema = new mongoose.Schema(
     course: { type: mongoose.Schema.Types.ObjectId, ref: "Course", required: true },
     courseCode: { type: String, required: true },
     courseTitle: { type: String, required: true },
-    batchId: { type: String, required: true, enum: ["morning", "evening"] },
+    batchId: { type: String, required: true, trim: true, lowercase: true, match: /^[a-z0-9-]{2,40}$/ },
+    // The student record created when the booking is paid.
+    studentRef: { type: mongoose.Schema.Types.ObjectId, ref: "Student", index: true },
     student: {
       fullName: { type: String, required: true, trim: true, maxlength: 100 },
       email: { type: String, required: true, trim: true, lowercase: true, maxlength: 254 },
@@ -27,8 +29,10 @@ const enrolmentSchema = new mongoose.Schema(
       default: "pending_payment",
       index: true,
     },
-    holdExpiresAt: { type: Date, required: true, index: true },
-    paymentProvider: { type: String, enum: ["stripe", "simulated"], required: true },
+    holdExpiresAt: { type: Date, index: true },
+    // "manual" covers bookings recorded by staff, paid in cash or by bank transfer.
+    paymentProvider: { type: String, enum: ["stripe", "simulated", "manual"], required: true },
+    paymentNote: { type: String, trim: true, maxlength: 300, default: "" },
     stripeSessionId: { type: String, index: true, sparse: true },
     paidAt: { type: Date },
   },

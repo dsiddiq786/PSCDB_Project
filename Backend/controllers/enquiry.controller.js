@@ -22,16 +22,3 @@ export async function createEnquiry(req, res) {
   await Enquiry.create(enquiry);
   res.status(201).json({ success: true, message: "Thank you. Your message has been sent, and our team will reply by email." });
 }
-
-export async function adminListEnquiries(_req, res) {
-  const enquiries = await Enquiry.find({}).sort({ createdAt: -1 }).limit(500).lean();
-  res.json({ success: true, data: enquiries });
-}
-
-export async function adminUpdateEnquiry(req, res) {
-  const status = req.body?.status;
-  if (!["new", "answered"].includes(status)) return res.status(400).json({ success: false, message: "Choose a valid status." });
-  const enquiry = await Enquiry.findByIdAndUpdate(req.params.id, { $set: { status } }, { new: true }).lean().catch(() => null);
-  if (!enquiry) return res.status(404).json({ success: false, message: "Enquiry not found." });
-  res.json({ success: true, data: enquiry });
-}

@@ -1,4 +1,4 @@
-/* Institute details. Centres will later be managed from the admin panel. */
+/* Institute details. Centres are managed in the admin panel; this list is the fallback. */
 export const institute = {
   name: "Professional Skills and Community Development Board",
   shortName: "PSCDB",
@@ -15,6 +15,9 @@ export const centres = [
   },
 ];
 
-export function centreById(id) {
-  return centres.find((centre) => centre.id === id);
+/* Centre for a course: the live name from the admin panel, or the built-in fallback. */
+export function centreById(id, course) {
+  const fallback = centres.find((centre) => centre.id === id);
+  if (course?.centreName) return { id, name: course.centreName, address: course.centreAddress || fallback?.address || "" };
+  return fallback;
 }

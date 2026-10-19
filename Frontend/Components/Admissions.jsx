@@ -62,7 +62,7 @@ const questions = [
   { q: "Are any classes held online?", a: "No. Every course is taught onsite in our labs in Sahiwal. Learning materials and exam results are shared through the student learning platform." },
   { q: "How long is my seat held while I pay?", a: "Your seat is held for 30 minutes from the moment you continue to payment. If payment is not completed in that time, the seat is released for other students." },
   { q: "Is the exam fee included in the course fee?", a: "It depends on the course. Some courses include the professional skills exam fee, and others charge it separately. Each course page and the fees page show which applies." },
-  { q: "Can I move to the other batch after enrolling?", a: "Contact admissions with your booking reference. A change depends on seats being available in the other batch." },
+  { q: "Can I move to another batch after enrolling?", a: "Contact admissions with your booking reference. A change depends on seats being available in the batch you want." },
   { q: "Which currency will I pay in?", a: "All fees are charged in US dollars. Rupee amounts are shown for reference at the rate set by the institute; your bank may apply its own exchange rate." },
 ];
 

@@ -94,7 +94,7 @@ export function FeePanel({ course }) {
 }
 
 export function BatchTable({ course }) {
-  const centre = centreById(course.centre);
+  const centre = centreById(course.centre, course);
   return (
     <div className="overflow-x-auto rounded-xl border border-line bg-white">
       <table className="w-full min-w-[34rem] text-left text-sm">

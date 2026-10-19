@@ -24,7 +24,7 @@ export default function ProgrammeDetails({ slug }) {
   }
 
   const left = seatsLeft(course);
-  const centre = centreById(course.centre);
+  const centre = centreById(course.centre, course);
   const related = courses.filter((item) => item.lab === course.lab && item.slug !== slug).slice(0, 3);
 
   return (
@@ -68,7 +68,7 @@ export default function ProgrammeDetails({ slug }) {
               </figure>
             </Reveal>
 
-            <Reveal as="section" aria-labelledby="outcomes-heading">
+            {course.outcomes.length > 0 && <Reveal as="section" aria-labelledby="outcomes-heading">
               <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
                 <h2 id="outcomes-heading" className="font-display text-2xl font-bold text-ink">What you will learn</h2>
                 <ul className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -80,7 +80,7 @@ export default function ProgrammeDetails({ slug }) {
                   ))}
                 </ul>
               </div>
-            </Reveal>
+            </Reveal>}
 
             <Reveal as="section" aria-labelledby="batches-heading">
               <h2 id="batches-heading" className="font-display text-2xl font-bold text-ink">Batches and seats</h2>
@@ -88,7 +88,7 @@ export default function ProgrammeDetails({ slug }) {
               <div className="mt-5"><BatchTable course={course} /></div>
             </Reveal>
 
-            <Reveal as="section" aria-labelledby="modules-heading">
+            {course.modules.length > 0 && <Reveal as="section" aria-labelledby="modules-heading">
               <h2 id="modules-heading" className="font-display text-2xl font-bold text-ink">Course content</h2>
               <ol className="mt-5 divide-y divide-line overflow-hidden rounded-xl border border-line bg-white">
                 {course.modules.map((module, index) => (
@@ -104,32 +104,32 @@ export default function ProgrammeDetails({ slug }) {
                   </li>
                 ))}
               </ol>
-            </Reveal>
+            </Reveal>}
 
-            <Reveal as="section" aria-labelledby="requirements-heading" className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-xl border border-line bg-white p-6">
+            {(course.prerequisites.length > 0 || course.tools.length > 0) && <Reveal as="section" aria-labelledby="requirements-heading" className="grid gap-6 md:grid-cols-2">
+              {course.prerequisites.length > 0 && <div className="rounded-xl border border-line bg-white p-6">
                 <h2 id="requirements-heading" className="font-display text-xl font-bold text-ink">Prerequisites</h2>
                 <ul className="mt-4 flex flex-col gap-2 text-sm text-body">
                   {course.prerequisites.map((item) => (
                     <li key={item} className="flex gap-3"><span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400" />{item}</li>
                   ))}
                 </ul>
-              </div>
-              <div className="rounded-xl border border-line bg-white p-6">
+              </div>}
+              {course.tools.length > 0 && <div className="rounded-xl border border-line bg-white p-6">
                 <h2 className="font-display text-xl font-bold text-ink">Tools you will use</h2>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {course.tools.map((tool) => (
                     <li key={tool} className="rounded-md bg-cream-100 px-2.5 py-1 font-mono text-xs text-body">{tool}</li>
                   ))}
                 </ul>
-              </div>
-            </Reveal>
+              </div>}
+            </Reveal>}
 
             <Reveal as="section" aria-labelledby="exam-heading">
               <div className="rounded-xl border border-gold-300 bg-gold-50 p-6 sm:p-8">
                 <h2 id="exam-heading" className="font-display text-xl font-bold text-ink">Professional skills exam</h2>
                 <p className="mt-3 text-sm leading-7 text-body">
-                  This course ends with a professional skills exam. {course.examIncludedByInstitute ? "The institute covers the exam fee for this course." : "The exam fee is paid separately and is shown in the fee summary."} Format: {course.format.toLowerCase()}.
+                  This course ends with a professional skills exam. {course.examIncludedByInstitute ? "The institute covers the exam fee for this course." : "The exam fee is paid separately and is shown in the fee summary."}{course.format ? ` Format: ${course.format.toLowerCase()}.` : ""}
                 </p>
               </div>
             </Reveal>
@@ -139,7 +139,7 @@ export default function ProgrammeDetails({ slug }) {
             <div className="rounded-xl border border-line bg-white p-6 shadow-[0_20px_40px_-28px_rgba(6,36,27,0.45)]">
               <p className="font-display text-lg font-bold text-ink">Fees</p>
               <div className="mt-2"><FeePanel course={course} /></div>
-              <p className={`mt-5 text-sm font-semibold ${left > 0 ? "text-emerald-700" : "text-red-700"}`}>{left > 0 ? `${left} seats available across both batches` : "All batches are fully booked"}</p>
+              <p className={`mt-5 text-sm font-semibold ${left > 0 ? "text-emerald-700" : "text-red-700"}`}>{left > 0 ? course.batches.length === 1 ? `${left} seats available` : `${left} seats available across ${course.batches.length === 2 ? "both" : "all"} batches` : "All batches are fully booked"}</p>
               <div className="mt-5 flex flex-col gap-3">
                 {left > 0 ? (
                   <a href={`/enrol/${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Enrol now</a>

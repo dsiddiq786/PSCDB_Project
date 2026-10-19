@@ -3,6 +3,7 @@ import Enrolment from "../DBModels/Enrolment.js";
 import { getSettings } from "./public.controller.js";
 import { priceFor } from "../services/pricing.js";
 import { HOLD_MINUTES, closeUnpaid, newReference, releaseSeat, reserveSeat } from "../services/enrolment.service.js";
+import { linkStudent } from "../services/people.service.js";
 import { createCheckoutSession, simulatedPaymentsAllowed, stripeEnabled } from "../services/stripe.service.js";
 
 const rules = {
@@ -42,7 +43,7 @@ function publicStatus(enrolment, course) {
 
 export async function createEnrolment(req, res) {
   const { courseSlug, batchId, consent } = req.body || {};
-  if (typeof courseSlug !== "string" || !["morning", "evening"].includes(batchId)) {
+  if (typeof courseSlug !== "string" || typeof batchId !== "string" || !/^[a-z0-9-]{2,40}$/.test(batchId)) {
     return res.status(400).json({ success: false, message: "Choose a course and a batch." });
   }
   if (consent !== true) {
@@ -58,6 +59,9 @@ export async function createEnrolment(req, res) {
 
   const course = await Course.findOne({ slug: courseSlug.toLowerCase(), published: true });
   if (!course) return res.status(404).json({ success: false, message: "Course not found." });
+  if (!course.batches.some((batch) => batch.id === batchId)) {
+    return res.status(400).json({ success: false, message: "Choose a batch offered by this course." });
+  }
 
   const reserved = await reserveSeat(course._id, batchId);
   if (!reserved) {
@@ -132,5 +136,6 @@ export async function simulatePayment(req, res) {
     { new: true },
   );
   if (!enrolment) return res.status(409).json({ success: false, message: "This booking cannot be paid. It may have expired." });
+  await linkStudent(enrolment.toObject());
   res.json({ success: true, data: { reference, status: "paid" } });
 }

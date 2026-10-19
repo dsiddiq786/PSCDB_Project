@@ -174,7 +174,7 @@ export default function EnrolPage({ slug }) {
             ) : step === 0 ? (
               <fieldset>
                 <legend className="font-display text-xl font-bold text-ink">Choose your batch</legend>
-                <p className="mt-1 text-sm text-muted">Both batches are taught onsite at {centreById(course.centre)?.name || "our centre"}.</p>
+                <p className="mt-1 text-sm text-muted">{course.batches.length === 1 ? "This batch is" : course.batches.length === 2 ? "Both batches are" : "All batches are"} taught onsite at {centreById(course.centre, course)?.name || "our centre"}.</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {course.batches.map((item) => {
                     const full = item.seatsAvailable <= 0;
@@ -241,7 +241,7 @@ export default function EnrolPage({ slug }) {
                   {[
                     ["Course", `${course.code} ${course.title}`],
                     ["Batch", batch?.label],
-                    ["Centre", centreById(course.centre)?.name],
+                    ["Centre", centreById(course.centre, course)?.name],
                     ["Name", student.fullName],
                     ["Email", student.email],
                     ["Phone", student.phone],

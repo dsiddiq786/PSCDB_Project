@@ -245,7 +245,7 @@ export default function PaymentsPage() {
           <Reveal><SectionHeading id="help-heading" eyebrow="Help" title="Need help with a payment?" /></Reveal>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {[
-              { icon: "refresh", title: "Refunds and batch changes", text: "To ask about a refund or to move to the other batch, contact admissions with your booking reference.", cta: "Contact admissions" },
+              { icon: "refresh", title: "Refunds and batch changes", text: "To ask about a refund or to move to another batch, contact admissions with your booking reference.", cta: "Contact admissions" },
               { icon: "alert", title: "Charged but no reference?", text: "If your card was charged but you did not receive a booking reference, do not pay again. Contact us and we will check the payment.", cta: "Report a payment problem" },
             ].map((card, index) => (
               <Reveal key={card.title} delay={index * 90} className="h-full">

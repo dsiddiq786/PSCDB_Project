@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 
 import MainLayout from "../MainLayout/MainLayout";
@@ -10,7 +11,6 @@ import PaymentsPage from "../Modules/Payments/PaymentsPage";
 import SearchPage from "../Modules/Search/SearchPage";
 import EnrolPage from "../Modules/Enrol/EnrolPage";
 import ConfirmationPage from "../Modules/Enrol/ConfirmationPage";
-import AdminApp from "../Modules/Admin/AdminApp";
 import AboutUs from "../Components/AboutUs";
 import AdmissionsPage from "../Components/Admissions";
 import LeadershipPage from "../Components/BoardOfDirectors";
@@ -19,6 +19,9 @@ import ContactPage from "../Components/contact";
 import { Container } from "../Components/ui";
 
 import "./App.css";
+
+// The admin panel loads only when someone opens /admin, so the public site stays light.
+const AdminApp = lazy(() => import("../Modules/Admin/AdminApp"));
 
 function LabRoute() {
   const { slug } = useParams();
@@ -59,7 +62,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="admin/*" element={<AdminApp />} />
+        <Route path="admin/*" element={<Suspense fallback={<div className="min-h-screen bg-[#f4f6f9]" />}><AdminApp /></Suspense>} />
         <Route path="superadmin" element={<Navigate to="/admin" replace />} />
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />

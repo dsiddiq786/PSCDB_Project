@@ -2,8 +2,24 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import bundled from "../Programmes/data/programmes.json";
 import { api } from "../Api/client";
 import { CatalogueContext } from "./catalogueContext";
+import { labMeta } from "./labMeta";
 
-const LIVE_FIELDS = ["code", "title", "level", "duration", "centre", "feeUsd", "examFeeUsd", "examIncludedByInstitute", "batches"];
+const LIVE_FIELDS = ["code", "title", "level", "duration", "centre", "centreName", "centreAddress", "feeUsd", "examFeeUsd", "examIncludedByInstitute", "batches"];
+
+/* Courses added in the admin panel have no bundled page content yet, so they get a plain page. */
+function fromLive(course) {
+  return {
+    id: course.slug,
+    ...course,
+    summary: course.summary || `${course.title} is an onsite course taught in the ${labMeta[course.lab]?.name || "PSCDB labs"}, ending with a professional skills exam.`,
+    outcomes: [],
+    modules: [],
+    tools: [],
+    prerequisites: [],
+    format: "",
+    thumbnail: labMeta[course.lab]?.image || "/images/lab/ai-lab-room.jpg",
+  };
+}
 
 /* Course content ships with the site. Fees, batches and seats come live from the API. */
 export default function CatalogueProvider({ children }) {
@@ -35,14 +51,16 @@ export default function CatalogueProvider({ children }) {
   const courses = useMemo(() => {
     if (!live) return bundled;
     const bySlug = new Map(live.map((course) => [course.slug, course]));
-    return bundled
+    const known = new Set(bundled.map((course) => course.slug));
+    const merged = bundled
       .filter((course) => bySlug.has(course.slug))
       .map((course) => {
         const fresh = bySlug.get(course.slug);
-        const merged = { ...course };
-        for (const field of LIVE_FIELDS) merged[field] = fresh[field];
-        return merged;
+        const next = { ...course };
+        for (const field of LIVE_FIELDS) next[field] = fresh[field];
+        return next;
       });
+    return [...merged, ...live.filter((course) => !known.has(course.slug)).map(fromLive)];
   }, [live]);
 
   const value = useMemo(
