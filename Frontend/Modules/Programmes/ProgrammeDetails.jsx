@@ -17,7 +17,7 @@ export default function ProgrammeDetails({ slug }) {
         <Container className="max-w-xl text-center">
           <h1 className="font-display text-3xl font-bold text-ink">This course is not available</h1>
           <p className="mt-3 text-muted">It may have been withdrawn or renamed.</p>
-          <a href="/programmes" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Browse courses</a>
+          <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Browse courses</a>
         </Container>
       </section>
     );
@@ -35,7 +35,7 @@ export default function ProgrammeDetails({ slug }) {
             <ol className="flex flex-wrap items-center gap-2">
               <li><a href="/" className="hover:text-white">Home</a></li>
               <li aria-hidden="true">/</li>
-              <li><a href="/programmes" className="hover:text-white">Courses</a></li>
+              <li><a href="/courses" className="hover:text-white">Courses</a></li>
               <li aria-hidden="true">/</li>
               <li><a href={`/labs/${course.lab}`} className="hover:text-white">{labMeta[course.lab].name}</a></li>
             </ol>
@@ -84,7 +84,7 @@ export default function ProgrammeDetails({ slug }) {
 
             <Reveal as="section" aria-labelledby="batches-heading">
               <h2 id="batches-heading" className="font-display text-2xl font-bold text-ink">Batches and seats</h2>
-              <p className="mt-2 text-sm text-muted">Every batch is taught onsite. Seats are limited and are updated as students enrol.</p>
+              <p className="mt-2 text-sm text-muted">Every batch is taught onsite. Seats are limited and are updated as students enroll.</p>
               <div className="mt-5"><BatchTable course={course} /></div>
             </Reveal>
 
@@ -135,14 +135,14 @@ export default function ProgrammeDetails({ slug }) {
             </Reveal>
           </div>
 
-          <aside aria-label="Enrolment" className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+          <aside aria-label="Enrollment" className="min-w-0 lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-xl border border-line bg-white p-6 shadow-[0_20px_40px_-28px_rgba(6,36,27,0.45)]">
               <p className="font-display text-lg font-bold text-ink">Fees</p>
               <div className="mt-2"><FeePanel course={course} /></div>
               <p className={`mt-5 text-sm font-semibold ${left > 0 ? "text-emerald-700" : "text-red-700"}`}>{left > 0 ? course.batches.length === 1 ? `${left} seats available` : `${left} seats available across ${course.batches.length === 2 ? "both" : "all"} batches` : "All batches are fully booked"}</p>
               <div className="mt-5 flex flex-col gap-3">
                 {left > 0 ? (
-                  <a href={`/enrol/${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Enrol now</a>
+                  <a href={`/enroll/${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Enroll now</a>
                 ) : (
                   <a href={`/contact?topic=admission&programme=${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Join the waiting list</a>
                 )}

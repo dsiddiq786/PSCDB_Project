@@ -47,7 +47,7 @@ const students = resource({
     },
     async beforeDelete(doc) {
       if (await Enrolment.exists({ studentRef: doc._id, status: { $in: ["paid", "pending_payment"] } })) {
-        throw new HttpError(409, "This student has active enrolments. Set their status to withdrawn instead.");
+        throw new HttpError(409, "This student has active enrollments. Set their status to withdrawn instead.");
       }
       await Attendance.deleteMany({ personType: "student", person: doc._id });
     },
@@ -222,7 +222,7 @@ const courses = resource({
       return data;
     },
     async beforeDelete(doc) {
-      if (await Enrolment.exists({ course: doc._id })) throw new HttpError(409, `${doc.code} has enrolments, so it cannot be deleted. Unpublish it instead.`);
+      if (await Enrolment.exists({ course: doc._id })) throw new HttpError(409, `${doc.code} has enrollments, so it cannot be deleted. Unpublish it instead.`);
     },
   },
 });

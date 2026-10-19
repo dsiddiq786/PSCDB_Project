@@ -26,7 +26,7 @@ export default function LabPage({ slug }) {
         illustrative
       >
         <a href="#courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">View courses</a>
-        <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">How to enrol</a>
+        <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">How to enroll</a>
       </PageHeader>
 
       <section aria-labelledby="pillars-heading" className="bg-cream-100 py-20">

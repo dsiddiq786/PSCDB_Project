@@ -12,7 +12,7 @@ const facts = [
   ["Two specialist labs", "Artificial intelligence and cyber security"],
   ["Professional skills exams", "Every course leads to a professional skills exam"],
   ["Morning and evening batches", "Onsite classes in Sahiwal, Pakistan"],
-  ["Published fees", "See the full cost before you enrol"],
+  ["Published fees", "See the full cost before you enroll"],
 ];
 
 const steps = [
@@ -24,7 +24,7 @@ const steps = [
 
 const faqs = [
   { q: "Are the classes online or onsite?", a: "All classes are currently held onsite at our Sahiwal centre. Each course runs as a morning batch and an evening batch." },
-  { q: "Is the exam fee included in the course fee?", a: "The professional skills exam fee is paid separately, unless the institute covers it for a course. The course page shows which applies before you enrol." },
+  { q: "Is the exam fee included in the course fee?", a: "The professional skills exam fee is paid separately, unless the institute covers it for a course. The course page shows which applies before you enroll." },
   { q: "Which currency am I charged in?", a: "Fees are charged in US dollars. Amounts in Pakistani rupees are shown for reference at the current rate set by the institute." },
   { q: "Do I need a computer science degree?", a: "No. Each course lists its prerequisites. Beginner courses assume basic programming and mathematics, and advanced courses state the experience they expect." },
   { q: "Is offensive security training lawful?", a: "Yes, when it is practised correctly. Every technique is taught in isolated lab environments, against systems we control, under written rules of engagement and a signed code of conduct." },
@@ -81,7 +81,7 @@ function Courses() {
             Fees start from {formatUsd(minFee)}
             {formatPkr(minFee, rate) ? ` (${formatPkr(minFee, rate)})` : ""}. Each course runs as a morning batch and an evening batch.
           </SectionHeading>
-          <a href="/programmes" className="shrink-0 text-sm font-semibold text-emerald-800 hover:underline">View all courses →</a>
+          <a href="/courses" className="shrink-0 text-sm font-semibold text-emerald-800 hover:underline">View all courses →</a>
         </Reveal>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -177,7 +177,7 @@ function HowItWorks() {
     <section aria-labelledby="steps-heading" className="bg-cream-100 py-20 sm:py-24">
       <Container>
         <Reveal>
-          <SectionHeading id="steps-heading" eyebrow="Enrolment" title="Reserve your seat in four steps" />
+          <SectionHeading id="steps-heading" eyebrow="Enrollment" title="Reserve your seat in four steps" />
         </Reveal>
         <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
@@ -191,7 +191,7 @@ function HowItWorks() {
           ))}
         </ol>
         <Reveal className="mt-10">
-          <a href="/programmes" className="inline-flex min-h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">Choose a course</a>
+          <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">Choose a course</a>
         </Reveal>
       </Container>
     </section>
@@ -212,7 +212,7 @@ function International() {
           <Eyebrow>For international students</Eyebrow>
           <h2 id="international-heading" className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">Apply from abroad with the same support</h2>
           <p className="mt-4 text-lg leading-8 text-muted">
-            Enrol online with your passport number, pay in US dollars, and our admissions team will explain the documents you need before your batch begins.
+            Enroll online with your passport number, pay in US dollars, and our admissions team will explain the documents you need before your batch begins.
           </p>
           <ul className="mt-6 grid gap-3 text-sm text-body">
             {["Fees charged in US dollars", "Passport accepted for identification", "Admissions guidance on travel documents", "Written confirmation of your seat and timetable"].map((item) => (
@@ -292,7 +292,7 @@ function Closing() {
           <p className="mt-3 text-base leading-7 text-white/75">Choose your course and reserve a morning or evening seat today.</p>
         </Reveal>
         <Reveal delay={100} className="flex flex-wrap gap-3">
-          <a href="/programmes" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">Browse courses</a>
+          <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">Browse courses</a>
           <a href="/contact" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Talk to admissions</a>
         </Reveal>
       </Container>

@@ -4,16 +4,16 @@ const columns = [
   {
     title: "Courses",
     links: [
-      { label: "All courses", href: "/programmes" },
-      { label: "AI Lab courses", href: "/programmes?lab=ai" },
-      { label: "Cyber Lab courses", href: "/programmes?lab=cyber" },
-      { label: "Fees and payments", href: "/payments" },
+      { label: "All courses", href: "/courses" },
+      { label: "AI Lab courses", href: "/courses?lab=ai" },
+      { label: "Cyber Lab courses", href: "/courses?lab=cyber" },
+      { label: "Fees and payments", href: "/fees" },
     ],
   },
   {
     title: "Students",
     links: [
-      { label: "How to enrol", href: "/admissions" },
+      { label: "How to enroll", href: "/admissions" },
       { label: "Student login (LMS)", href: institute.lmsUrl },
       { label: "Code of conduct", href: "/about#conduct" },
       { label: "Search", href: "/search" },

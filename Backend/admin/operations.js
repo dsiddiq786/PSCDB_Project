@@ -89,15 +89,15 @@ async function reserveSeatAnyStatus(courseId, batchId) {
 /* Changes status, batch or payment note. Seats move with every change, never twice. */
 export async function updateEnrolment(req, res) {
   needRole(req, "manager");
-  const enrolment = await Enrolment.findById(objectId(req.params.id, "enrolment"));
-  if (!enrolment) throw new HttpError(404, "Enrolment not found.");
+  const enrolment = await Enrolment.findById(objectId(req.params.id, "enrollment"));
+  if (!enrolment) throw new HttpError(404, "Enrollment not found.");
   const body = req.body || {};
   const nextStatus = body.status ?? enrolment.status;
   if (!["pending_payment", "paid", "expired", "cancelled"].includes(nextStatus)) throw new HttpError(400, "Choose a valid status.", "status");
   const nextBatch = body.batchId ?? enrolment.batchId;
 
   const course = await Course.findById(enrolment.course);
-  if (!course) throw new HttpError(409, "The course for this enrolment no longer exists.");
+  if (!course) throw new HttpError(409, "The course for this enrollment no longer exists.");
   if (!course.batches.some((b) => b.id === nextBatch)) throw new HttpError(400, "Choose a batch offered by this course.", "batchId");
 
   const held = HOLDS_SEAT.includes(enrolment.status);
@@ -126,8 +126,8 @@ export async function updateEnrolment(req, res) {
 
 export async function deleteEnrolment(req, res) {
   needRole(req, "superadmin");
-  const enrolment = await Enrolment.findById(objectId(req.params.id, "enrolment")).lean();
-  if (!enrolment) throw new HttpError(404, "Enrolment not found.");
+  const enrolment = await Enrolment.findById(objectId(req.params.id, "enrollment")).lean();
+  if (!enrolment) throw new HttpError(404, "Enrollment not found.");
   await removeEnrolment(enrolment, req);
   res.json({ success: true });
 }

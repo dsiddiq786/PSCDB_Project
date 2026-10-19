@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 
 import MainLayout from "../MainLayout/MainLayout";
 import HomePage from "../Modules/Home/HomePage";
@@ -39,6 +39,13 @@ function EnrolRoute() {
   return <EnrolPage slug={slug} />;
 }
 
+/* Sends an old address to its new one, keeping the slug and the query string (such as ?ref= or ?lab=). */
+function LegacyRedirect({ to, keepSlug = false }) {
+  const { slug } = useParams();
+  const { search, hash } = useLocation();
+  return <Navigate to={`${to}${keepSlug && slug ? `/${slug}` : ""}${search}${hash}`} replace />;
+}
+
 function NotFoundPage() {
   return (
     <section className="flex min-h-[70vh] items-center bg-cream-100 py-24">
@@ -49,7 +56,7 @@ function NotFoundPage() {
           <p className="mt-4 text-base leading-7 text-muted">The link may be broken or the page may have moved. Try one of the links below, or search the site.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href="/" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Back to home</a>
-            <a href="/programmes" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
+            <a href="/courses" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
             <a href="/search" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Search</a>
           </div>
         </div>
@@ -67,17 +74,23 @@ export default function App() {
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="labs/:slug" element={<LabRoute />} />
-          <Route path="programmes" element={<ProgrammesSection />} />
-          <Route path="programmes/:slug" element={<ProgrammeRoute />} />
-          <Route path="enrol/confirmation" element={<ConfirmationPage />} />
-          <Route path="enrol/:slug" element={<EnrolRoute />} />
+          <Route path="courses" element={<ProgrammesSection />} />
+          <Route path="courses/:slug" element={<ProgrammeRoute />} />
+          <Route path="enroll/confirmation" element={<ConfirmationPage />} />
+          <Route path="enroll/:slug" element={<EnrolRoute />} />
           <Route path="admissions" element={<AdmissionsPage />} />
           <Route path="about" element={<AboutUs />} />
           <Route path="leadership" element={<LeadershipPage />} />
           <Route path="careers" element={<CareersPage />} />
           <Route path="search" element={<SearchPage />} />
-          <Route path="payments" element={<PaymentsPage />} />
+          <Route path="fees" element={<PaymentsPage />} />
           <Route path="contact" element={<ContactPage />} />
+          {/* Old addresses keep working. */}
+          <Route path="programmes" element={<LegacyRedirect to="/courses" />} />
+          <Route path="programmes/:slug" element={<LegacyRedirect to="/courses" keepSlug />} />
+          <Route path="enrol/confirmation" element={<LegacyRedirect to="/enroll/confirmation" />} />
+          <Route path="enrol/:slug" element={<LegacyRedirect to="/enroll" keepSlug />} />
+          <Route path="payments" element={<LegacyRedirect to="/fees" />} />
           <Route path="opportunities" element={<Navigate to="/careers" replace />} />
           <Route path="directors" element={<Navigate to="/leadership" replace />} />
           <Route path="*" element={<NotFoundPage />} />

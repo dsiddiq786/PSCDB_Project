@@ -6,7 +6,7 @@ import { createEnquiry } from "../controllers/enquiry.controller.js";
 
 const router = Router();
 
-const enrolLimiter = rateLimit({ windowMs: 60 * 60 * 1000, limit: 10, standardHeaders: "draft-8", legacyHeaders: false, message: { success: false, message: "Too many enrolment attempts. Please try again later." } });
+const enrolLimiter = rateLimit({ windowMs: 60 * 60 * 1000, limit: 10, standardHeaders: "draft-8", legacyHeaders: false, message: { success: false, message: "Too many enrollment attempts. Please try again later." } });
 const enquiryLimiter = rateLimit({ windowMs: 60 * 60 * 1000, limit: 5, standardHeaders: "draft-8", legacyHeaders: false, message: { success: false, message: "Too many messages. Please try again later." } });
 const lookupLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 120, standardHeaders: "draft-8", legacyHeaders: false });
 

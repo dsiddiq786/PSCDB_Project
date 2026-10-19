@@ -5,7 +5,7 @@ import { useCatalogue } from "../Modules/Catalogue/catalogueContext";
 import { centres, institute } from "../Modules/Config/institute";
 
 const topics = [
-  { value: "admission", label: "Admissions and enrolment" },
+  { value: "admission", label: "Admissions and enrollment" },
   { value: "programme", label: "Course information" },
   { value: "payment", label: "Fees and payments" },
   { value: "research", label: "Research collaboration" },
@@ -94,7 +94,7 @@ export default function ContactPage() {
             </div>
             <div className="rounded-xl border border-line bg-white p-6">
               <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Already enrolled?</h2>
-              <p className="mt-2 text-sm leading-7 text-body">Include your booking reference in your message so we can find your enrolment quickly.</p>
+              <p className="mt-2 text-sm leading-7 text-body">Include your booking reference in your message so we can find your enrollment quickly.</p>
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export default function ContactPage() {
                 <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-emerald-50 text-xl font-bold text-emerald-700">✓</span>
                 <h2 className="mt-5 font-display text-2xl font-bold text-ink">Message sent</h2>
                 <p className="mt-2 text-sm leading-7 text-muted">{sent}</p>
-                <a href="/programmes" className="mt-6 inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
+                <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
               </div>
             ) : (
               <form onSubmit={submit} noValidate>

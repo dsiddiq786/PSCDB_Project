@@ -266,7 +266,7 @@ export default function OurWorkSection() {
             </div>
 
             <a
-              href="/programmes"
+              href="/courses"
               className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-full bg-[#C4ED70] px-6 text-sm font-bold text-[#123B2B] transition duration-300 hover:-translate-y-1 hover:bg-[#D7F69A] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#C4ED70]/40"
             >
               Explore programmes

@@ -63,14 +63,14 @@ export default function ConfirmationPage() {
                 {paid ? "✓" : "…"}
               </span>
               <h1 id="confirmation-heading" className="mt-5 font-display text-3xl font-extrabold text-ink">
-                {paid ? "Your enrolment is confirmed" : pending ? "Confirming your payment" : "This booking is no longer active"}
+                {paid ? "Your enrollment is confirmed" : pending ? "Confirming your payment" : "This booking is no longer active"}
               </h1>
               <p className="mt-3 text-base leading-7 text-muted" aria-live="polite">
                 {paid
                   ? "Thank you. Your seat is booked. Keep your booking reference. Admissions will contact you with your timetable and joining instructions."
                   : pending
                     ? "We are waiting for confirmation from the payment provider. This usually takes a few seconds."
-                    : "The payment was not completed in time, so the seat was released. You can enrol again at any time."}
+                    : "The payment was not completed in time, so the seat was released. You can enroll again at any time."}
               </p>
 
               <dl className="mt-8 divide-y divide-line rounded-lg border border-line text-sm">
@@ -96,9 +96,9 @@ export default function ConfirmationPage() {
                   <button type="button" onClick={() => window.print()} className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Print confirmation</button>
                 )}
                 {!paid && !pending && booking.courseSlug && (
-                  <a href={`/enrol/${booking.courseSlug}`} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Enrol again</a>
+                  <a href={`/enroll/${booking.courseSlug}`} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Enroll again</a>
                 )}
-                <a href="/programmes" className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse more courses</a>
+                <a href="/courses" className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse more courses</a>
               </div>
             </>
           )}

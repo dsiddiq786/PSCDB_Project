@@ -3,7 +3,7 @@ export const institute = {
   name: "Professional Skills and Community Development Board",
   shortName: "PSCDB",
   email: "info@pscdb.org",
-  // Students sign in to the learning platform here after enrolment.
+  // Students sign in to the learning platform here after enrollment.
   lmsUrl: "https://lms.pscdb.org",
 };
 

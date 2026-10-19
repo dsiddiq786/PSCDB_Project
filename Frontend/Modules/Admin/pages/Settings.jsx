@@ -64,7 +64,7 @@ export default function Settings() {
             <p className="font-semibold text-slate-700">What each role can do</p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
               <li><strong>{label("staff")}</strong>: check-ins, students and enquiries.</li>
-              <li><strong>{label("manager")}</strong>: everything above, plus courses, batches, shifts, centres, staff and enrolments.</li>
+              <li><strong>{label("manager")}</strong>: everything above, plus courses, batches, shifts, centres, staff and enrollments.</li>
               <li><strong>{label("superadmin")}</strong>: everything, including users, settings and the audit log.</li>
             </ul>
           </div>

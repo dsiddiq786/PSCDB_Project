@@ -53,7 +53,7 @@ export default function Dashboard() {
         <div className="grid gap-5">
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             <SmallBox tone="emerald" icon="money" value={usd(k.revenueUsd)} label="Total revenue" sub={`${usd(k.revenueMonthUsd)} this month · ${pkr(k.revenueUsd, k.pkrPerUsd)}`} href="/admin/enrolments" />
-            <SmallBox tone="blue" icon="enrolments" value={number(k.paidEnrolments)} label="Paid enrolments" sub={`${k.pendingEnrolments} awaiting payment`} href="/admin/enrolments" />
+            <SmallBox tone="blue" icon="enrolments" value={number(k.paidEnrolments)} label="Paid enrollments" sub={`${k.pendingEnrolments} awaiting payment`} href="/admin/enrolments" />
             <SmallBox tone="gold" icon="students" value={number(k.activeStudents)} label="Active students" sub={`${number(k.students)} students in total`} href="/admin/students" />
             <SmallBox tone="slate" icon="checkin" value={number(k.presentToday)} label="Students present today" sub={`${k.lateToday} late · ${k.staffPresentToday} staff on site`} href="/admin/check-in" />
           </div>
@@ -69,7 +69,7 @@ export default function Dashboard() {
             <Card title="Revenue, last 30 days" icon="money" accent="emerald" className="lg:col-span-2" tools={<span className="text-xs text-slate-500">Exchange rate PKR {k.pkrPerUsd} per USD</span>}>
               <RevenueChart data={data.series} formatMoney={compactUsd} />
             </Card>
-            <Card title="Enrolments by status" icon="enrolments" accent="blue">
+            <Card title="Enrollments by status" icon="enrolments" accent="blue">
               <Donut
                 centreLabel="Bookings"
                 segments={[
@@ -80,7 +80,7 @@ export default function Dashboard() {
                 ]}
               />
               <div className="mt-6 border-t border-slate-100 pt-5">
-                <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">Paid enrolments by lab</p>
+                <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">Paid enrollments by lab</p>
                 <Donut size={120} centreLabel="Paid" segments={[{ label: "AI Lab", value: data.labSplit.ai, color: "#128058" }, { label: "Cyber Lab", value: data.labSplit.cyber, color: "#1f5bd8" }]} />
               </div>
             </Card>
@@ -109,9 +109,9 @@ export default function Dashboard() {
               </ul>
             </Card>
 
-            <Card title="Latest enrolments" icon="enrolments" className="xl:col-span-2" bodyClassName="p-0" tools={<Link to="/admin/enrolments" className="text-sm font-semibold text-emerald-700 hover:underline">View all</Link>}>
+            <Card title="Latest enrollments" icon="enrolments" className="xl:col-span-2" bodyClassName="p-0" tools={<Link to="/admin/enrolments" className="text-sm font-semibold text-emerald-700 hover:underline">View all</Link>}>
               <ul className="divide-y divide-slate-100">
-                {data.recent.length === 0 && <li className="px-5 py-8 text-center text-sm text-slate-500">No enrolments yet.</li>}
+                {data.recent.length === 0 && <li className="px-5 py-8 text-center text-sm text-slate-500">No enrollments yet.</li>}
                 {data.recent.map((e) => (
                   <li key={e.id} className="flex items-center gap-3 px-5 py-3">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-emerald-50 text-xs font-bold text-emerald-800">{e.name.split(" ").map((p) => p[0]).slice(0, 2).join("")}</span>
@@ -134,7 +134,7 @@ export default function Dashboard() {
               {[
                 { to: "/admin/check-in", icon: "checkin", title: "Open the check-in desk", text: "Record arrivals and departures" },
                 { to: "/admin/students?new=1", icon: "students", title: "Register a student", text: "Add a walk-in student" },
-                { to: "/admin/enrolments?new=1", icon: "enrolments", title: "Record an enrolment", text: "For cash or bank payments", role: "manager" },
+                { to: "/admin/enrolments?new=1", icon: "enrolments", title: "Record an enrollment", text: "For cash or bank payments", role: "manager" },
                 { to: "/admin/attendance", icon: "attendance", title: "Attendance report", text: "Filter, edit and export" },
               ].filter((a) => !a.role || hasRole(me, a.role)).map((a) => (
                 <Link key={a.to} to={a.to} className="group flex items-center gap-3 rounded-lg border border-slate-200 p-4 transition-colors hover:border-emerald-600/40 hover:bg-emerald-50/40">

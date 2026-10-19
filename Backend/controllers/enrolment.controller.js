@@ -54,7 +54,7 @@ export async function createEnrolment(req, res) {
   if (error) return res.status(400).json({ success: false, field: error.field, message: error.message });
 
   if (!stripeEnabled() && !simulatedPaymentsAllowed()) {
-    return res.status(503).json({ success: false, message: "Online enrolment is not available right now. Please contact admissions." });
+    return res.status(503).json({ success: false, message: "Online enrollment is not available right now. Please contact admissions." });
   }
 
   const course = await Course.findOne({ slug: courseSlug.toLowerCase(), published: true });

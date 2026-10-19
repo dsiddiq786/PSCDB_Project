@@ -89,7 +89,7 @@ function PrerequisiteRow({ course }) {
           <span className="text-xs font-medium text-muted">{course.level} · {course.duration}</span>
         </div>
         <h3 className="mt-2 font-display text-lg font-bold leading-snug text-ink">
-          <a href={`/programmes/${course.slug}`} className="after:absolute after:inset-0 group-hover:text-emerald-800">{course.title}</a>
+          <a href={`/courses/${course.slug}`} className="after:absolute after:inset-0 group-hover:text-emerald-800">{course.title}</a>
         </h3>
         <p className="mt-3 text-xs font-bold uppercase tracking-[0.12em] text-muted">You should know</p>
         <ul className="mt-2 flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ export default function AdmissionsPage() {
         <span className="grid h-11 w-11 place-items-center rounded-xl bg-gold-400/15 text-gold-300"><Icon name="receipt" /></span>
         <div>
           <p className="font-display text-lg font-bold text-white">Before you start</p>
-          <p className="text-sm text-white/60">Have these ready to enrol in one go</p>
+          <p className="text-sm text-white/60">Have these ready to enroll in one go</p>
         </div>
       </div>
       <ul className="mt-6 space-y-3">
@@ -147,10 +147,10 @@ export default function AdmissionsPage() {
         crumbs={[{ label: "Admissions" }]}
         eyebrow="Admissions"
         title="Reserve your seat in a few minutes"
-        intro="Enrolment is fully online. Seats are limited in every batch and are allocated in the order that payments are completed."
+        intro="Enrollment is fully online. Seats are limited in every batch and are allocated in the order that payments are completed."
         aside={aside}
       >
-        <a href="/programmes" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">
+        <a href="/courses" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">
           Choose a course <Icon name="arrow" className="h-4 w-4" />
         </a>
         <a href="/contact?topic=admission" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Ask admissions</a>
@@ -174,7 +174,7 @@ export default function AdmissionsPage() {
 
       <section aria-labelledby="steps-heading" className="bg-cream-100 pb-20 pt-6">
         <Container>
-          <Reveal><SectionHeading id="steps-heading" eyebrow="Enrolment process" title="From choosing a course to your first class" align="center">Five short steps, all online. You can see the fee and seats before you pay anything.</SectionHeading></Reveal>
+          <Reveal><SectionHeading id="steps-heading" eyebrow="Enrollment process" title="From choosing a course to your first class" align="center">Five short steps, all online. You can see the fee and seats before you pay anything.</SectionHeading></Reveal>
           <ol className="relative mt-14 grid gap-6 lg:grid-cols-5 lg:gap-5">
             <span aria-hidden="true" className="absolute left-[10%] right-[10%] top-7 hidden h-px bg-gradient-to-r from-emerald-700/0 via-emerald-700/40 to-emerald-700/0 lg:block" />
             {steps.map((step, index) => (
@@ -213,7 +213,7 @@ export default function AdmissionsPage() {
                   <span className={`grid h-12 w-12 place-items-center rounded-xl ${batch.iconTone}`}><Icon name={batch.icon} className="h-6 w-6" /></span>
                   <h3 className="mt-6 font-display text-xl font-bold text-ink">{batch.name}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted">{batch.text}</p>
-                  <p className="mt-auto pt-6 text-xs font-medium text-muted">Class times are confirmed by admissions after you enrol.</p>
+                  <p className="mt-auto pt-6 text-xs font-medium text-muted">Class times are confirmed by admissions after you enroll.</p>
                 </div>
               </Reveal>
             ))}
@@ -241,7 +241,7 @@ export default function AdmissionsPage() {
                         <ul className="mt-3 flex flex-col gap-2">
                           {list.map((course) => (
                             <li key={course.slug}>
-                              <a href={`/programmes/${course.slug}`} className="group/link flex items-center justify-between gap-3 rounded-lg border border-line px-3 py-2 text-sm text-ink transition-colors hover:border-emerald-700/40 hover:bg-emerald-50/50">
+                              <a href={`/courses/${course.slug}`} className="group/link flex items-center justify-between gap-3 rounded-lg border border-line px-3 py-2 text-sm text-ink transition-colors hover:border-emerald-700/40 hover:bg-emerald-50/50">
                                 <span className="min-w-0 leading-snug"><span className="font-mono text-[11px] font-semibold text-muted">{course.code}</span> {course.title}</span>
                                 <Icon name="arrow" className="h-4 w-4 shrink-0 text-emerald-700 transition-transform group-hover/link:translate-x-0.5" />
                               </a>
@@ -315,8 +315,8 @@ export default function AdmissionsPage() {
             <p className="mt-2 text-white/70">Choose a course and batch, and pay securely online.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href="/programmes" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">Browse courses <Icon name="arrow" className="h-4 w-4" /></a>
-            <a href="/payments" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">See all fees</a>
+            <a href="/courses" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">Browse courses <Icon name="arrow" className="h-4 w-4" /></a>
+            <a href="/fees" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">See all fees</a>
           </div>
         </Container>
       </section>

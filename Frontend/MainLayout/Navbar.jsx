@@ -3,11 +3,11 @@ import { useLocation } from "react-router-dom";
 import { institute } from "../Modules/Config/institute";
 
 const navLinks = [
-  { label: "Courses", href: "/programmes" },
+  { label: "Courses", href: "/courses" },
   { label: "AI Lab", href: "/labs/ai" },
   { label: "Cyber Lab", href: "/labs/cyber" },
   { label: "Admissions", href: "/admissions" },
-  { label: "Fees", href: "/payments" },
+  { label: "Fees", href: "/fees" },
   { label: "About", href: "/about" },
 ];
 
@@ -97,8 +97,8 @@ export default function Navbar() {
             <a href="/search" aria-label="Search" className="grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-cream-100">
               <SearchIcon />
             </a>
-            <a href="/programmes" className="hidden min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 sm:inline-flex">
-              Enrol now
+            <a href="/courses" className="hidden min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 sm:inline-flex">
+              Enroll now
             </a>
             <button
               type="button"
@@ -124,7 +124,7 @@ export default function Navbar() {
                 </a>
               ))}
               <a href={institute.lmsUrl} className="border-b border-line py-4 text-lg font-semibold text-emerald-800">Student login (LMS)</a>
-              <a href="/programmes" className="mt-8 rounded-lg bg-emerald-700 py-3.5 text-center text-sm font-semibold text-white">Enrol now</a>
+              <a href="/courses" className="mt-8 rounded-lg bg-emerald-700 py-3.5 text-center text-sm font-semibold text-white">Enroll now</a>
             </nav>
           </div>
         )}

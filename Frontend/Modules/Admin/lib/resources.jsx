@@ -99,8 +99,8 @@ export const resources = {
 
   enrolments: {
     key: "enrolments",
-    title: "Enrolments",
-    singular: "enrolment",
+    title: "Enrollments",
+    singular: "enrollment",
     icon: "enrolments",
     endpoint: "/admin/enrolments",
     searchPlaceholder: "Search reference, student, email or course",
@@ -183,7 +183,7 @@ export const resources = {
     ],
     form: [
       { name: "code", label: "Course code", required: true, placeholder: "AI-102" },
-      { name: "slug", label: "Web address", required: true, placeholder: "introduction-to-ai", hint: "Shown as pscdb.org/programmes/…" },
+      { name: "slug", label: "Web address", required: true, placeholder: "introduction-to-ai", hint: "Shown as pscdb.org/courses/…" },
       { name: "title", label: "Title", required: true, wide: true },
       { name: "lab", label: "Lab", type: "select", options: opts(["ai", "cyber"]), required: true },
       { name: "level", label: "Level", type: "select", options: opts(["Beginner", "Intermediate", "Advanced"]), required: true },

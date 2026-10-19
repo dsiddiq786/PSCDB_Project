@@ -9,7 +9,7 @@ const niceMax = (value) => {
   return Math.ceil(value / step) * step;
 };
 
-/* Revenue as an area line, enrolments as bars, sharing one time axis. */
+/* Revenue as an area line, enrollments as bars, sharing one time axis. */
 export function RevenueChart({ data, formatMoney }) {
   const [hover, setHover] = useState(null);
   const width = 720;
@@ -30,7 +30,7 @@ export function RevenueChart({ data, formatMoney }) {
 
   return (
     <div className="relative">
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-label="Revenue and enrolments over the last 30 days" onMouseLeave={() => setHover(null)}>
+      <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-label="Revenue and enrollments over the last 30 days" onMouseLeave={() => setHover(null)}>
         <defs>
           <linearGradient id="revenue-fill" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0%" stopColor="#128058" stopOpacity="0.28" />
@@ -73,12 +73,12 @@ export function RevenueChart({ data, formatMoney }) {
         >
           <p className="font-semibold">{new Date(`${data[hover].date}T00:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short" })}</p>
           <p className="mt-0.5 text-emerald-300">Revenue {formatMoney(data[hover].revenueUsd)}</p>
-          <p className="text-gold-300">Enrolments {data[hover].enrolments}</p>
+          <p className="text-gold-300">Enrollments {data[hover].enrolments}</p>
         </div>
       )}
       <div className="mt-2 flex items-center justify-center gap-5 text-xs text-slate-500">
         <span className="inline-flex items-center gap-1.5"><span className="h-0.5 w-4 rounded bg-emerald-600" /> Revenue (USD)</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-gold-300" /> Paid enrolments</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-gold-300" /> Paid enrollments</span>
       </div>
     </div>
   );

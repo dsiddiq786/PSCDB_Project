@@ -21,7 +21,7 @@ const MENU = [
     items: [
       { to: "/admin/students", icon: "students", label: "Students" },
       { to: "/admin/staff", icon: "staff", label: "Staff" },
-      { to: "/admin/enrolments", icon: "enrolments", label: "Enrolments" },
+      { to: "/admin/enrolments", icon: "enrolments", label: "Enrollments" },
     ],
   },
   {

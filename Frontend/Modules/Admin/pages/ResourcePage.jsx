@@ -66,9 +66,9 @@ function DetailDrawer({ config, row, onClose, onEdit, canEdit }) {
           {!detail && <div className="mt-6 flex justify-center text-slate-400"><Spinner /></div>}
           {detail?.enrolments && (
             <section className="mt-8">
-              <h3 className="font-display text-sm font-bold text-slate-800">Enrolments ({detail.enrolments.length})</h3>
+              <h3 className="font-display text-sm font-bold text-slate-800">Enrollments ({detail.enrolments.length})</h3>
               <ul className="mt-3 divide-y divide-slate-100 rounded-md border border-slate-200">
-                {detail.enrolments.length === 0 && <li className="px-3 py-3 text-sm text-slate-500">No enrolments yet.</li>}
+                {detail.enrolments.length === 0 && <li className="px-3 py-3 text-sm text-slate-500">No enrollments yet.</li>}
                 {detail.enrolments.map((e) => (
                   <li key={e.id} className="flex items-center justify-between gap-3 px-3 py-2.5 text-sm">
                     <span className="min-w-0"><span className="font-mono text-xs font-semibold text-slate-500">{e.reference}</span><span className="block truncate text-slate-700">{e.courseCode} {e.courseTitle}</span></span>

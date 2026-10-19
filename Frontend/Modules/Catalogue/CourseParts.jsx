@@ -33,7 +33,7 @@ export function CourseCard({ course, className = "" }) {
           {meta.short} <span className="text-muted">· {course.code}</span>
         </p>
         <h3 className="mt-2 line-clamp-2 min-h-[3.25rem] font-display text-[17px] font-bold leading-snug text-ink">
-          <a href={`/programmes/${course.slug}`} className="after:absolute after:inset-0 group-hover:text-emerald-800">{course.title}</a>
+          <a href={`/courses/${course.slug}`} className="after:absolute after:inset-0 group-hover:text-emerald-800">{course.title}</a>
         </h3>
         <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted">{course.summary}</p>
         <p className="mt-4 flex items-center gap-3 text-xs font-medium text-body">
@@ -111,7 +111,7 @@ export function BatchTable({ course }) {
           {course.batches.map((batch) => (
             <tr key={batch.id}>
               <th scope="row" className="px-5 py-4 font-semibold text-ink">{batch.label}</th>
-              <td className="px-5 py-4 text-body">{batch.timing || "Shared on enrolment"}</td>
+              <td className="px-5 py-4 text-body">{batch.timing || "Shared on enrollment"}</td>
               <td className="px-5 py-4 text-body">{centre?.name || "To be announced"}</td>
               <td className="px-5 py-4">
                 <span className={`tabular font-semibold ${batch.seatsAvailable > 0 ? "text-emerald-700" : "text-red-700"}`}>

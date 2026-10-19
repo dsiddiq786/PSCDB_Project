@@ -59,7 +59,7 @@ function SampleReceipt({ course, rate }) {
               {formatPkr(t.totalUsd, rate) && <p className="tabular mt-1 text-xs text-muted">About {formatPkr(t.totalUsd, rate)}</p>}
             </div>
           </div>
-          <a href={`/enrol/${course.slug}`} className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-lg bg-emerald-700 text-sm font-semibold text-white transition-colors hover:bg-emerald-800">
+          <a href={`/enroll/${course.slug}`} className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-lg bg-emerald-700 text-sm font-semibold text-white transition-colors hover:bg-emerald-800">
             <Icon name="lock" className="h-4 w-4" /> Reserve a seat
           </a>
           <p className="mt-3 text-center text-[11px] text-muted">Payments are processed by Stripe</p>
@@ -81,7 +81,7 @@ function FeeRow({ course, currency, rate }) {
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2"><CodeTag code={course.code} /><span className="text-xs text-muted">{course.level} · {course.duration}</span></div>
           <h3 className="mt-1 truncate font-display text-base font-bold text-ink">
-            <a href={`/programmes/${course.slug}`} className="after:absolute after:inset-0 group-hover:text-emerald-800">{course.title}</a>
+            <a href={`/courses/${course.slug}`} className="after:absolute after:inset-0 group-hover:text-emerald-800">{course.title}</a>
           </h3>
         </div>
       </div>
@@ -110,8 +110,8 @@ function FeeRow({ course, currency, rate }) {
           </dd>
         </div>
       </dl>
-      <a href={`/enrol/${course.slug}`} className="relative z-10 inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg border border-emerald-700/30 px-4 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-700 hover:text-white">
-        Enrol <Icon name="arrow" className="h-4 w-4" />
+      <a href={`/enroll/${course.slug}`} className="relative z-10 inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg border border-emerald-700/30 px-4 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-700 hover:text-white">
+        Enroll <Icon name="arrow" className="h-4 w-4" />
       </a>
     </article>
   );
@@ -138,11 +138,11 @@ export default function PaymentsPage() {
         crumbs={[{ label: "Fees and payments" }]}
         eyebrow="Fees and payments"
         title="Clear fees, paid securely online"
-        intro="See exactly what each course costs before you enrol. Payments are processed by Stripe, and PSCDB never sees or stores your card details."
+        intro="See exactly what each course costs before you enroll. Payments are processed by Stripe, and PSCDB never sees or stores your card details."
         aside={<SampleReceipt course={cheapest} rate={rate} />}
       >
         <a href="#fees-heading" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">See all fees</a>
-        <a href="/programmes" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Browse courses</a>
+        <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Browse courses</a>
       </PageHeader>
 
       <section aria-labelledby="rules-heading" className="bg-cream-100 py-20">

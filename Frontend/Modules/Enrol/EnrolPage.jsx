@@ -29,7 +29,7 @@ const validators = {
 
 function Stepper({ step }) {
   return (
-    <ol className="flex items-center gap-2 text-sm" aria-label="Enrolment progress">
+    <ol className="flex items-center gap-2 text-sm" aria-label="Enrollment progress">
       {STEPS.map((label, index) => {
         const state = index < step ? "done" : index === step ? "current" : "todo";
         return (
@@ -77,7 +77,7 @@ export default function EnrolPage({ slug }) {
       <section className="bg-cream-100 py-24">
         <Container className="max-w-xl text-center">
           <h1 className="font-display text-3xl font-bold text-ink">This course is not available</h1>
-          <a href="/programmes" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Browse courses</a>
+          <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Browse courses</a>
         </Container>
       </section>
     );
@@ -100,7 +100,7 @@ export default function EnrolPage({ slug }) {
   const submit = async () => {
     setServerError("");
     if (!consent) {
-      setServerError("Please accept the enrolment terms to continue.");
+      setServerError("Please accept the enrollment terms to continue.");
       return;
     }
     setSubmitting(true);
@@ -111,7 +111,7 @@ export default function EnrolPage({ slug }) {
         setErrors({ [result.field]: result.message });
         setStep(1);
       }
-      setServerError(result.message || "We could not complete your enrolment. Please try again.");
+      setServerError(result.message || "We could not complete your enrollment. Please try again.");
       if (result.status === 409) refresh();
       return;
     }
@@ -130,7 +130,7 @@ export default function EnrolPage({ slug }) {
       setServerError(result.message || "The test payment could not be completed.");
       return;
     }
-    window.location.href = `/enrol/confirmation?ref=${encodeURIComponent(booking.reference)}`;
+    window.location.href = `/enroll/confirmation?ref=${encodeURIComponent(booking.reference)}`;
   };
 
   const inputClass = (name) =>
@@ -141,15 +141,15 @@ export default function EnrolPage({ slug }) {
       <Container>
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <ol className="flex flex-wrap items-center gap-2">
-            <li><a href="/programmes" className="hover:text-emerald-800">Courses</a></li>
+            <li><a href="/courses" className="hover:text-emerald-800">Courses</a></li>
             <li aria-hidden="true">/</li>
-            <li><a href={`/programmes/${course.slug}`} className="hover:text-emerald-800">{course.title}</a></li>
+            <li><a href={`/courses/${course.slug}`} className="hover:text-emerald-800">{course.title}</a></li>
             <li aria-hidden="true">/</li>
-            <li className="text-ink">Enrol</li>
+            <li className="text-ink">Enroll</li>
           </ol>
         </nav>
         <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <h1 id="enrol-heading" className="font-display text-3xl font-extrabold text-ink">Enrol in {course.title}</h1>
+          <h1 id="enrol-heading" className="font-display text-3xl font-extrabold text-ink">Enroll in {course.title}</h1>
           <Stepper step={booking ? 3 : step} />
         </div>
 
@@ -182,7 +182,7 @@ export default function EnrolPage({ slug }) {
                       <label key={item.id} className={`relative flex cursor-pointer flex-col rounded-xl border-2 p-5 transition-all duration-200 hover:-translate-y-0.5 ${full ? "cursor-not-allowed border-line opacity-60" : batchId === item.id ? "border-emerald-700 bg-emerald-50" : "border-line hover:border-emerald-300"}`}>
                         <input type="radio" name="batch" value={item.id} disabled={full} checked={batchId === item.id} onChange={() => setBatchId(item.id)} className="sr-only" />
                         <span className="font-display text-lg font-bold text-ink">{item.label}</span>
-                        <span className="mt-1 text-sm text-muted">{item.timing || "Timing shared on enrolment"}</span>
+                        <span className="mt-1 text-sm text-muted">{item.timing || "Timing shared on enrollment"}</span>
                         <span className={`mt-4 text-sm font-semibold ${full ? "text-red-700" : "text-emerald-700"}`}>{full ? "Fully booked" : `${item.seatsAvailable} of ${item.capacity} seats available`}</span>
                       </label>
                     );
@@ -236,7 +236,7 @@ export default function EnrolPage({ slug }) {
               </form>
             ) : (
               <div>
-                <h2 className="font-display text-xl font-bold text-ink">Review your enrolment</h2>
+                <h2 className="font-display text-xl font-bold text-ink">Review your enrollment</h2>
                 <dl className="mt-6 divide-y divide-line rounded-lg border border-line text-sm">
                   {[
                     ["Course", `${course.code} ${course.title}`],
@@ -260,7 +260,7 @@ export default function EnrolPage({ slug }) {
                   <span>
                     I confirm these details are correct, and I agree to the{" "}
                     <a href="/about#conduct" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 underline">code of conduct</a> and the{" "}
-                    <a href="/payments" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 underline">fee and payment terms</a>.
+                    <a href="/fees" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 underline">fee and payment terms</a>.
                   </span>
                 </label>
                 {serverError && <p role="alert" className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{serverError}</p>}

@@ -43,7 +43,7 @@ export async function createCheckoutSession({ enrolment, course, price, holdExpi
     client_reference_id: enrolment.reference,
     metadata: { reference: enrolment.reference },
     expires_at: Math.floor(holdExpiresAt.getTime() / 1000),
-    success_url: `${client}/enrol/confirmation?ref=${encodeURIComponent(enrolment.reference)}`,
-    cancel_url: `${client}/enrol/${encodeURIComponent(course.slug)}?cancelled=${encodeURIComponent(enrolment.reference)}`,
+    success_url: `${client}/enroll/confirmation?ref=${encodeURIComponent(enrolment.reference)}`,
+    cancel_url: `${client}/enroll/${encodeURIComponent(course.slug)}?cancelled=${encodeURIComponent(enrolment.reference)}`,
   });
 }

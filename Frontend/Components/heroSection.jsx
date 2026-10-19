@@ -10,9 +10,9 @@ const slides = [
 ];
 
 const popular = [
-  { label: "LLM fine-tuning", href: "/programmes/llm-engineering-and-fine-tuning" },
-  { label: "Penetration testing", href: "/programmes/penetration-testing-professional" },
-  { label: "Digital forensics", href: "/programmes/digital-forensics-and-incident-response" },
+  { label: "LLM fine-tuning", href: "/courses/llm-engineering-and-fine-tuning" },
+  { label: "Penetration testing", href: "/courses/penetration-testing-professional" },
+  { label: "Digital forensics", href: "/courses/digital-forensics-and-incident-response" },
 ];
 
 const INTERVAL_MS = 6000;
@@ -33,7 +33,7 @@ export default function HeroSection() {
   const submit = (event) => {
     event.preventDefault();
     const term = query.trim();
-    navigate(term ? `/search?q=${encodeURIComponent(term)}` : "/programmes");
+    navigate(term ? `/search?q=${encodeURIComponent(term)}` : "/courses");
   };
 
   return (
@@ -76,8 +76,8 @@ export default function HeroSection() {
           </div>
 
           <div style={{ "--delay": "360ms" }} className="rise mt-10 flex flex-wrap gap-3">
-            <a href="/programmes" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 transition-colors hover:bg-cream-100">Browse all courses</a>
-            <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white transition-colors hover:border-white">How enrolment works</a>
+            <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 transition-colors hover:bg-cream-100">Browse all courses</a>
+            <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white transition-colors hover:border-white">How enrollment works</a>
           </div>
         </div>
 

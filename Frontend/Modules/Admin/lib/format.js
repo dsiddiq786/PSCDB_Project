@@ -50,6 +50,7 @@ export const LABELS = {
   check_in: "Checked in",
   check_out: "Checked out",
   settings: "Settings",
+  enrolments: "Enrollments",
   true: "Yes",
   false: "No",
 };
