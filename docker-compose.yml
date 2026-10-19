@@ -1,11 +1,13 @@
 # PSCDB production stack. Run with: docker compose --env-file .env.production up -d --build
-# Only the web container is published, and only on the server's loopback interface,
-# so the host reverse proxy is the single way in. MongoDB is never exposed.
+# The web container joins the server's existing nginx-proxy network, which routes
+# SITE_HOSTS to it and gets Let's Encrypt certificates for them. It is also published
+# on the server's loopback interface (WEB_PORT) for local checks. The API and MongoDB
+# stay on a private network and are never exposed.
 name: pscdb
 
 services:
   mongo:
-    image: mongo:8.0
+    image: ${MONGO_IMAGE:-mongo:8.2}
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:?set MONGO_ROOT_USER}
@@ -26,6 +28,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: "3002"
+      # nginx-proxy appends the client address; the web container passes the header on unchanged.
       TRUST_PROXY: "1"
       MONGODB_URI: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/pscdb?authSource=admin
     volumes:
@@ -38,12 +41,16 @@ services:
   web:
     build: ./Frontend
     restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${SITE_HOSTS:?set SITE_HOSTS}
+      VIRTUAL_PORT: "80"
+      LETSENCRYPT_HOST: ${SITE_HOSTS}
     ports:
       - "127.0.0.1:${WEB_PORT:-9000}:80"
     depends_on:
       api:
         condition: service_healthy
-    networks: [internal]
+    networks: [internal, proxy]
 
 volumes:
   mongo-data:
@@ -51,3 +58,6 @@ volumes:
 
 networks:
   internal:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:?set PROXY_NETWORK}
