@@ -98,7 +98,7 @@ export default function Navbar() {
               <SearchIcon />
             </a>
             <a href="/courses" className="hidden min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 sm:inline-flex">
-              Enroll now
+              Enroll Now
             </a>
             <button
               type="button"
@@ -123,8 +123,8 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a href={institute.lmsUrl} className="border-b border-line py-4 text-lg font-semibold text-emerald-800">Student login (LMS)</a>
-              <a href="/courses" className="mt-8 rounded-lg bg-emerald-700 py-3.5 text-center text-sm font-semibold text-white">Enroll now</a>
+              <a href={institute.lmsUrl} className="border-b border-line py-4 text-lg font-semibold text-emerald-800">Student Login (LMS)</a>
+              <a href="/courses" className="mt-8 rounded-lg bg-emerald-700 py-3.5 text-center text-sm font-semibold text-white">Enroll Now</a>
             </nav>
           </div>
         )}

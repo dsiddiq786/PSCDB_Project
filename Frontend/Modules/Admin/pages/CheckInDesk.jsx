@@ -85,21 +85,21 @@ export default function CheckInDesk() {
 
   return (
     <>
-      <PageHeader title="Check-in desk" crumbs={["Check-in desk"]} icon="checkin">
+      <PageHeader title="Check-In Desk" crumbs={["Check-in desk"]} icon="checkin">
         <span className="tabular rounded-md bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200">
           {clock.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })} · {clock.toLocaleTimeString("en-GB")}
         </span>
       </PageHeader>
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <InfoBox icon="students" tone="emerald" label="Students present" value={s ? `${s.students.present} of ${s.students.active}` : "…"} progress={s?.students.active ? (s.students.present / s.students.active) * 100 : 0} />
-        <InfoBox icon="clock" tone="gold" label="Arrived late" value={s ? s.students.late + s.staff.late : "…"} note="Students and staff" />
-        <InfoBox icon="staff" tone="blue" label="Staff on site" value={s ? `${s.staff.present} of ${s.staff.active}` : "…"} progress={s?.staff.active ? (s.staff.present / s.staff.active) * 100 : 0} />
-        <InfoBox icon="logout" tone="slate" label="Checked out" value={s ? s.checkedOut : "…"} note="Left for the day" />
+        <InfoBox icon="students" tone="emerald" label="Students Present" value={s ? `${s.students.present} of ${s.students.active}` : "…"} progress={s?.students.active ? (s.students.present / s.students.active) * 100 : 0} />
+        <InfoBox icon="clock" tone="gold" label="Arrived Late" value={s ? s.students.late + s.staff.late : "…"} note="Students and staff" />
+        <InfoBox icon="staff" tone="blue" label="Staff on Site" value={s ? `${s.staff.present} of ${s.staff.active}` : "…"} progress={s?.staff.active ? (s.staff.present / s.staff.active) * 100 : 0} />
+        <InfoBox icon="logout" tone="slate" label="Checked Out" value={s ? s.checkedOut : "…"} note="Left for the day" />
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-5">
-        <Card title="Find a student or staff member" icon="search" accent="emerald" className="xl:col-span-2">
+        <Card title="Find a Student or Staff Member" icon="search" accent="emerald" className="xl:col-span-2">
           <div className="relative">
             <AdminIcon name="search" className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
             <input
@@ -115,7 +115,7 @@ export default function CheckInDesk() {
             {searching && <Spinner className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-emerald-700" />}
           </div>
           <ul className="mt-4 grid gap-2.5">
-            {q.trim().length >= 2 && !searching && results.length === 0 && <li><EmptyState icon="search" title="Nobody found">Check the spelling, or register the student first.</EmptyState></li>}
+            {q.trim().length >= 2 && !searching && results.length === 0 && <li><EmptyState icon="search" title="Nobody Found">Check the spelling, or register the student first.</EmptyState></li>}
             {results.map((p) => {
               const inDone = Boolean(p.today?.checkInAt);
               const outDone = Boolean(p.today?.checkOutAt);
@@ -136,8 +136,8 @@ export default function CheckInDesk() {
                     </div>
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-2">
-                    <Btn variant="primary" icon="login" disabled={inDone || blocked || busyId !== ""} onClick={() => act(p, "in")}>{busyId === `${p.id}-in` ? "Saving…" : inDone ? "Checked in" : "Check in"}</Btn>
-                    <Btn icon="logoutIcon" disabled={!inDone || outDone || busyId !== ""} onClick={() => act(p, "out")}>{busyId === `${p.id}-out` ? "Saving…" : outDone ? "Checked out" : "Check out"}</Btn>
+                    <Btn variant="primary" icon="login" disabled={inDone || blocked || busyId !== ""} onClick={() => act(p, "in")}>{busyId === `${p.id}-in` ? "Saving…" : inDone ? "Checked In" : "Check In"}</Btn>
+                    <Btn icon="logoutIcon" disabled={!inDone || outDone || busyId !== ""} onClick={() => act(p, "out")}>{busyId === `${p.id}-out` ? "Saving…" : outDone ? "Checked Out" : "Check Out"}</Btn>
                   </div>
                 </li>
               );
@@ -150,7 +150,7 @@ export default function CheckInDesk() {
           )}
         </Card>
 
-        <Card title={`Today's log${today ? `, ${dayLabel(today.date)}` : ""}`} icon="attendance" className="xl:col-span-3" bodyClassName="p-0" tools={<><Btn size="sm" icon="refresh" onClick={() => setTick((t) => t + 1)}>Refresh</Btn><Link to="/admin/attendance" className="text-sm font-semibold text-emerald-700 hover:underline">Full report</Link></>}>
+        <Card title={`Today's Log${today ? `, ${dayLabel(today.date)}` : ""}`} icon="attendance" className="xl:col-span-3" bodyClassName="p-0" tools={<><Btn size="sm" icon="refresh" onClick={() => setTick((t) => t + 1)}>Refresh</Btn><Link to="/admin/attendance" className="text-sm font-semibold text-emerald-700 hover:underline">Full Report</Link></>}>
           <div className="max-h-[34rem] overflow-y-auto">
             <table className="w-full text-left text-sm">
               <thead className="sticky top-0 bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
@@ -158,7 +158,7 @@ export default function CheckInDesk() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {!today && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400"><Spinner /></td></tr>}
-                {today?.records.length === 0 && <tr><td colSpan={5}><EmptyState icon="checkin" title="No check-ins yet today" /></td></tr>}
+                {today?.records.length === 0 && <tr><td colSpan={5}><EmptyState icon="checkin" title="No Check-Ins Yet Today" /></td></tr>}
                 {today?.records.map((r) => (
                   <tr key={r.id} className="hover:bg-slate-50/70">
                     <td className="px-4 py-2.5"><p className="font-semibold text-slate-800">{r.personName}</p><p className="font-mono text-[11px] text-slate-500">{r.personCode}{r.courseCode ? ` · ${r.courseCode}` : ""}</p></td>

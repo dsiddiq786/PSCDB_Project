@@ -18,7 +18,7 @@ export default function SearchPage() {
 
   return (
     <>
-      <PageHeader crumbs={[{ label: "Search" }]} eyebrow="Search" title="Find a course, lab or page" />
+      <PageHeader crumbs={[{ label: "Search" }]} eyebrow="Search" title="Find a Course, Lab or Page" />
 
       <section aria-label="Search results" className="min-h-[50vh] bg-cream-100 py-12">
         <Container className="max-w-4xl">
@@ -40,7 +40,7 @@ export default function SearchPage() {
 
           {trimmed === "" ? (
             <div className="mt-8">
-              <p className="text-sm text-muted">Popular searches</p>
+              <p className="text-sm text-muted">Popular Searches</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {suggestions.map((item) => (
                   <button key={item} type="button" onClick={() => setQuery(item)} className="rounded-full border border-line bg-white px-4 py-2 text-sm text-body hover:border-emerald-700">{item}</button>

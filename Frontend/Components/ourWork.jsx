@@ -77,7 +77,7 @@ const workAreas = [
     title: "Education partnerships",
     description:
       "Explore lawful collaborations with schools, universities, education providers and professional institutions.",
-    tags: ["Academic collaboration", "Learning centres", "Partnerships"],
+    tags: ["Academic collaboration", "Learning centers", "Partnerships"],
     accent: "#E9A7FF",
     icon: "partnership",
   },
@@ -261,7 +261,7 @@ export default function OurWorkSection() {
                 Explore learning pathways
               </p>
               <p className="mt-1 text-sm leading-6 text-[#D5E9DD]">
-                Browse the programme catalogue and find an area to explore.
+                Browse the program catalog and find an area to explore.
               </p>
             </div>
 
@@ -269,7 +269,7 @@ export default function OurWorkSection() {
               href="/courses"
               className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-full bg-[#C4ED70] px-6 text-sm font-bold text-[#123B2B] transition duration-300 hover:-translate-y-1 hover:bg-[#D7F69A] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#C4ED70]/40"
             >
-              Explore programmes
+              Explore programs
               <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -278,7 +278,7 @@ export default function OurWorkSection() {
         <p className="mx-auto mt-6 max-w-4xl text-center text-xs leading-6 text-[#AFC8B7]">
           Education partnerships, recognized institutions, degree-awarding
           activities and other regulated services are subject to the required
-          approvals, licences, recognition or accreditation.
+          approvals, licenses, recognition or accreditation.
         </p>
       </div>
     </section>

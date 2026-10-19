@@ -11,36 +11,36 @@
       "Fine-tune an open-weight model with LoRA and QLoRA",
       "Design a retrieval-augmented generation (RAG) pipeline with a vector index",
       "Evaluate model quality with repeatable benchmarks instead of impressions",
-      "Serve a quantised model behind a documented API"
+      "Serve a quantized model behind a documented API"
     ],
     "modules": [
       {
-        "title": "Transformer architecture",
-        "topics": "Attention, positional encoding, tokenisation, context windows"
+        "title": "Transformer Architecture",
+        "topics": "Attention, positional encoding, tokenization, context windows"
       },
       {
-        "title": "Embeddings and retrieval",
+        "title": "Embeddings and Retrieval",
         "topics": "Vector representations, similarity search, chunking strategies"
       },
       {
-        "title": "Retrieval-augmented generation",
+        "title": "Retrieval-Augmented Generation",
         "topics": "Indexing, reranking, grounding and citation of answers"
       },
       {
-        "title": "Parameter-efficient fine-tuning",
+        "title": "Parameter-Efficient Fine-Tuning",
         "topics": "LoRA, QLoRA, instruction datasets, training stability"
       },
       {
-        "title": "Preference alignment",
-        "topics": "Supervised fine-tuning, DPO and RLHF concepts, reward modelling"
+        "title": "Preference Alignment",
+        "topics": "Supervised fine-tuning, DPO and RLHF concepts, reward modeling"
       },
       {
-        "title": "Evaluation and benchmarking",
+        "title": "Evaluation and Benchmarking",
         "topics": "Held-out test sets, automated metrics, human review"
       },
       {
-        "title": "Serving and optimisation",
-        "topics": "Quantisation, batching, latency and cost trade-offs"
+        "title": "Serving and Optimization",
+        "topics": "Quantization, batching, latency and cost trade-offs"
       }
     ],
     "tools": [
@@ -51,9 +51,9 @@
       "FAISS"
     ],
     "prerequisites": [
-      "Python programming",
-      "Machine learning fundamentals",
-      "Basic linear algebra"
+      "Python Programming",
+      "Machine Learning Fundamentals",
+      "Basic Linear Algebra"
     ],
     "format": "Hands-on lab sessions with a capstone project",
     "thumbnail": "/thumbnails/llm-engineering-and-fine-tuning.jpg",
@@ -61,14 +61,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
@@ -95,23 +95,23 @@
     ],
     "modules": [
       {
-        "title": "Python for data work",
+        "title": "Python for Data Work",
         "topics": "NumPy, pandas, data cleaning, exploratory analysis"
       },
       {
-        "title": "Statistics for modelling",
+        "title": "Statistics for Modeling",
         "topics": "Distributions, sampling, hypothesis testing basics"
       },
       {
-        "title": "Supervised learning",
+        "title": "Supervised Learning",
         "topics": "Regression, classification, decision trees, ensembles"
       },
       {
-        "title": "Model evaluation",
+        "title": "Model Evaluation",
         "topics": "Cross-validation, precision and recall, calibration"
       },
       {
-        "title": "Neural network basics",
+        "title": "Neural Network Basics",
         "topics": "Gradients, backpropagation, training loops in PyTorch"
       }
     ],
@@ -123,8 +123,8 @@
       "Jupyter"
     ],
     "prerequisites": [
-      "Basic programming experience",
-      "High school mathematics"
+      "Basic Programming Experience",
+      "High School Mathematics"
     ],
     "format": "Lab-based weekly sessions with graded exercises",
     "thumbnail": "/thumbnails/machine-learning-foundations.jpg",
@@ -132,14 +132,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
@@ -166,35 +166,35 @@
     ],
     "modules": [
       {
-        "title": "LLM threat landscape",
+        "title": "LLM Threat Landscape",
         "topics": "OWASP Top 10 for LLM Applications, attacker goals, trust boundaries"
       },
       {
-        "title": "Prompt injection",
+        "title": "Prompt Injection",
         "topics": "Direct and indirect injection, data exfiltration through outputs"
       },
       {
-        "title": "Tool and agent security",
+        "title": "Tool and Agent Security",
         "topics": "Permission scoping, unsafe actions, confused-deputy risks"
       },
       {
-        "title": "Data and model risks",
+        "title": "Data and Model Risks",
         "topics": "Training-data leakage, membership inference, model extraction"
       },
       {
-        "title": "Defences and guardrails",
+        "title": "Defenses and Guardrails",
         "topics": "Input and output filtering, least privilege, monitoring"
       }
     ],
     "tools": [
       "OWASP LLM Top 10",
       "Python",
-      "Open-source LLM scanners",
-      "Custom test harnesses"
+      "Open-Source LLM Scanners",
+      "Custom Test Harnesses"
     ],
     "prerequisites": [
-      "LLM Engineering and Fine-Tuning, or equivalent experience",
-      "Basic web security knowledge"
+      "LLM Engineering and Fine-Tuning, or Equivalent Experience",
+      "Basic Web Security Knowledge"
     ],
     "format": "Lab exercises against intentionally vulnerable AI applications",
     "thumbnail": "/thumbnails/ai-security-and-red-teaming.jpg",
@@ -202,14 +202,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
@@ -227,7 +227,7 @@
     "title": "Penetration Testing Professional",
     "level": "Advanced",
     "duration": "12 weeks",
-    "summary": "A complete penetration testing course, from reconnaissance to a professional report. Every technique is practised in isolated lab networks, under written rules of engagement.",
+    "summary": "A complete penetration testing course, from reconnaissance to a professional report. Every technique is practiced in isolated lab networks, under written rules of engagement.",
     "outcomes": [
       "Run a full penetration test methodology from scoping to reporting",
       "Enumerate and exploit weaknesses in network and Active Directory environments",
@@ -236,27 +236,27 @@
     ],
     "modules": [
       {
-        "title": "Methodology and rules of engagement",
-        "topics": "Scoping, authorisation, legal boundaries, PTES phases"
+        "title": "Methodology and Rules of Engagement",
+        "topics": "Scoping, authorization, legal boundaries, PTES phases"
       },
       {
         "title": "Reconnaissance and OSINT",
         "topics": "Passive discovery, DNS and certificate analysis, asset mapping"
       },
       {
-        "title": "Scanning and enumeration",
+        "title": "Scanning and Enumeration",
         "topics": "Port scanning, service fingerprinting, version analysis"
       },
       {
-        "title": "Exploitation fundamentals",
+        "title": "Exploitation Fundamentals",
         "topics": "Known-vulnerability exploitation in isolated targets"
       },
       {
-        "title": "Active Directory attacks",
+        "title": "Active Directory Attacks",
         "topics": "Kerberos abuse, credential access, lateral movement paths"
       },
       {
-        "title": "Post-exploitation and privilege escalation",
+        "title": "Post-Exploitation and Privilege Escalation",
         "topics": "Persistence concepts, local escalation, data access"
       },
       {
@@ -272,8 +272,8 @@
       "Wireshark"
     ],
     "prerequisites": [
-      "Networking fundamentals (TCP/IP, DNS, HTTP)",
-      "Linux command-line experience"
+      "Networking Fundamentals (TCP/IP, DNS, HTTP)",
+      "Linux Command-Line Experience"
     ],
     "format": "Isolated lab ranges, capture-the-flag exercises and a final assessment",
     "thumbnail": "/thumbnails/penetration-testing-professional.jpg",
@@ -281,14 +281,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
@@ -309,13 +309,13 @@
     "summary": "Find and fix the flaws that cause most real-world breaches in web applications and APIs. You will test vulnerable applications, then write the secure code that closes the gaps.",
     "outcomes": [
       "Find injection, cross-site scripting and access control flaws in web applications",
-      "Test REST and GraphQL APIs for authorisation and data exposure issues",
+      "Test REST and GraphQL APIs for authorization and data exposure issues",
       "Review application code for secure coding defects",
       "Explain each finding with a proof of concept and a tested fix"
     ],
     "modules": [
       {
-        "title": "HTTP and browser security",
+        "title": "HTTP and Browser Security",
         "topics": "Sessions, cookies, same-origin policy, CORS"
       },
       {
@@ -323,19 +323,19 @@
         "topics": "SQL injection, cross-site scripting, safe output handling"
       },
       {
-        "title": "Authentication and session flaws",
+        "title": "Authentication and Session Flaws",
         "topics": "Password storage, multi-factor logic, token handling"
       },
       {
-        "title": "Access control",
-        "topics": "Broken object-level authorisation, privilege escalation"
+        "title": "Access Control",
+        "topics": "Broken object-level authorization, privilege escalation"
       },
       {
-        "title": "API security",
+        "title": "API Security",
         "topics": "Mass assignment, rate limiting, excessive data exposure"
       },
       {
-        "title": "Secure code review",
+        "title": "Secure Code Review",
         "topics": "Static analysis, reading code for security defects"
       }
     ],
@@ -343,11 +343,11 @@
       "Burp Suite",
       "OWASP ZAP",
       "Semgrep",
-      "Browser developer tools"
+      "Browser Developer Tools"
     ],
     "prerequisites": [
-      "Basic web development",
-      "Networking fundamentals"
+      "Basic Web Development",
+      "Networking Fundamentals"
     ],
     "format": "Practical labs against deliberately vulnerable applications",
     "thumbnail": "/thumbnails/web-application-security.jpg",
@@ -355,14 +355,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
@@ -380,24 +380,24 @@
     "title": "Security Operations and Threat Hunting",
     "level": "Intermediate",
     "duration": "10 weeks",
-    "summary": "Learn how a Security Operations Centre detects and triages threats. Write detection rules, hunt for attackers who evade alerts and map what you find to MITRE ATT&CK.",
+    "summary": "Learn how a Security Operations Center detects and triages threats. Write detection rules, hunt for attackers who evade alerts and map what you find to MITRE ATT&CK.",
     "outcomes": [
-      "Collect, normalise and search security logs in a SIEM",
+      "Collect, normalize and search security logs in a SIEM",
       "Write and tune detection rules, including Sigma rules",
       "Triage alerts and decide quickly between noise and incident",
       "Run a threat hunt from a hypothesis to a documented finding"
     ],
     "modules": [
       {
-        "title": "SOC fundamentals",
+        "title": "SOC Fundamentals",
         "topics": "Tiers, workflows, severity, escalation and handover"
       },
       {
-        "title": "Log analysis",
-        "topics": "Windows and Linux event logs, network telemetry, normalisation"
+        "title": "Log Analysis",
+        "topics": "Windows and Linux event logs, network telemetry, normalization"
       },
       {
-        "title": "SIEM and detection engineering",
+        "title": "SIEM and Detection Engineering",
         "topics": "Search queries, correlation rules, Sigma, false-positive tuning"
       },
       {
@@ -405,7 +405,7 @@
         "topics": "Mapping techniques to detections and measuring coverage"
       },
       {
-        "title": "Threat hunting",
+        "title": "Threat Hunting",
         "topics": "Hypothesis-driven hunts, baselining, anomaly review"
       }
     ],
@@ -416,8 +416,8 @@
       "MITRE ATT&CK Navigator"
     ],
     "prerequisites": [
-      "Networking fundamentals",
-      "Comfort with Linux and Windows logs"
+      "Networking Fundamentals",
+      "Comfort with Linux and Windows Logs"
     ],
     "format": "Simulated SOC environment with recorded attack scenarios",
     "thumbnail": "/thumbnails/security-operations-and-threat-hunting.jpg",
@@ -425,14 +425,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
@@ -453,33 +453,33 @@
     "summary": "Investigate a compromised system from start to finish. Preserve evidence correctly, reconstruct what happened and produce findings that stand up to scrutiny.",
     "outcomes": [
       "Acquire and preserve digital evidence with a documented chain of custody",
-      "Analyse disk images, memory captures and artefacts for attacker activity",
+      "Analyze disk images, memory captures and artifacts for attacker activity",
       "Build a timeline of an intrusion from multiple sources",
       "Write an incident report and a lessons-learned review"
     ],
     "modules": [
       {
-        "title": "Incident response lifecycle",
+        "title": "Incident Response Lifecycle",
         "topics": "Preparation, containment, eradication, recovery"
       },
       {
-        "title": "Evidence handling",
+        "title": "Evidence Handling",
         "topics": "Chain of custody, write blockers, hashing, documentation"
       },
       {
-        "title": "Disk forensics",
-        "topics": "File systems, deleted data, registry and artefact analysis"
+        "title": "Disk Forensics",
+        "topics": "File systems, deleted data, registry and artifact analysis"
       },
       {
-        "title": "Memory forensics",
+        "title": "Memory Forensics",
         "topics": "Process analysis, injected code, network connections in memory"
       },
       {
-        "title": "Timeline analysis",
+        "title": "Timeline Analysis",
         "topics": "Correlating logs, file metadata and user activity"
       },
       {
-        "title": "Reporting and review",
+        "title": "Reporting and Review",
         "topics": "Findings, limitations, recommendations and post-incident review"
       }
     ],
@@ -490,8 +490,8 @@
       "Plaso"
     ],
     "prerequisites": [
-      "Security operations fundamentals, or equivalent experience",
-      "Operating system internals basics"
+      "Security Operations Fundamentals, or Equivalent Experience",
+      "Operating System Internals Basics"
     ],
     "format": "Forensic labs using prepared evidence images and a closing case study",
     "thumbnail": "/thumbnails/digital-forensics-and-incident-response.jpg",
@@ -499,14 +499,14 @@
     "batches": [
       {
         "id": "morning",
-        "label": "Morning batch",
+        "label": "Morning Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50
       },
       {
         "id": "evening",
-        "label": "Evening batch",
+        "label": "Evening Batch",
         "timing": "",
         "capacity": 50,
         "seatsAvailable": 50

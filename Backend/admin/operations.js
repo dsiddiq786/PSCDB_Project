@@ -177,7 +177,7 @@ export async function updateCourseBatches(req, res) {
   for (const item of wanted) {
     const shift = shifts.get(item.id);
     const existing = course.batches.find((b) => b.id === item.id);
-    const label = typeof item.label === "string" && item.label.trim() ? item.label.trim().slice(0, 60) : `${shift.name} batch`;
+    const label = typeof item.label === "string" && item.label.trim() ? item.label.trim().slice(0, 60) : `${shift.name} Batch`;
     const timing = typeof item.timing === "string" ? item.timing.trim().slice(0, 80) : `${shift.startTime} to ${shift.endTime}`;
     if (!existing) {
       await Course.updateOne({ _id: course._id }, { $push: { batches: { id: item.id, label, timing, capacity: item.capacity, seatsAvailable: item.capacity } } });

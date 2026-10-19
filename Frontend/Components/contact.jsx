@@ -5,13 +5,13 @@ import { useCatalogue } from "../Modules/Catalogue/catalogueContext";
 import { centres, institute } from "../Modules/Config/institute";
 
 const topics = [
-  { value: "admission", label: "Admissions and enrollment" },
-  { value: "programme", label: "Course information" },
-  { value: "payment", label: "Fees and payments" },
-  { value: "research", label: "Research collaboration" },
-  { value: "partnership", label: "Employer or partner" },
+  { value: "admission", label: "Admissions and Enrollment" },
+  { value: "programme", label: "Course Information" },
+  { value: "payment", label: "Fees and Payments" },
+  { value: "research", label: "Research Collaboration" },
+  { value: "partnership", label: "Employer or Partner" },
   { value: "opportunity", label: "Careers" },
-  { value: "other", label: "Something else" },
+  { value: "other", label: "Something Else" },
 ];
 
 const address = centres[0].address;
@@ -76,7 +76,7 @@ export default function ContactPage() {
       <PageHeader
         crumbs={[{ label: "Contact" }]}
         eyebrow="Contact"
-        title="Talk to our team"
+        title="Talk to Our Team"
         intro="Ask about admissions, a course, a payment or a partnership. Our team replies by email."
       />
 
@@ -93,7 +93,7 @@ export default function ContactPage() {
               <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-semibold text-emerald-800 hover:underline">Open in Google Maps →</a>
             </div>
             <div className="rounded-xl border border-line bg-white p-6">
-              <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Already enrolled?</h2>
+              <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Already Enrolled?</h2>
               <p className="mt-2 text-sm leading-7 text-body">Include your booking reference in your message so we can find your enrollment quickly.</p>
             </div>
           </div>
@@ -102,26 +102,26 @@ export default function ContactPage() {
             {sent ? (
               <div role="status" className="py-6">
                 <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-full bg-emerald-50 text-xl font-bold text-emerald-700">✓</span>
-                <h2 className="mt-5 font-display text-2xl font-bold text-ink">Message sent</h2>
+                <h2 className="mt-5 font-display text-2xl font-bold text-ink">Message Sent</h2>
                 <p className="mt-2 text-sm leading-7 text-muted">{sent}</p>
-                <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
+                <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse Courses</a>
               </div>
             ) : (
               <form onSubmit={submit} noValidate>
-                <h2 className="font-display text-xl font-bold text-ink">Send us a message</h2>
+                <h2 className="font-display text-xl font-bold text-ink">Send Us a Message</h2>
                 <div className="mt-6 grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="text-sm font-semibold text-ink">Full name</label>
+                    <label htmlFor="name" className="text-sm font-semibold text-ink">Full Name</label>
                     <input id="name" autoComplete="name" value={form.name} onChange={update("name")} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} className={fieldClass("name")} />
                     <FieldError errors={errors} name="name" />
                   </div>
                   <div>
-                    <label htmlFor="email" className="text-sm font-semibold text-ink">Email address</label>
+                    <label htmlFor="email" className="text-sm font-semibold text-ink">Email Address</label>
                     <input id="email" type="email" autoComplete="email" value={form.email} onChange={update("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} className={fieldClass("email")} />
                     <FieldError errors={errors} name="email" />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="text-sm font-semibold text-ink">Phone <span className="font-normal text-muted">(optional)</span></label>
+                    <label htmlFor="phone" className="text-sm font-semibold text-ink">Phone <span className="font-normal text-muted">(Optional)</span></label>
                     <input id="phone" type="tel" autoComplete="tel" value={form.phone} onChange={update("phone")} aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : undefined} className={fieldClass("phone")} />
                     <FieldError errors={errors} name="phone" />
                   </div>
@@ -133,9 +133,9 @@ export default function ContactPage() {
                   </div>
                   {["admission", "programme", "payment"].includes(form.topic) && (
                     <div className="sm:col-span-2">
-                      <label htmlFor="courseSlug" className="text-sm font-semibold text-ink">Course <span className="font-normal text-muted">(optional)</span></label>
+                      <label htmlFor="courseSlug" className="text-sm font-semibold text-ink">Course <span className="font-normal text-muted">(Optional)</span></label>
                       <select id="courseSlug" value={form.courseSlug} onChange={update("courseSlug")} className={fieldClass("courseSlug")}>
-                        <option value="">Not about a specific course</option>
+                        <option value="">Not About a Specific Course</option>
                         {courses.map((course) => <option key={course.slug} value={course.slug}>{course.code} {course.title}</option>)}
                       </select>
                     </div>
@@ -149,7 +149,7 @@ export default function ContactPage() {
                 {serverError && <p role="alert" className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{serverError}</p>}
                 <div className="mt-7 flex justify-end">
                   <button type="submit" disabled={sending} className="inline-flex min-h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60">
-                    {sending ? "Sending…" : "Send message"}
+                    {sending ? "Sending…" : "Send Message"}
                   </button>
                 </div>
               </form>

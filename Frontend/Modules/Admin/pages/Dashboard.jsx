@@ -52,31 +52,31 @@ export default function Dashboard() {
       {!data ? <Skeleton /> : (
         <div className="grid gap-5">
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            <SmallBox tone="emerald" icon="money" value={usd(k.revenueUsd)} label="Total revenue" sub={`${usd(k.revenueMonthUsd)} this month · ${pkr(k.revenueUsd, k.pkrPerUsd)}`} href="/admin/enrolments" />
-            <SmallBox tone="blue" icon="enrolments" value={number(k.paidEnrolments)} label="Paid enrollments" sub={`${k.pendingEnrolments} awaiting payment`} href="/admin/enrolments" />
-            <SmallBox tone="gold" icon="students" value={number(k.activeStudents)} label="Active students" sub={`${number(k.students)} students in total`} href="/admin/students" />
-            <SmallBox tone="slate" icon="checkin" value={number(k.presentToday)} label="Students present today" sub={`${k.lateToday} late · ${k.staffPresentToday} staff on site`} href="/admin/check-in" />
+            <SmallBox tone="emerald" icon="money" value={usd(k.revenueUsd)} label="Total Revenue" sub={`${usd(k.revenueMonthUsd)} this month · ${pkr(k.revenueUsd, k.pkrPerUsd)}`} href="/admin/enrolments" />
+            <SmallBox tone="blue" icon="enrolments" value={number(k.paidEnrolments)} label="Paid Enrollments" sub={`${k.pendingEnrolments} awaiting payment`} href="/admin/enrolments" />
+            <SmallBox tone="gold" icon="students" value={number(k.activeStudents)} label="Active Students" sub={`${number(k.students)} students in total`} href="/admin/students" />
+            <SmallBox tone="slate" icon="checkin" value={number(k.presentToday)} label="Students Present Today" sub={`${k.lateToday} late · ${k.staffPresentToday} staff on site`} href="/admin/check-in" />
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            <InfoBox icon="seat" tone="emerald" label="Seats filled" value={`${number(k.seatsBooked)} of ${number(k.seatsCapacity)}`} progress={fill} note={`${fill}% of all batch seats`} />
-            <InfoBox icon="staff" tone="blue" label="Active staff" value={number(k.staffActive)} note={`${k.staffPresentToday} checked in today`} />
-            <InfoBox icon="clock" tone="gold" label="Awaiting payment" value={number(k.pendingEnrolments)} note="Seats are held for 30 minutes online" />
-            <InfoBox icon="enquiries" tone="red" label="New enquiries" value={number(k.newEnquiries)} note={k.newEnquiries ? "Waiting for a reply" : "All answered"} />
+            <InfoBox icon="seat" tone="emerald" label="Seats Filled" value={`${number(k.seatsBooked)} of ${number(k.seatsCapacity)}`} progress={fill} note={`${fill}% of all batch seats`} />
+            <InfoBox icon="staff" tone="blue" label="Active Staff" value={number(k.staffActive)} note={`${k.staffPresentToday} checked in today`} />
+            <InfoBox icon="clock" tone="gold" label="Awaiting Payment" value={number(k.pendingEnrolments)} note="Seats are held for 30 minutes online" />
+            <InfoBox icon="enquiries" tone="red" label="New Inquiries" value={number(k.newEnquiries)} note={k.newEnquiries ? "Waiting for a reply" : "All answered"} />
           </div>
 
           <div className="grid gap-5 lg:grid-cols-3">
-            <Card title="Revenue, last 30 days" icon="money" accent="emerald" className="lg:col-span-2" tools={<span className="text-xs text-slate-500">Exchange rate PKR {k.pkrPerUsd} per USD</span>}>
+            <Card title="Revenue, Last 30 Days" icon="money" accent="emerald" className="lg:col-span-2" tools={<span className="text-xs text-slate-500">Exchange rate PKR {k.pkrPerUsd} per USD</span>}>
               <RevenueChart data={data.series} formatMoney={compactUsd} />
             </Card>
-            <Card title="Enrollments by status" icon="enrolments" accent="blue">
+            <Card title="Enrollments by Status" icon="enrolments" accent="blue">
               <Donut
                 centreLabel="Bookings"
                 segments={[
                   { label: "Paid", value: data.statusBreakdown.find((s) => s.status === "paid").count, color: "#128058" },
-                  { label: "Awaiting payment", value: data.statusBreakdown.find((s) => s.status === "pending_payment").count, color: "#c9a24a" },
+                  { label: "Awaiting Payment", value: data.statusBreakdown.find((s) => s.status === "pending_payment").count, color: "#c9a24a" },
                   { label: "Expired", value: data.statusBreakdown.find((s) => s.status === "expired").count, color: "#94a3b8" },
-                  { label: "Cancelled", value: data.statusBreakdown.find((s) => s.status === "cancelled").count, color: "#e11d48" },
+                  { label: "Canceled", value: data.statusBreakdown.find((s) => s.status === "cancelled").count, color: "#e11d48" },
                 ]}
               />
               <div className="mt-6 border-t border-slate-100 pt-5">
@@ -87,7 +87,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid gap-5 xl:grid-cols-5">
-            <Card title="Seat occupancy by course" icon="seat" className="xl:col-span-3" bodyClassName="p-0" tools={hasRole(me, "manager") && <Link to="/admin/courses" className="text-sm font-semibold text-emerald-700 hover:underline">Manage courses</Link>}>
+            <Card title="Seat Occupancy by Course" icon="seat" className="xl:col-span-3" bodyClassName="p-0" tools={hasRole(me, "manager") && <Link to="/admin/courses" className="text-sm font-semibold text-emerald-700 hover:underline">Manage Courses</Link>}>
               <ul className="divide-y divide-slate-100">
                 {data.courses.map((c) => (
                   <li key={c.code} className="grid gap-3 px-5 py-3.5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] sm:items-center">
@@ -109,7 +109,7 @@ export default function Dashboard() {
               </ul>
             </Card>
 
-            <Card title="Latest enrollments" icon="enrolments" className="xl:col-span-2" bodyClassName="p-0" tools={<Link to="/admin/enrolments" className="text-sm font-semibold text-emerald-700 hover:underline">View all</Link>}>
+            <Card title="Latest Enrollments" icon="enrolments" className="xl:col-span-2" bodyClassName="p-0" tools={<Link to="/admin/enrolments" className="text-sm font-semibold text-emerald-700 hover:underline">View All</Link>}>
               <ul className="divide-y divide-slate-100">
                 {data.recent.length === 0 && <li className="px-5 py-8 text-center text-sm text-slate-500">No enrollments yet.</li>}
                 {data.recent.map((e) => (
@@ -129,13 +129,13 @@ export default function Dashboard() {
             </Card>
           </div>
 
-          <Card title="Quick actions" icon="layers">
+          <Card title="Quick Actions" icon="layers">
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { to: "/admin/check-in", icon: "checkin", title: "Open the check-in desk", text: "Record arrivals and departures" },
-                { to: "/admin/students?new=1", icon: "students", title: "Register a student", text: "Add a walk-in student" },
-                { to: "/admin/enrolments?new=1", icon: "enrolments", title: "Record an enrollment", text: "For cash or bank payments", role: "manager" },
-                { to: "/admin/attendance", icon: "attendance", title: "Attendance report", text: "Filter, edit and export" },
+                { to: "/admin/check-in", icon: "checkin", title: "Open the Check-In Desk", text: "Record arrivals and departures" },
+                { to: "/admin/students?new=1", icon: "students", title: "Register a Student", text: "Add a walk-in student" },
+                { to: "/admin/enrolments?new=1", icon: "enrolments", title: "Record an Enrollment", text: "For cash or bank payments", role: "manager" },
+                { to: "/admin/attendance", icon: "attendance", title: "Attendance Report", text: "Filter, edit and export" },
               ].filter((a) => !a.role || hasRole(me, a.role)).map((a) => (
                 <Link key={a.to} to={a.to} className="group flex items-center gap-3 rounded-lg border border-slate-200 p-4 transition-colors hover:border-emerald-600/40 hover:bg-emerald-50/40">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-emerald-950 text-gold-300"><AdminIcon name={a.icon} /></span>

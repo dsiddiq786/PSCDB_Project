@@ -8,12 +8,12 @@ import { centreById } from "../Config/institute";
 const STEPS = ["Batch", "Your details", "Review and pay"];
 
 const fields = [
-  { name: "fullName", label: "Full name", autoComplete: "name", type: "text", hint: "As it should appear on your certificate." },
-  { name: "email", label: "Email address", autoComplete: "email", type: "email" },
-  { name: "phone", label: "Phone number", autoComplete: "tel", type: "tel", hint: "Include the country code, for example +92." },
-  { name: "country", label: "Country of residence", autoComplete: "country-name", type: "text", list: "countries" },
-  { name: "identityNumber", label: "CNIC or passport number", autoComplete: "off", type: "text", hint: "Pakistani students enter their CNIC. International students enter their passport number." },
-  { name: "education", label: "Highest qualification", autoComplete: "off", type: "text", hint: "For example: BS Computer Science." },
+  { name: "fullName", label: "Full Name", autoComplete: "name", type: "text", hint: "As it should appear on your certificate." },
+  { name: "email", label: "Email Address", autoComplete: "email", type: "email" },
+  { name: "phone", label: "Phone Number", autoComplete: "tel", type: "tel", hint: "Include the country code, for example +92." },
+  { name: "country", label: "Country of Residence", autoComplete: "country-name", type: "text", list: "countries" },
+  { name: "identityNumber", label: "CNIC or Passport Number", autoComplete: "off", type: "text", hint: "Pakistani students enter their CNIC. International students enter their passport number." },
+  { name: "education", label: "Highest Qualification", autoComplete: "off", type: "text", hint: "For example: BS Computer Science." },
 ];
 
 const countries = ["Pakistan", "United Arab Emirates", "Saudi Arabia", "Qatar", "Oman", "United Kingdom", "United States", "Canada", "Afghanistan", "Bangladesh", "China", "Turkey", "Malaysia"];
@@ -76,8 +76,8 @@ export default function EnrolPage({ slug }) {
     return (
       <section className="bg-cream-100 py-24">
         <Container className="max-w-xl text-center">
-          <h1 className="font-display text-3xl font-bold text-ink">This course is not available</h1>
-          <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Browse courses</a>
+          <h1 className="font-display text-3xl font-bold text-ink">This Course Is Not Available</h1>
+          <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Browse Courses</a>
         </Container>
       </section>
     );
@@ -159,12 +159,12 @@ export default function EnrolPage({ slug }) {
           <div key={booking ? "booked" : step} className="page-enter rounded-xl border border-line bg-white p-6 sm:p-8">
             {booking ? (
               <div>
-                <h2 className="font-display text-2xl font-bold text-ink">Your seat is reserved</h2>
+                <h2 className="font-display text-2xl font-bold text-ink">Your Seat Is Reserved</h2>
                 <p className="mt-2 text-sm text-muted">
                   Booking reference <span className="font-mono font-semibold text-ink">{booking.reference}</span>. The seat is held for 30 minutes while payment is completed.
                 </p>
                 <div className="mt-6 rounded-lg border border-dashed border-gold-400 bg-gold-50 p-5">
-                  <p className="text-sm font-semibold text-ink">Test mode</p>
+                  <p className="text-sm font-semibold text-ink">Test Mode</p>
                   <p className="mt-1 text-sm leading-6 text-body">Online card payments are not connected on this server yet. Use the button below to complete a test payment and see the confirmation step.</p>
                   <button type="button" onClick={completeTestPayment} disabled={submitting} className="mt-4 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60">
                     {submitting ? "Processing…" : "Complete test payment"}
@@ -173,8 +173,8 @@ export default function EnrolPage({ slug }) {
               </div>
             ) : step === 0 ? (
               <fieldset>
-                <legend className="font-display text-xl font-bold text-ink">Choose your batch</legend>
-                <p className="mt-1 text-sm text-muted">{course.batches.length === 1 ? "This batch is" : course.batches.length === 2 ? "Both batches are" : "All batches are"} taught onsite at {centreById(course.centre, course)?.name || "our centre"}.</p>
+                <legend className="font-display text-xl font-bold text-ink">Choose Your Batch</legend>
+                <p className="mt-1 text-sm text-muted">{course.batches.length === 1 ? "This batch is" : course.batches.length === 2 ? "Both batches are" : "All batches are"} taught onsite at {centreById(course.centre, course)?.name || "our center"}.</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {course.batches.map((item) => {
                     const full = item.seatsAvailable <= 0;
@@ -202,7 +202,7 @@ export default function EnrolPage({ slug }) {
                   if (validateDetails()) setStep(2);
                 }}
               >
-                <h2 className="font-display text-xl font-bold text-ink">Your details</h2>
+                <h2 className="font-display text-xl font-bold text-ink">Your Details</h2>
                 <p className="mt-1 text-sm text-muted">We use these details to register you and to issue your certificate.</p>
                 <div className="mt-6 grid gap-5 sm:grid-cols-2">
                   {fields.map((field) => (
@@ -236,12 +236,12 @@ export default function EnrolPage({ slug }) {
               </form>
             ) : (
               <div>
-                <h2 className="font-display text-xl font-bold text-ink">Review your enrollment</h2>
+                <h2 className="font-display text-xl font-bold text-ink">Review Your Enrollment</h2>
                 <dl className="mt-6 divide-y divide-line rounded-lg border border-line text-sm">
                   {[
                     ["Course", `${course.code} ${course.title}`],
                     ["Batch", batch?.label],
-                    ["Centre", centreById(course.centre, course)?.name],
+                    ["Center", centreById(course.centre, course)?.name],
                     ["Name", student.fullName],
                     ["Email", student.email],
                     ["Phone", student.phone],

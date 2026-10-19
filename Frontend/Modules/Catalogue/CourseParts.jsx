@@ -52,7 +52,7 @@ export function CourseCard({ course, className = "" }) {
             {pkr && <p className="tabular mt-1 text-xs text-muted">{pkr}</p>}
           </div>
           <p className="text-right text-xs leading-5 text-muted">
-            {course.examIncludedByInstitute ? <span className="font-semibold text-emerald-700">Exam fee included</span> : <>+ {formatUsd(course.examFeeUsd)} exam fee</>}
+            {course.examIncludedByInstitute ? <span className="font-semibold text-emerald-700">Exam Fee Included</span> : <>+ {formatUsd(course.examFeeUsd)} exam fee</>}
           </p>
         </div>
       </div>
@@ -64,8 +64,8 @@ export function FeePanel({ course }) {
   const { rate } = useCatalogue();
   const t = totals(course);
   const rows = [
-    ["Course fee", formatUsd(t.feeUsd), formatPkr(t.feeUsd, rate)],
-    ["Professional skills exam", course.examIncludedByInstitute ? "Included" : formatUsd(t.examFeeUsd), course.examIncludedByInstitute ? "Paid by the institute" : formatPkr(t.examFeeUsd, rate)],
+    ["Course Fee", formatUsd(t.feeUsd), formatPkr(t.feeUsd, rate)],
+    ["Professional Skills Exam", course.examIncludedByInstitute ? "Included" : formatUsd(t.examFeeUsd), course.examIncludedByInstitute ? "Paid by the institute" : formatPkr(t.examFeeUsd, rate)],
   ];
 
   return (
@@ -103,8 +103,8 @@ export function BatchTable({ course }) {
           <tr>
             <th scope="col" className="px-5 py-4 font-semibold">Batch</th>
             <th scope="col" className="px-5 py-4 font-semibold">Timing</th>
-            <th scope="col" className="px-5 py-4 font-semibold">Centre</th>
-            <th scope="col" className="px-5 py-4 font-semibold">Seats available</th>
+            <th scope="col" className="px-5 py-4 font-semibold">Center</th>
+            <th scope="col" className="px-5 py-4 font-semibold">Seats Available</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-line">

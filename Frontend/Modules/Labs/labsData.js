@@ -8,19 +8,19 @@ export const labs = {
       "The AI Lab is a working environment for engineers and researchers who want to understand how modern language models are built, adapted and evaluated. You will move from model internals to production-style systems, and you will measure every change you make.",
     pillars: [
       {
-        title: "Model foundations",
-        text: "Understand attention, tokenisation and embeddings well enough to debug a model rather than guess at it.",
+        title: "Model Foundations",
+        text: "Understand attention, tokenization and embeddings well enough to debug a model rather than guess at it.",
       },
       {
-        title: "Fine-tuning",
+        title: "Fine-Tuning",
         text: "Adapt open-weight models with LoRA and QLoRA on curated datasets, and track each run so results can be reproduced.",
       },
       {
-        title: "Retrieval and grounding",
+        title: "Retrieval and Grounding",
         text: "Connect models to documents through retrieval pipelines so that answers can be traced to their sources.",
       },
       {
-        title: "Evaluation and safety",
+        title: "Evaluation and Safety",
         text: "Judge models with held-out tests, human review and red-team exercises before anything reaches users.",
       },
     ],
@@ -28,7 +28,7 @@ export const labs = {
       "Supervised fine-tuning and parameter-efficient adaptation",
       "Preference alignment concepts, including DPO and RLHF",
       "Vector search and retrieval-augmented generation",
-      "Quantisation and latency-aware model serving",
+      "Quantization and latency-aware model serving",
       "Benchmarking with repeatable metrics",
       "Prompt injection testing for LLM applications",
     ],
@@ -54,23 +54,23 @@ export const labs = {
     shortName: "Cyber Lab",
     headline: "Learn to attack, defend and investigate, safely.",
     intro:
-      "The Cyber Security Lab teaches the skills that organisations rely on: finding weaknesses before attackers do, watching for intrusions, and reconstructing incidents afterwards. Offensive techniques are practised only in isolated lab networks, under written rules of engagement.",
+      "The Cyber Security Lab teaches the skills that organizations rely on: finding weaknesses before attackers do, watching for intrusions, and reconstructing incidents afterwards. Offensive techniques are practiced only in isolated lab networks, under written rules of engagement.",
     pillars: [
       {
-        title: "Penetration testing",
+        title: "Penetration Testing",
         text: "Follow a full methodology from reconnaissance to reporting, against systems built for training.",
       },
       {
-        title: "Security operations",
+        title: "Security Operations",
         text: "Monitor, triage and hunt threats using SIEM platforms, detection rules and MITRE ATT&CK.",
       },
       {
-        title: "Digital forensics",
-        text: "Preserve evidence correctly, analyse disk and memory images, and build a verified timeline of an intrusion.",
+        title: "Digital Forensics",
+        text: "Preserve evidence correctly, analyze disk and memory images, and build a verified timeline of an intrusion.",
       },
       {
-        title: "Application and cloud security",
-        text: "Find and fix authorisation, injection and configuration flaws in web applications, APIs and cloud environments.",
+        title: "Application and Cloud Security",
+        text: "Find and fix authorization, injection and configuration flaws in web applications, APIs and cloud environments.",
       },
     ],
     capabilities: [
@@ -83,7 +83,7 @@ export const labs = {
     ],
     codeTitle: "scan-scope.txt",
     code: [
-      { text: "# Authorised lab range only", tone: "muted" },
+      { text: "# Authorized lab range only", tone: "muted" },
       { text: "scope: 10.20.0.0/24 (isolated)", tone: "gold" },
       { text: "rules_of_engagement: signed", tone: "gold" },
       { text: "", tone: "body" },
@@ -99,7 +99,7 @@ export const labs = {
 };
 
 export const labCodeOfConduct = [
-  "Techniques are taught only in isolated, authorised lab environments.",
+  "Techniques are taught only in isolated, authorized lab environments.",
   "Students test only systems they own or have written permission to test.",
   "Every exercise has defined scope, rules of engagement and a supervising instructor.",
   "Findings are reported responsibly. Vulnerabilities are never exploited outside the lab.",

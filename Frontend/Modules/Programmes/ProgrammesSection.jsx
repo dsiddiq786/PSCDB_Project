@@ -9,14 +9,14 @@ const labOptions = [
 ];
 const levelOptions = ["Beginner", "Intermediate", "Advanced"].map((level) => ({ value: level, label: level }));
 const batchOptions = [
-  { value: "morning", label: "Morning batch" },
-  { value: "evening", label: "Evening batch" },
+  { value: "morning", label: "Morning Batch" },
+  { value: "evening", label: "Evening Batch" },
 ];
 const sorts = [
   { value: "title", label: "Title, A to Z" },
-  { value: "fee-asc", label: "Fee, low to high" },
-  { value: "fee-desc", label: "Fee, high to low" },
-  { value: "duration", label: "Shortest first" },
+  { value: "fee-asc", label: "Fee, Low to High" },
+  { value: "fee-desc", label: "Fee, High to Low" },
+  { value: "duration", label: "Shortest First" },
 ];
 
 const weeks = (course) => Number.parseInt(course.duration, 10) || 0;
@@ -84,11 +84,11 @@ export default function ProgrammesSection() {
       <PageHeader
         crumbs={[{ label: "Courses" }]}
         eyebrow="Courses"
-        title="Advanced courses in AI and cyber security"
+        title="Advanced Courses in AI and Cyber Security"
         intro="Every course is taught onsite, ends with a professional skills exam and lists its fees, batches and prerequisites up front."
       />
 
-      <section aria-label="Course catalogue" className="bg-cream-100 py-12 sm:py-16">
+      <section aria-label="Course catalog" className="bg-cream-100 py-12 sm:py-16">
         <Container className="grid gap-8 lg:grid-cols-[250px_1fr]">
           <div className="lg:hidden">
             <button
@@ -107,7 +107,7 @@ export default function ProgrammesSection() {
             <div className="flex items-center justify-between">
               <p className="font-display text-base font-bold text-ink">Filters</p>
               {activeCount > 0 && (
-                <button type="button" onClick={reset} className="text-sm font-semibold text-emerald-800 hover:underline">Clear all</button>
+                <button type="button" onClick={reset} className="text-sm font-semibold text-emerald-800 hover:underline">Clear All</button>
               )}
             </div>
             <div className="mt-5 flex flex-col gap-6">
@@ -124,7 +124,7 @@ export default function ProgrammesSection() {
               </div>
               <CheckGroup legend="Lab" options={labOptions} selected={lab} onToggle={toggle(setLab)} />
               <CheckGroup legend="Level" options={levelOptions} selected={level} onToggle={toggle(setLevel)} />
-              <CheckGroup legend="Batch with seats" options={batchOptions} selected={batch} onToggle={toggle(setBatch)} />
+              <CheckGroup legend="Batch with Seats" options={batchOptions} selected={batch} onToggle={toggle(setBatch)} />
             </div>
           </aside>
 
@@ -150,11 +150,11 @@ export default function ProgrammesSection() {
               </ul>
             ) : (
               <div className="mt-6 rounded-xl border border-dashed border-line bg-white p-10 text-center">
-                <h2 className="font-display text-xl font-bold text-ink">No courses match these filters</h2>
+                <h2 className="font-display text-xl font-bold text-ink">No Courses Match These Filters</h2>
                 <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted">Remove a filter or change your search. Admissions can also help you choose.</p>
                 <div className="mt-6 flex flex-wrap justify-center gap-3">
-                  <button type="button" onClick={reset} className="min-h-11 rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Clear filters</button>
-                  <a href="/contact" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Contact admissions</a>
+                  <button type="button" onClick={reset} className="min-h-11 rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Clear Filters</button>
+                  <a href="/contact" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Contact Admissions</a>
                 </div>
               </div>
             )}

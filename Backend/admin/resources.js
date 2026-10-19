@@ -19,7 +19,7 @@ async function requireShift(code) {
   if (code && !(await Shift.exists({ code }))) throw new HttpError(400, "Choose a valid shift.", "shift");
 }
 async function requireCentre(code, field = "centre") {
-  if (code && !(await Centre.exists({ code }))) throw new HttpError(400, "Choose a valid centre.", field);
+  if (code && !(await Centre.exists({ code }))) throw new HttpError(400, "Choose a valid center.", field);
 }
 
 /* ------------------------------------------------------------------ Students */
@@ -27,10 +27,10 @@ const students = resource({
   name: "students",
   model: Student,
   fields: {
-    fullName: { type: "string", label: "Full name", required: true, max: 100, pattern: NAME, patternMessage: "Enter a valid full name." },
+    fullName: { type: "string", label: "Full name", required: true, max: 100, pattern: NAME, patternMessage: "Enter a valid full name.", properName: true },
     email: { type: "email", label: "Email", required: true },
     phone: { type: "phone", label: "Phone", required: true },
-    country: { type: "string", label: "Country", max: 60, default: "Pakistan" },
+    country: { type: "string", label: "Country", max: 60, default: "Pakistan", properName: true },
     identityNumber: { type: "string", label: "CNIC or passport", max: 30, pattern: ID_NUMBER, patternMessage: "Enter a valid CNIC or passport number." },
     education: { type: "string", label: "Education", max: 120 },
     status: { type: "enum", label: "Status", values: ["active", "suspended", "graduated", "withdrawn"], default: "active" },
@@ -69,14 +69,14 @@ const staff = resource({
   name: "staff",
   model: Staff,
   fields: {
-    fullName: { type: "string", label: "Full name", required: true, max: 100, pattern: NAME, patternMessage: "Enter a valid full name." },
+    fullName: { type: "string", label: "Full name", required: true, max: 100, pattern: NAME, patternMessage: "Enter a valid full name.", properName: true },
     email: { type: "email", label: "Email", required: true },
     phone: { type: "phone", label: "Phone" },
     identityNumber: { type: "string", label: "CNIC", max: 30, pattern: ID_NUMBER, patternMessage: "Enter a valid CNIC number." },
     role: { type: "enum", label: "Role", values: STAFF_ROLES, required: true },
     department: { type: "enum", label: "Department", values: ["ai", "cyber", "administration"], default: "administration" },
     shift: { type: "code", label: "Shift" },
-    centre: { type: "code", label: "Centre", default: "sahiwal" },
+    centre: { type: "code", label: "Center", default: "sahiwal" },
     status: { type: "enum", label: "Status", values: ["active", "on_leave", "inactive"], default: "active" },
     joinedOn: { type: "date", label: "Joined on" },
     notes: { type: "text", label: "Notes", max: 1000 },
@@ -154,7 +154,7 @@ const centres = resource({
   fields: {
     code: { type: "code", label: "Code", required: true },
     name: { type: "string", label: "Name", required: true, max: 100 },
-    city: { type: "string", label: "City", required: true, max: 60 },
+    city: { type: "string", label: "City", required: true, max: 60, properName: true },
     address: { type: "string", label: "Address", max: 200 },
     phone: { type: "phone", label: "Phone" },
     active: { type: "boolean", label: "Active", default: true },
@@ -166,13 +166,13 @@ const centres = resource({
   hooks: {
     async beforeUpdate(data, existing) {
       if (data.code && data.code !== existing.code && ((await Course.exists({ centre: existing.code })) || (await Staff.exists({ centre: existing.code })))) {
-        throw new HttpError(409, "This centre is used by courses or staff, so its code cannot change.", "code");
+        throw new HttpError(409, "This center is used by courses or staff, so its code cannot change.", "code");
       }
       return data;
     },
     async beforeDelete(doc) {
       if ((await Course.exists({ centre: doc.code })) || (await Staff.exists({ centre: doc.code }))) {
-        throw new HttpError(409, `${doc.name} has courses or staff. Move them first, or mark the centre inactive.`);
+        throw new HttpError(409, `${doc.name} has courses or staff. Move them first, or mark the center inactive.`);
       }
     },
   },
@@ -186,7 +186,7 @@ const courseFields = {
   lab: { type: "enum", label: "Lab", values: ["ai", "cyber"], required: true },
   level: { type: "enum", label: "Level", values: ["Beginner", "Intermediate", "Advanced"], required: true },
   duration: { type: "string", label: "Duration", required: true, max: 40 },
-  centre: { type: "code", label: "Centre", required: true },
+  centre: { type: "code", label: "Center", required: true },
   feeUsd: { type: "money", db: "feeUsdCents", label: "Course fee", required: true, min: 0, max: 100000 },
   examFeeUsd: { type: "money", db: "examFeeUsdCents", label: "Exam fee", required: true, min: 0, max: 100000 },
   examIncludedByInstitute: { type: "boolean", label: "Institute pays the exam fee", default: false },
@@ -214,7 +214,7 @@ const courses = resource({
       const capacity = Number.isInteger(req.body?.capacity) && req.body.capacity > 0 && req.body.capacity <= 1000 ? req.body.capacity : 50;
       const wanted = Array.isArray(req.body?.shifts) ? req.body.shifts : null;
       const list = await Shift.find(wanted ? { code: { $in: wanted } } : { active: true }).sort({ startTime: 1 }).lean();
-      data.batches = list.map((shift) => ({ id: shift.code, label: `${shift.name} batch`, timing: `${shift.startTime} to ${shift.endTime}`, capacity, seatsAvailable: capacity }));
+      data.batches = list.map((shift) => ({ id: shift.code, label: `${shift.name} Batch`, timing: `${shift.startTime} to ${shift.endTime}`, capacity, seatsAvailable: capacity }));
       return data;
     },
     async beforeUpdate(data) {
@@ -274,7 +274,7 @@ const enquiries = resource({
   name: "enquiries",
   model: Enquiry,
   fields: {
-    name: { type: "string", label: "Name", required: true, max: 100 },
+    name: { type: "string", label: "Name", required: true, max: 100, properName: true },
     email: { type: "email", label: "Email", required: true },
     phone: { type: "phone", label: "Phone" },
     topic: { type: "enum", label: "Topic", values: ["admission", "programme", "payment", "research", "partnership", "opportunity", "other"], required: true },
@@ -301,7 +301,7 @@ const users = resource({
   name: "users",
   model: Admin,
   fields: {
-    name: { type: "string", label: "Name", required: true, max: 100 },
+    name: { type: "string", label: "Name", required: true, max: 100, properName: true },
     email: { type: "email", label: "Email", required: true },
     role: { type: "enum", label: "Role", values: ["superadmin", "manager", "staff"], required: true },
     active: { type: "boolean", label: "Active", default: true },

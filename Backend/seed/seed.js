@@ -6,8 +6,8 @@ import Centre from "../DBModels/Centre.js";
 import Shift from "../DBModels/Shift.js";
 
 const batches = () => [
-  { id: "morning", label: "Morning batch", timing: "", capacity: 50, seatsAvailable: 50 },
-  { id: "evening", label: "Evening batch", timing: "", capacity: 50, seatsAvailable: 50 },
+  { id: "morning", label: "Morning Batch", timing: "", capacity: 50, seatsAvailable: 50 },
+  { id: "evening", label: "Evening Batch", timing: "", capacity: 50, seatsAvailable: 50 },
 ];
 
 /* Approved starting fees. Administrators can change them later. */
@@ -34,7 +34,7 @@ export async function runSeed() {
   }
   await Centre.updateOne(
     { code: "sahiwal" },
-    { $setOnInsert: { code: "sahiwal", name: "Sahiwal Centre", city: "Sahiwal", address: "Office No. 11, 1st Floor, Star Complex, Stadium Road, Sahiwal, Pakistan", phone: "", active: true } },
+    { $setOnInsert: { code: "sahiwal", name: "Sahiwal Center", city: "Sahiwal", address: "Office No. 11, 1st Floor, Star Complex, Stadium Road, Sahiwal, Pakistan", phone: "", active: true } },
     { upsert: true },
   );
 
@@ -51,6 +51,18 @@ export async function runSeed() {
     { $setOnInsert: { key: "site", pkrPerUsd: Number(process.env.DEFAULT_PKR_PER_USD) || 277 } },
     { upsert: true },
   );
+
+  // Earlier releases named the first center "Sahiwal Centre"; use the American spelling.
+  await Centre.updateOne({ code: "sahiwal", name: "Sahiwal Centre" }, { $set: { name: "Sahiwal Center" } });
+
+  // Batch names are shown as titles: "Morning batch" becomes "Morning Batch".
+  for (const course of await Course.find({ "batches.label": / batch$/ }, { batches: 1 }).lean()) {
+    for (const batch of course.batches) {
+      if (/ batch$/.test(batch.label)) {
+        await Course.updateOne({ _id: course._id, "batches.id": batch.id }, { $set: { "batches.$.label": batch.label.replace(/ batch$/, " Batch") } });
+      }
+    }
+  }
 
   const adminCount = await Admin.countDocuments();
   if (adminCount === 0 && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {

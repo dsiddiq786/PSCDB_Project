@@ -111,7 +111,7 @@ export default function ProgrammeEnrollment({ programme, onBack }) {
             onClick={onBack}
             className="mt-6 rounded-xl bg-[#176247] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#0B4F3C]"
           >
-            Back to programmes
+            Back to programs
           </button>
         </div>
       </section>
@@ -138,7 +138,7 @@ export default function ProgrammeEnrollment({ programme, onBack }) {
         onClick={onBack}
         className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-[#176247] hover:text-[#0B4F3C]"
       >
-        <span aria-hidden="true">←</span> Back to programmes
+        <span aria-hidden="true">←</span> Back to programs
       </button>
 
       <header className="mb-8">
@@ -152,7 +152,7 @@ export default function ProgrammeEnrollment({ programme, onBack }) {
 
         <p className="mt-3 text-sm leading-6 text-[#718077]">
           You selected <strong>{programme.title}</strong>. Choose remote
-          learning or attend classes at a PSCDB centre.
+          learning or attend classes at a PSCDB center.
         </p>
       </header>
 

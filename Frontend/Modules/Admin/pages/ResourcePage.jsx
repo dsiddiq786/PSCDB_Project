@@ -6,7 +6,7 @@ import DataTable from "../ui/DataTable";
 import { renderCell } from "../ui/cells";
 import RecordForm from "../ui/RecordForm";
 import { Badge, Btn, Confirm, IconBtn, Spinner, inputClass } from "../ui/kit";
-import { date, dayLabel, time, usd } from "../lib/format";
+import { date, dayLabel, time, titleWords, usd } from "../lib/format";
 import { hasRole, useAdmin } from "../lib/adminContext";
 import { resources } from "../lib/resources";
 import PageHeader from "../ui/PageHeader";
@@ -56,7 +56,7 @@ function DetailDrawer({ config, row, onClose, onEdit, canEdit }) {
             )}
             {config.key === "enquiries" && (
               <div className="sm:col-span-2">
-                <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Full message</dt>
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Full Message</dt>
                 <dd className="mt-1 whitespace-pre-wrap rounded-md bg-slate-50 p-3 text-sm leading-6 text-slate-700">{data.message}</dd>
                 <a href={`mailto:${data.email}`} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:underline"><AdminIcon name="enquiries" className="h-4 w-4" /> Reply by email</a>
               </div>
@@ -80,7 +80,7 @@ function DetailDrawer({ config, row, onClose, onEdit, canEdit }) {
           )}
           {detail?.attendance && (
             <section className="mt-8">
-              <h3 className="font-display text-sm font-bold text-slate-800">Recent attendance</h3>
+              <h3 className="font-display text-sm font-bold text-slate-800">Recent Attendance</h3>
               <ul className="mt-3 divide-y divide-slate-100 rounded-md border border-slate-200">
                 {detail.attendance.length === 0 && <li className="px-3 py-3 text-sm text-slate-500">No attendance recorded yet.</li>}
                 {detail.attendance.slice(0, 20).map((a) => (
@@ -94,7 +94,7 @@ function DetailDrawer({ config, row, onClose, onEdit, canEdit }) {
           )}
           {detail?.courses && (
             <section className="mt-8">
-              <h3 className="font-display text-sm font-bold text-slate-800">Used by</h3>
+              <h3 className="font-display text-sm font-bold text-slate-800">Used By</h3>
               <p className="mt-2 text-sm text-slate-600">{detail.courses.length} course batches and {detail.staffCount} staff members.</p>
             </section>
           )}
@@ -120,7 +120,7 @@ function BatchEditor({ course, onClose, onSaved }) {
     const result = await api(`/admin/courses/${course.id}/batches`, { method: "PUT", body: { batches: rows.map((r) => ({ id: r.id, label: r.label, timing: r.timing, capacity: Number(r.capacity) })) } });
     setBusy(false);
     if (!result.ok) return setError(result.message);
-    toast({ tone: "success", title: "Batches saved", message: `${course.code} now has ${result.data.length} batches.` });
+    toast({ tone: "success", title: "Batches Saved", message: `${course.code} now has ${result.data.length} batches.` });
     onSaved();
   };
 
@@ -154,15 +154,15 @@ function BatchEditor({ course, onClose, onSaved }) {
           </div>
           {unused.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
-              <span className="text-sm text-slate-500">Add a batch:</span>
-              {unused.map((s) => <Btn key={s.value} size="sm" icon="plus" onClick={() => setRows((list) => [...list, { id: s.value, label: `${s.label.split(" (")[0]} batch`, timing: s.label.match(/\((.*)\)/)?.[1] || "", capacity: 50, booked: 0 }])}>{s.label}</Btn>)}
+              <span className="text-sm text-slate-500">Add a Batch:</span>
+              {unused.map((s) => <Btn key={s.value} size="sm" icon="plus" onClick={() => setRows((list) => [...list, { id: s.value, label: `${s.label.split(" (")[0]} Batch`, timing: s.label.match(/\((.*)\)/)?.[1] || "", capacity: 50, booked: 0 }])}>{s.label}</Btn>)}
             </div>
           )}
           <p className="text-xs text-slate-500">Seats cannot go below the number already booked, and batches with bookings cannot be removed.</p>
         </div>
         <footer className="flex justify-end gap-2 border-t border-slate-200 bg-slate-50 px-5 py-3">
           <Btn onClick={onClose}>Cancel</Btn>
-          <Btn variant="primary" onClick={save} disabled={busy}>{busy && <Spinner className="h-3.5 w-3.5" />}Save batches</Btn>
+          <Btn variant="primary" onClick={save} disabled={busy}>{busy && <Spinner className="h-3.5 w-3.5" />}Save Batches</Btn>
         </footer>
       </div>
     </div>,
@@ -196,7 +196,7 @@ export default function ResourcePage({ name, openNew = false }) {
     const result = await api("/admin/attendance/mark-absent", { method: "POST", body: {} });
     setBusy(false);
     setAbsent(false);
-    if (!result.ok) return toast({ tone: "error", title: "Could not mark absentees", message: result.message });
+    if (!result.ok) return toast({ tone: "error", title: "Could Not Mark Absentees", message: result.message });
     toast({ tone: "success", title: `${result.data.marked} marked absent`, message: `For ${dayLabel(result.data.date)}.` });
     setReloadKey((k) => k + 1);
   };
@@ -213,14 +213,14 @@ export default function ResourcePage({ name, openNew = false }) {
         onEdit={config.readOnly ? undefined : (row) => setForm({ row })}
         onView={(row) => setViewing(row)}
         extraActions={name === "courses" && hasRole(me, "manager") ? (row) => <IconBtn icon="layers" label="Batches" tone="green" onClick={() => setBatches(row)} /> : undefined}
-        extraTools={name === "attendance" && hasRole(me, "manager") ? <Btn icon="alert" onClick={() => setAbsent(true)}>Mark absentees</Btn> : name === "attendance" ? null : undefined}
+        extraTools={name === "attendance" && hasRole(me, "manager") ? <Btn icon="alert" onClick={() => setAbsent(true)}>Mark Absentees</Btn> : name === "attendance" ? null : undefined}
       />
 
       {form && (
         <RecordForm
           key={form.row?.id || "new"}
           open
-          title={form.row ? `Edit ${config.singular}` : `Add ${config.singular}`}
+          title={form.row ? `Edit ${titleWords(config.singular)}` : `Add ${titleWords(config.singular)}`}
           fields={config.form}
           row={form.row}
           endpoint={config.endpoint}
@@ -234,9 +234,9 @@ export default function ResourcePage({ name, openNew = false }) {
       <Confirm
         open={absent}
         tone="primary"
-        confirmLabel="Mark absent"
+        confirmLabel="Mark Absent"
         busy={busy}
-        title="Mark today's absentees?"
+        title="Mark Today's Absentees?"
         message="Every active enrolled student and active staff member without an attendance record today will be marked absent. You can edit any record afterwards."
         onConfirm={markAbsent}
         onClose={() => setAbsent(false)}

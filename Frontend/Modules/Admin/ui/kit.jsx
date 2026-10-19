@@ -176,7 +176,7 @@ export function SmallBox({ tone = "emerald", value, label: text, sub, icon, href
       <AdminIcon name={icon} className="absolute -right-2 top-3 h-20 w-20 text-white/15 transition-transform duration-300 group-hover:scale-110" strokeWidth={1.4} />
       {href && (
         <Link to={href} className="relative z-10 flex items-center justify-center gap-1.5 bg-black/10 py-1.5 text-xs font-medium text-white/90 transition-colors hover:bg-black/20 hover:text-white">
-          More info <AdminIcon name="chevronRight" className="h-3.5 w-3.5" />
+          More Info <AdminIcon name="chevronRight" className="h-3.5 w-3.5" />
         </Link>
       )}
     </div>

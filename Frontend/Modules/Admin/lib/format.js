@@ -10,16 +10,16 @@ export const dayLabel = (iso) => (iso ? new Date(`${iso}T00:00:00`).toLocaleDate
 
 export const LABELS = {
   paid: "Paid",
-  pending_payment: "Awaiting payment",
+  pending_payment: "Awaiting Payment",
   expired: "Expired",
-  cancelled: "Cancelled",
+  cancelled: "Canceled",
   new: "New",
   answered: "Answered",
   active: "Active",
   suspended: "Suspended",
   graduated: "Graduated",
   withdrawn: "Withdrawn",
-  on_leave: "On leave",
+  on_leave: "On Leave",
   inactive: "Inactive",
   present: "Present",
   late: "Late",
@@ -28,14 +28,14 @@ export const LABELS = {
   online: "Online",
   desk: "Desk",
   stripe: "Stripe",
-  simulated: "Test payment",
-  manual: "Desk payment",
+  simulated: "Test Payment",
+  manual: "Desk Payment",
   superadmin: "Superadmin",
   manager: "Manager",
   staff: "Staff",
   student: "Student",
   instructor: "Instructor",
-  lab_engineer: "Lab engineer",
+  lab_engineer: "Lab Engineer",
   admissions: "Admissions",
   accounts: "Accounts",
   management: "Management",
@@ -46,15 +46,29 @@ export const LABELS = {
   create: "Created",
   update: "Updated",
   delete: "Deleted",
-  login: "Signed in",
-  check_in: "Checked in",
-  check_out: "Checked out",
+  login: "Signed In",
+  check_in: "Checked In",
+  check_out: "Checked Out",
   settings: "Settings",
   enrolments: "Enrollments",
+  centres: "Centers",
+  enquiries: "Inquiries",
+  students: "Students",
+  courses: "Courses",
+  shifts: "Shifts",
+  attendance: "Attendance",
+  users: "Users",
+  programme: "Program",
+  admission: "Admission",
+  payment: "Payment",
+  research: "Research",
+  partnership: "Partnership",
+  opportunity: "Opportunity",
+  other: "Other",
   true: "Yes",
   false: "No",
 };
-export const label = (value) => LABELS[value] ?? (typeof value === "string" ? value.charAt(0).toUpperCase() + value.slice(1).replaceAll("_", " ") : String(value));
+export const label = (value) => LABELS[value] ?? (typeof value === "string" ? value.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()) : String(value));
 
 const GREEN = "bg-emerald-50 text-emerald-800 ring-emerald-600/20";
 const AMBER = "bg-amber-50 text-amber-800 ring-amber-600/20";
@@ -70,5 +84,8 @@ export const TONES = {
   superadmin: GOLD, manager: BLUE, staff: GREY, create: GREEN, login: GREY, settings: BLUE,
   ai: GREEN, cyber: BLUE, student: GREEN,
 };
+
+/* "staff member" -> "Staff Member", for button and dialog titles. */
+export const titleWords = (text = "") => text.replace(/\b\w/g, (c) => c.toUpperCase());
 
 export const initials = (name = "") => name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0].toUpperCase()).join("");

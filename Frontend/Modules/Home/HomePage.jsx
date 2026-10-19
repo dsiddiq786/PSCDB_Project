@@ -9,25 +9,25 @@ import { labs } from "../Labs/labsData";
 import { leadership } from "../Leadership/leadershipData";
 
 const facts = [
-  ["Two specialist labs", "Artificial intelligence and cyber security"],
-  ["Professional skills exams", "Every course leads to a professional skills exam"],
-  ["Morning and evening batches", "Onsite classes in Sahiwal, Pakistan"],
-  ["Published fees", "See the full cost before you enroll"],
+  ["Two Specialist Labs", "Artificial intelligence and cyber security"],
+  ["Professional Skills Exams", "Every course leads to a professional skills exam"],
+  ["Morning and Evening Batches", "Onsite classes in Sahiwal, Pakistan"],
+  ["Published Fees", "See the full cost before you enroll"],
 ];
 
 const steps = [
-  { title: "Choose a course", text: "Compare outcomes, modules, prerequisites and fees." },
-  { title: "Pick a batch", text: "Select the morning or evening batch and check the seats available." },
-  { title: "Confirm and pay", text: "Enter your details, review the total and pay securely online." },
-  { title: "Start your classes", text: "You receive a booking reference straight away, and admissions confirms your timetable." },
+  { title: "Choose a Course", text: "Compare outcomes, modules, prerequisites and fees." },
+  { title: "Pick a Batch", text: "Select the morning or evening batch and check the seats available." },
+  { title: "Confirm and Pay", text: "Enter your details, review the total and pay securely online." },
+  { title: "Start Your Classes", text: "You receive a booking reference straight away, and admissions confirms your timetable." },
 ];
 
 const faqs = [
-  { q: "Are the classes online or onsite?", a: "All classes are currently held onsite at our Sahiwal centre. Each course runs as a morning batch and an evening batch." },
+  { q: "Are the classes online or onsite?", a: "All classes are currently held onsite at our Sahiwal center. Each course runs as a morning batch and an evening batch." },
   { q: "Is the exam fee included in the course fee?", a: "The professional skills exam fee is paid separately, unless the institute covers it for a course. The course page shows which applies before you enroll." },
   { q: "Which currency am I charged in?", a: "Fees are charged in US dollars. Amounts in Pakistani rupees are shown for reference at the current rate set by the institute." },
   { q: "Do I need a computer science degree?", a: "No. Each course lists its prerequisites. Beginner courses assume basic programming and mathematics, and advanced courses state the experience they expect." },
-  { q: "Is offensive security training lawful?", a: "Yes, when it is practised correctly. Every technique is taught in isolated lab environments, against systems we control, under written rules of engagement and a signed code of conduct." },
+  { q: "Is offensive security training lawful?", a: "Yes, when it is practiced correctly. Every technique is taught in isolated lab environments, against systems we control, under written rules of engagement and a signed code of conduct." },
 ];
 
 const factIcons = [
@@ -77,16 +77,16 @@ function Courses() {
     <section aria-labelledby="courses-heading" className="bg-white py-20 sm:py-24">
       <Container>
         <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionHeading id="courses-heading" eyebrow="Courses" title="Choose the course that moves your career forward">
+          <SectionHeading id="courses-heading" eyebrow="Courses" title="Choose the Course That Moves Your Career Forward">
             Fees start from {formatUsd(minFee)}
             {formatPkr(minFee, rate) ? ` (${formatPkr(minFee, rate)})` : ""}. Each course runs as a morning batch and an evening batch.
           </SectionHeading>
-          <a href="/courses" className="shrink-0 text-sm font-semibold text-emerald-800 hover:underline">View all courses →</a>
+          <a href="/courses" className="shrink-0 text-sm font-semibold text-emerald-800 hover:underline">View All Courses →</a>
         </Reveal>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div role="group" aria-label="Filter courses by lab" className="flex flex-wrap gap-2">
-            {[{ value: "all", label: "All courses" }, { value: "ai", label: "AI Lab" }, { value: "cyber", label: "Cyber Lab" }].map((item) => (
+            {[{ value: "all", label: "All Courses" }, { value: "ai", label: "AI Lab" }, { value: "cyber", label: "Cyber Lab" }].map((item) => (
               <button
                 key={item.value}
                 type="button"
@@ -135,7 +135,7 @@ function Labs() {
     <section aria-labelledby="labs-heading" className="surface-dark texture-grid py-20 sm:py-24">
       <Container>
         <Reveal>
-          <SectionHeading tone="dark" id="labs-heading" eyebrow="Our labs" title="Two labs, built for hands-on practice">
+          <SectionHeading tone="dark" id="labs-heading" eyebrow="Our Labs" title="Two Labs, Built for Hands-On Practice">
             Every course is taught in a dedicated lab, on equipment set up for the work you will do after you graduate.
           </SectionHeading>
         </Reveal>
@@ -177,7 +177,7 @@ function HowItWorks() {
     <section aria-labelledby="steps-heading" className="bg-cream-100 py-20 sm:py-24">
       <Container>
         <Reveal>
-          <SectionHeading id="steps-heading" eyebrow="Enrollment" title="Reserve your seat in four steps" />
+          <SectionHeading id="steps-heading" eyebrow="Enrollment" title="Reserve Your Seat in Four Steps" />
         </Reveal>
         <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
@@ -191,7 +191,7 @@ function HowItWorks() {
           ))}
         </ol>
         <Reveal className="mt-10">
-          <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">Choose a course</a>
+          <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-emerald-700 px-6 text-sm font-semibold text-white hover:bg-emerald-800">Choose a Course</a>
         </Reveal>
       </Container>
     </section>
@@ -209,8 +209,8 @@ function International() {
           </figure>
         </Reveal>
         <Reveal delay={120}>
-          <Eyebrow>For international students</Eyebrow>
-          <h2 id="international-heading" className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">Apply from abroad with the same support</h2>
+          <Eyebrow>For International Students</Eyebrow>
+          <h2 id="international-heading" className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">Apply from Abroad with the Same Support</h2>
           <p className="mt-4 text-lg leading-8 text-muted">
             Enroll online with your passport number, pay in US dollars, and our admissions team will explain the documents you need before your batch begins.
           </p>
@@ -222,7 +222,7 @@ function International() {
               </li>
             ))}
           </ul>
-          <a href="/contact?topic=admission" className="mt-8 inline-flex min-h-11 items-center rounded-lg border border-ink/15 px-5 text-sm font-semibold text-ink hover:border-emerald-700 hover:text-emerald-800">Talk to admissions</a>
+          <a href="/contact?topic=admission" className="mt-8 inline-flex min-h-11 items-center rounded-lg border border-ink/15 px-5 text-sm font-semibold text-ink hover:border-emerald-700 hover:text-emerald-800">Talk to Admissions</a>
         </Reveal>
       </Container>
     </section>
@@ -234,8 +234,8 @@ function Leadership() {
     <section aria-labelledby="leadership-heading" className="bg-cream-100 py-20 sm:py-24">
       <Container>
         <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionHeading id="leadership-heading" eyebrow="Leadership" title="The people responsible for PSCDB" />
-          <a href="/leadership" className="shrink-0 text-sm font-semibold text-emerald-800 hover:underline">Meet the leadership →</a>
+          <SectionHeading id="leadership-heading" eyebrow="Leadership" title="The People Responsible for PSCDB" />
+          <a href="/leadership" className="shrink-0 text-sm font-semibold text-emerald-800 hover:underline">Meet the Leadership →</a>
         </Reveal>
         <div className="mt-12 grid grid-cols-2 gap-5 lg:grid-cols-4">
           {leadership.map((person, index) => (
@@ -260,10 +260,10 @@ function Questions() {
     <section aria-labelledby="faq-heading" className="bg-white py-20 sm:py-24">
       <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <Reveal>
-          <SectionHeading id="faq-heading" eyebrow="Questions" title="Frequently asked questions">
+          <SectionHeading id="faq-heading" eyebrow="Questions" title="Frequently Asked Questions">
             Cannot find your answer? Our admissions team can help.
           </SectionHeading>
-          <a href="/contact" className="mt-6 inline-block text-sm font-semibold text-emerald-800 hover:underline">Contact admissions →</a>
+          <a href="/contact" className="mt-6 inline-block text-sm font-semibold text-emerald-800 hover:underline">Contact Admissions →</a>
         </Reveal>
         <Reveal delay={100}>
           <div className="divide-y divide-line border-y border-line">
@@ -288,12 +288,12 @@ function Closing() {
     <section aria-labelledby="closing-heading" className="surface-dark texture-grid py-20">
       <Container className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
         <Reveal className="max-w-2xl">
-          <h2 id="closing-heading" className="font-display text-3xl font-extrabold text-white sm:text-4xl">Seats are limited in every batch</h2>
+          <h2 id="closing-heading" className="font-display text-3xl font-extrabold text-white sm:text-4xl">Seats Are Limited in Every Batch</h2>
           <p className="mt-3 text-base leading-7 text-white/75">Choose your course and reserve a morning or evening seat today.</p>
         </Reveal>
         <Reveal delay={100} className="flex flex-wrap gap-3">
-          <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">Browse courses</a>
-          <a href="/contact" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Talk to admissions</a>
+          <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">Browse Courses</a>
+          <a href="/contact" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Talk to Admissions</a>
         </Reveal>
       </Container>
     </section>

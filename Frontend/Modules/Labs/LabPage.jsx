@@ -25,14 +25,14 @@ export default function LabPage({ slug }) {
         imageAlt={`Inside the ${lab.name}`}
         illustrative
       >
-        <a href="#courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">View courses</a>
-        <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">How to enroll</a>
+        <a href="#courses" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">View Courses</a>
+        <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">How to Enroll</a>
       </PageHeader>
 
       <section aria-labelledby="pillars-heading" className="bg-cream-100 py-20">
         <Container>
           <Reveal>
-            <SectionHeading id="pillars-heading" eyebrow="What the lab covers" title={`Core areas of the ${lab.shortName}`} />
+            <SectionHeading id="pillars-heading" eyebrow="What the Lab Covers" title={`Core Areas of the ${lab.shortName}`} />
           </Reveal>
           <div className="mt-12 grid gap-5 sm:grid-cols-2">
             {lab.pillars.map((pillar, index) => (
@@ -57,7 +57,7 @@ export default function LabPage({ slug }) {
             </figure>
           </Reveal>
           <Reveal delay={120}>
-            <SectionHeading id="facility-heading" eyebrow="Practical skills" title="What you will be able to do" />
+            <SectionHeading id="facility-heading" eyebrow="Practical Skills" title="What You Will Be Able to Do" />
             <ul className="mt-6 grid gap-3">
               {lab.capabilities.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-6 text-body">
@@ -73,7 +73,7 @@ export default function LabPage({ slug }) {
       <section aria-labelledby="environment-heading" className="surface-dark texture-grid py-20">
         <Container className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <Reveal className="min-w-0">
-            <SectionHeading tone="dark" id="environment-heading" eyebrow="Lab environment" title="See the kind of work you will do">
+            <SectionHeading tone="dark" id="environment-heading" eyebrow="Lab Environment" title="See the Kind of Work You Will Do">
               {isCyber
                 ? "Every exercise has a written scope and runs only inside the isolated lab range."
                 : "Training runs are configured, tracked and evaluated so that results can be reproduced."}
@@ -109,7 +109,7 @@ export default function LabPage({ slug }) {
       <section aria-labelledby="conduct-heading" className="bg-white py-16">
         <Container>
           <div className="rounded-xl border border-gold-300 bg-gold-50 p-7 sm:p-10">
-            <h2 id="conduct-heading" className="font-display text-2xl font-bold text-ink">Code of conduct for this lab</h2>
+            <h2 id="conduct-heading" className="font-display text-2xl font-bold text-ink">Code of Conduct for This Lab</h2>
             <ul className="mt-5 grid gap-3 md:grid-cols-2">
               {labCodeOfConduct.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-6 text-body">

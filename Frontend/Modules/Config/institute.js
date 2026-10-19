@@ -10,7 +10,7 @@ export const institute = {
 export const centres = [
   {
     id: "sahiwal",
-    name: "Sahiwal Centre",
+    name: "Sahiwal Center",
     address: "Office No. 11, 1st Floor, Star Complex, Stadium Road, Sahiwal, Pakistan",
   },
 ];

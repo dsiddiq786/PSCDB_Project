@@ -4,18 +4,18 @@ const columns = [
   {
     title: "Courses",
     links: [
-      { label: "All courses", href: "/courses" },
-      { label: "AI Lab courses", href: "/courses?lab=ai" },
-      { label: "Cyber Lab courses", href: "/courses?lab=cyber" },
-      { label: "Fees and payments", href: "/fees" },
+      { label: "All Courses", href: "/courses" },
+      { label: "AI Lab Courses", href: "/courses?lab=ai" },
+      { label: "Cyber Lab Courses", href: "/courses?lab=cyber" },
+      { label: "Fees and Payments", href: "/fees" },
     ],
   },
   {
     title: "Students",
     links: [
-      { label: "How to enroll", href: "/admissions" },
-      { label: "Student login (LMS)", href: institute.lmsUrl },
-      { label: "Code of conduct", href: "/about#conduct" },
+      { label: "How to Enroll", href: "/admissions" },
+      { label: "Student Login (LMS)", href: institute.lmsUrl },
+      { label: "Code of Conduct", href: "/about#conduct" },
       { label: "Search", href: "/search" },
     ],
   },
@@ -70,7 +70,7 @@ export default function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-white/10 py-6 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
           <p>&copy; {new Date().getFullYear()} PSCDB. All rights reserved.</p>
-          <p>Lab images on this website are illustrative. Offensive security is taught only in authorised, isolated lab environments.</p>
+          <p>Lab images on this website are illustrative. Offensive security is taught only in authorized, isolated lab environments.</p>
         </div>
       </div>
     </footer>

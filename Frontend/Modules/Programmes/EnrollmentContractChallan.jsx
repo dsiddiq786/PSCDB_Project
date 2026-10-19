@@ -69,7 +69,7 @@ export default function EnrollmentContractChallan({
         </h1>
 
         <p className="mt-3 text-sm leading-6 text-[#718077]">
-          Review your programme selection, read the draft terms, and check the
+          Review your program selection, read the draft terms, and check the
           payment details.
         </p>
       </header>
@@ -80,7 +80,7 @@ export default function EnrollmentContractChallan({
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-wide text-[#608B3E]">
-                  Selected programme
+                  Selected program
                 </p>
                 <h2 className="mt-2 text-2xl font-bold text-[#173A30]">
                   {programme.title}

@@ -123,7 +123,7 @@ export default function RecordForm({ open, title, fields, row, endpoint, method,
       open={open}
       title={title}
       onClose={onClose}
-      footer={<><Btn onClick={onClose}>Cancel</Btn><Btn variant="primary" type="submit" form="record-form" disabled={busy}>{busy && <Spinner className="h-3.5 w-3.5" />}{submitLabel || (editing ? "Save changes" : "Create")}</Btn></>}
+      footer={<><Btn onClick={onClose}>Cancel</Btn><Btn variant="primary" type="submit" form="record-form" disabled={busy}>{busy && <Spinner className="h-3.5 w-3.5" />}{submitLabel || (editing ? "Save Changes" : "Create")}</Btn></>}
     >
       <form id="record-form" onSubmit={submit} noValidate className="grid gap-4 sm:grid-cols-2">
         {formError && <p role="alert" className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 sm:col-span-2">{formError}</p>}

@@ -6,13 +6,13 @@ const pages = [
   { title: "Home", href: "/", description: "PSCDB overview, labs and courses.", keywords: "home overview institute board" },
   { title: "AI Lab", href: "/labs/ai", description: "Explore, train and fine-tune large language models.", keywords: "ai artificial intelligence llm language model fine-tuning machine learning" },
   { title: "Cyber Security Lab", href: "/labs/cyber", description: "Attack, defend and investigate in isolated lab ranges.", keywords: "cyber security cybersecurity penetration testing soc forensics hacking" },
-  { title: "Courses", href: "/courses", description: "Browse every advanced course and filter by lab.", keywords: "courses programmes tracks catalogue syllabus" },
+  { title: "Courses", href: "/courses", description: "Browse every advanced course and filter by lab.", keywords: "courses programs tracks catalog syllabus" },
   { title: "Admissions", href: "/admissions", description: "How to apply, entry requirements and the application process.", keywords: "admission apply application enroll enroll eligibility requirements intake" },
-  { title: "Fees and payments", href: "/fees", description: "How fees work, the fee for every course and how to pay online.", keywords: "fee fees payment payments pay bank transfer price cost" },
+  { title: "Fees and Payments", href: "/fees", description: "How fees work, the fee for every course and how to pay online.", keywords: "fee fees payment payments pay bank transfer price cost" },
   { title: "About PSCDB", href: "/about", description: "Vision, mission, values and our code of conduct.", keywords: "about vision mission values conduct board history" },
   { title: "Leadership", href: "/leadership", description: "The people responsible for PSCDB.", keywords: "leadership leaders director ceo board team governance" },
   { title: "Careers", href: "/careers", description: "Career paths for graduates and how to register your interest.", keywords: "careers jobs employment placements opportunities internship" },
-  { title: "Contact", href: "/contact", description: "Contact admissions, the office and send an enquiry.", keywords: "contact enquiry address email office location phone" },
+  { title: "Contact", href: "/contact", description: "Contact admissions, the office and send an inquiry.", keywords: "contact inquiry address email office location phone" },
 ];
 
 function courseEntries() {

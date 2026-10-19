@@ -2,10 +2,10 @@ import { Reveal, SectionHeading, Container } from "./ui";
 
 const pathways = [
   {
-    title: "Skills programmes",
+    title: "Skills programs",
     description:
       "Structured courses in digital, creative and professional skills, built around practical work you can show to employers.",
-    linkText: "Browse programmes",
+    linkText: "Browse programs",
     href: "/courses",
     icon: (
       <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v14H6.5A2.5 2.5 0 0 0 4 20.5v-14Zm0 14A2.5 2.5 0 0 0 6.5 23H20v-4" />
@@ -14,7 +14,7 @@ const pathways = [
   {
     title: "Learner guidance",
     description:
-      "Talk to our team about choosing a programme, planning your schedule and the support available while you study.",
+      "Talk to our team about choosing a program, planning your schedule and the support available while you study.",
     linkText: "Ask a question",
     href: "/contact",
     icon: (

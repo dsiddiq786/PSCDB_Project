@@ -29,7 +29,7 @@ export default function Settings() {
     setBusy(false);
     if (!result.ok) return setError(result.message);
     setSettings(result.data);
-    toast({ tone: "success", title: "Exchange rate updated", message: `The website now shows PKR ${result.data.pkrPerUsd} per US dollar.` });
+    toast({ tone: "success", title: "Exchange Rate Updated", message: `The website now shows PKR ${result.data.pkrPerUsd} per US dollar.` });
   };
 
   return (
@@ -40,7 +40,7 @@ export default function Settings() {
           {!settings ? <Spinner /> : (
             <form onSubmit={save} className="grid gap-4">
               <p className="text-sm leading-6 text-slate-600">Fees are charged in US dollars. The website shows rupee amounts using this rate. Bookings keep the rate that applied when they were made.</p>
-              <Field label="Rupees per US dollar" htmlFor="rate" error={error} hint={settings.updatedBy ? `Last changed by ${settings.updatedBy} on ${dateTime(settings.updatedAt)}` : undefined}>
+              <Field label="Rupees per US Dollar" htmlFor="rate" error={error} hint={settings.updatedBy ? `Last changed by ${settings.updatedBy} on ${dateTime(settings.updatedAt)}` : undefined}>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                     <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">PKR</span>
@@ -54,7 +54,7 @@ export default function Settings() {
           )}
         </Card>
 
-        <Card title="Your account" icon="user" accent="blue">
+        <Card title="Your Account" icon="user" accent="blue">
           <dl className="grid gap-3 text-sm">
             <div className="flex justify-between"><dt className="text-slate-500">Name</dt><dd className="font-semibold text-slate-800">{me.name}</dd></div>
             <div className="flex justify-between"><dt className="text-slate-500">Email</dt><dd className="text-slate-800">{me.email}</dd></div>
@@ -63,8 +63,8 @@ export default function Settings() {
           <div className="mt-5 rounded-md bg-slate-50 p-4 text-sm leading-6 text-slate-600">
             <p className="font-semibold text-slate-700">What each role can do</p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li><strong>{label("staff")}</strong>: check-ins, students and enquiries.</li>
-              <li><strong>{label("manager")}</strong>: everything above, plus courses, batches, shifts, centres, staff and enrollments.</li>
+              <li><strong>{label("staff")}</strong>: check-ins, students and inquiries.</li>
+              <li><strong>{label("manager")}</strong>: everything above, plus courses, batches, shifts, centers, staff and enrollments.</li>
               <li><strong>{label("superadmin")}</strong>: everything, including users, settings and the audit log.</li>
             </ul>
           </div>

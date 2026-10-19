@@ -3,6 +3,7 @@ import { api } from "../../Api/client";
 import AdminIcon from "./AdminIcon";
 import { Btn, Confirm, EmptyState, IconBtn, Spinner, compactInput, inputClass } from "./kit";
 import { csvValue, renderCell } from "./cells";
+import { titleWords } from "../lib/format";
 import { hasRole, useAdmin } from "../lib/adminContext";
 
 function Dropdown({ button, children, align = "right" }) {
@@ -155,7 +156,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
     setBusy(false);
     setConfirm(null);
     if (!result.ok) {
-      toast({ tone: "error", title: "Not deleted", message: result.message });
+      toast({ tone: "error", title: "Not Deleted", message: result.message });
       return;
     }
     const skipped = result.data?.skipped || [];
@@ -169,7 +170,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
     const result = await api(`${config.endpoint}?${params({ export: "1", page: "1", limit: "5000" })}`);
     setExporting(false);
     if (!result.ok) {
-      toast({ tone: "error", title: "Export failed", message: result.message });
+      toast({ tone: "error", title: "Export Failed", message: result.message });
       return;
     }
     const cols = visible.filter((c) => c.csv !== false);
@@ -204,7 +205,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
           </div>
           {(config.filters || []).map((f) => (
             <select key={f.key} aria-label={f.label} value={filters[f.key] ?? ""} onChange={(e) => setFilter(f.key, e.target.value)} className={`${compactInput} min-w-[8.5rem] pr-8`}>
-              <option value="">{f.label}: all</option>
+              <option value="">{f.label}: All</option>
               {f.options.map((o) => <option key={String(o.value)} value={o.value}>{o.label}</option>)}
             </select>
           ))}
@@ -220,7 +221,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
           <div className="ml-auto flex flex-wrap items-center gap-2">
             {extraTools}
             <Dropdown button={({ toggle, open }) => <Btn icon="columns" onClick={toggle} aria-expanded={open}>Columns</Btn>}>
-              <p className="px-2 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">Show columns</p>
+              <p className="px-2 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">Show Columns</p>
               {config.columns.map((c) => (
                 <label key={c.key} className="flex cursor-pointer items-center gap-2.5 rounded px-2 py-1.5 text-sm text-slate-700 hover:bg-slate-50">
                   <input type="checkbox" checked={!hidden.has(c.key)} onChange={() => toggleColumn(c.key)} className="h-4 w-4 accent-emerald-700" />
@@ -230,7 +231,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
             </Dropdown>
             <Btn icon="download" onClick={exportCsv} disabled={exporting || !state.total}>{exporting ? "Exporting…" : "Export CSV"}</Btn>
             <IconBtn icon="refresh" label="Refresh" onClick={refresh} />
-            {canCreate && <Btn variant="primary" icon="plus" onClick={onAdd}>Add {config.singular}</Btn>}
+            {canCreate && <Btn variant="primary" icon="plus" onClick={onAdd}>Add {titleWords(config.singular)}</Btn>}
           </div>
         </div>
 
@@ -238,8 +239,8 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
           <div className="admin-pop flex flex-wrap items-center justify-between gap-3 rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-900 ring-1 ring-emerald-600/20">
             <span><strong>{selected.size}</strong> selected</span>
             <div className="flex gap-2">
-              <Btn size="sm" variant="ghost" onClick={() => setSelected(new Set())}>Clear selection</Btn>
-              {canDelete && <Btn size="sm" variant="danger" icon="trash" onClick={() => setConfirm({ ids: [...selected] })}>Delete selected</Btn>}
+              <Btn size="sm" variant="ghost" onClick={() => setSelected(new Set())}>Clear Selection</Btn>
+              {canDelete && <Btn size="sm" variant="danger" icon="trash" onClick={() => setConfirm({ ids: [...selected] })}>Delete Selected</Btn>}
             </div>
           </div>
         )}
@@ -321,11 +322,11 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
           </select>
         </div>
         <nav aria-label="Pagination" className="flex items-center gap-1">
-          <IconBtn icon="chevronLeft" label="Previous page" disabled={page <= 1} onClick={() => setPage(page - 1)} />
+          <IconBtn icon="chevronLeft" label="Previous Page" disabled={page <= 1} onClick={() => setPage(page - 1)} />
           {pageList[0] > 1 && <><PageBtn n={1} page={page} setPage={setPage} />{pageList[0] > 2 && <span className="px-1">…</span>}</>}
           {pageList.map((n) => <PageBtn key={n} n={n} page={page} setPage={setPage} />)}
           {pageList.at(-1) < pages && <>{pageList.at(-1) < pages - 1 && <span className="px-1">…</span>}<PageBtn n={pages} page={page} setPage={setPage} /></>}
-          <IconBtn icon="chevronRight" label="Next page" disabled={page >= pages} onClick={() => setPage(page + 1)} />
+          <IconBtn icon="chevronRight" label="Next Page" disabled={page >= pages} onClick={() => setPage(page + 1)} />
         </nav>
       </div>
 

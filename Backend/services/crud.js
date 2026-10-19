@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import AuditLog from "../DBModels/AuditLog.js";
+import { properName } from "./names.js";
 
 /* Generic, validated CRUD for admin resources.
    Each resource declares its fields once; the same declaration drives input
@@ -44,6 +45,7 @@ function convert(name, spec, raw) {
       if (spec.type === "code" && !/^[a-z0-9-]{2,40}$/.test(value)) throw new HttpError(400, `${label} may use lower-case letters, numbers and hyphens only.`, name);
       if (spec.pattern && !spec.pattern.test(value)) throw new HttpError(400, spec.patternMessage || `${label} is not valid.`, name);
       if (spec.upper) value = value.toUpperCase();
+      if (spec.properName) value = properName(value);
       return value;
     }
     case "email": {

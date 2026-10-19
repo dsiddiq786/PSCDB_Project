@@ -6,8 +6,8 @@ export default function LeadershipPage() {
     <>
       <PageHeader
         crumbs={[{ label: "About", href: "/about" }, { label: "Leadership" }]}
-        eyebrow="Leadership and governance"
-        title="The people responsible for PSCDB"
+        eyebrow="Leadership and Governance"
+        title="The People Responsible for PSCDB"
         intro="Our leadership sets academic standards, oversees governance and manages the partnerships that give our students access to real-world work."
       />
       <section aria-label="Leadership team" className="bg-cream-100 py-20">

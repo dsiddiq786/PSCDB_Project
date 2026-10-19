@@ -12,9 +12,9 @@ const labFilters = [
 ];
 
 const journey = [
-  { icon: "timer", title: "Your seat is held", text: "When you continue to payment, your seat is reserved for 30 minutes so nobody else can take it." },
+  { icon: "timer", title: "Your Seat Is Held", text: "When you continue to payment, your seat is reserved for 30 minutes so nobody else can take it." },
   { icon: "lock", title: "Pay on Stripe", text: "You pay on Stripe's secure checkout page. Your bank may ask you to confirm the payment." },
-  { icon: "ticket", title: "Booking confirmed", text: "As soon as payment succeeds you receive a booking reference, and your seat is yours." },
+  { icon: "ticket", title: "Booking Confirmed", text: "As soon as payment succeeds you receive a booking reference, and your seat is yours." },
 ];
 
 const security = [
@@ -33,7 +33,7 @@ function SampleReceipt({ course, rate }) {
       <div aria-hidden="true" className="absolute -inset-4 rounded-[28px] bg-gold-400/10 blur-2xl" />
       <div className="relative overflow-hidden rounded-2xl bg-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)]">
         <div className="flex items-center justify-between bg-cream-100 px-6 py-4">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted">Example fee breakdown</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted">Example Fee Breakdown</p>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800">
             <Icon name="lock" className="h-3.5 w-3.5" /> Secure
           </span>
@@ -43,24 +43,24 @@ function SampleReceipt({ course, rate }) {
           <p className="mt-2 font-display text-lg font-bold leading-snug text-ink">{course.title}</p>
           <dl className="mt-5 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-body">Course fee</dt>
+              <dt className="text-body">Course Fee</dt>
               <dd className="tabular font-semibold text-ink">{formatUsd(t.feeUsd)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-body">Professional skills exam</dt>
+              <dt className="text-body">Professional Skills Exam</dt>
               <dd className="tabular font-semibold text-ink">{course.examIncludedByInstitute ? <span className="text-emerald-700">Included</span> : formatUsd(t.examFeeUsd)}</dd>
             </div>
           </dl>
           <div className="my-5 border-t border-dashed border-line" />
           <div className="flex items-end justify-between gap-4">
-            <p className="text-sm font-semibold text-ink">Total due</p>
+            <p className="text-sm font-semibold text-ink">Total Due</p>
             <div className="text-right">
               <p className="tabular font-display text-3xl font-extrabold leading-none text-ink">{formatUsd(t.totalUsd)}</p>
               {formatPkr(t.totalUsd, rate) && <p className="tabular mt-1 text-xs text-muted">About {formatPkr(t.totalUsd, rate)}</p>}
             </div>
           </div>
           <a href={`/enroll/${course.slug}`} className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-lg bg-emerald-700 text-sm font-semibold text-white transition-colors hover:bg-emerald-800">
-            <Icon name="lock" className="h-4 w-4" /> Reserve a seat
+            <Icon name="lock" className="h-4 w-4" /> Reserve a Seat
           </a>
           <p className="mt-3 text-center text-[11px] text-muted">Payments are processed by Stripe</p>
         </div>
@@ -87,11 +87,11 @@ function FeeRow({ course, currency, rate }) {
       </div>
       <dl className="contents">
         <div className="flex items-center justify-between md:block md:text-right">
-          <dt className="text-xs text-muted md:sr-only">Course fee</dt>
+          <dt className="text-xs text-muted md:sr-only">Course Fee</dt>
           <dd className="tabular text-sm font-semibold text-ink">{money(t.feeUsd)}</dd>
         </div>
         <div className="flex items-center justify-between md:block md:text-right">
-          <dt className="text-xs text-muted md:sr-only">Exam fee</dt>
+          <dt className="text-xs text-muted md:sr-only">Exam Fee</dt>
           <dd>
             {course.examIncludedByInstitute ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800">
@@ -126,28 +126,28 @@ export default function PaymentsPage() {
   const visible = useMemo(() => courses.filter((course) => lab === "all" || course.lab === lab).sort((a, b) => a.feeUsd - b.feeUsd), [courses, lab]);
 
   const rules = [
-    { icon: "book", title: "Course fee", text: "One fee per course that covers every class in your batch. There are no hidden charges." },
-    { icon: "award", title: "Exam fee", text: "The professional skills exam is charged separately, unless the institute covers it for that course." },
+    { icon: "book", title: "Course Fee", text: "One fee per course that covers every class in your batch. There are no hidden charges." },
+    { icon: "award", title: "Exam Fee", text: "The professional skills exam is charged separately, unless the institute covers it for that course." },
     { icon: "currency", title: "Currency", text: `Fees are charged in US dollars. Rupee amounts are a guide${rate ? ` at PKR ${rate} to the dollar` : ""}, and your bank may use its own rate.` },
-    { icon: "timer", title: "Seat hold", text: "Your seat is held for 30 minutes while you pay. After that it is released for other students." },
+    { icon: "timer", title: "Seat Hold", text: "Your seat is held for 30 minutes while you pay. After that it is released for other students." },
   ];
 
   return (
     <>
       <PageHeader
-        crumbs={[{ label: "Fees and payments" }]}
-        eyebrow="Fees and payments"
-        title="Clear fees, paid securely online"
+        crumbs={[{ label: "Fees and Payments" }]}
+        eyebrow="Fees and Payments"
+        title="Clear Fees, Paid Securely Online"
         intro="See exactly what each course costs before you enroll. Payments are processed by Stripe, and PSCDB never sees or stores your card details."
         aside={<SampleReceipt course={cheapest} rate={rate} />}
       >
-        <a href="#fees-heading" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">See all fees</a>
-        <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Browse courses</a>
+        <a href="#fees-heading" className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 hover:bg-cream-100">See All Fees</a>
+        <a href="/courses" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white hover:border-white">Browse Courses</a>
       </PageHeader>
 
       <section aria-labelledby="rules-heading" className="bg-cream-100 py-20">
         <Container>
-          <Reveal><SectionHeading id="rules-heading" eyebrow="How fees work" title="What you pay, and when" align="center" /></Reveal>
+          <Reveal><SectionHeading id="rules-heading" eyebrow="How Fees Work" title="What You Pay, and When" align="center" /></Reveal>
           <dl className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {rules.map((rule, index) => (
               <Reveal key={rule.title} delay={index * 80} className="h-full">
@@ -165,7 +165,7 @@ export default function PaymentsPage() {
       <section aria-labelledby="fees-heading" className="scroll-mt-24 bg-white py-20">
         <Container>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <Reveal><SectionHeading id="fees-heading" eyebrow="Fee schedule" title="Fees for every course">Sorted from the lowest fee. Switch currency to see rupee amounts first.</SectionHeading></Reveal>
+            <Reveal><SectionHeading id="fees-heading" eyebrow="Fee Schedule" title="Fees for Every Course">Sorted from the lowest fee. Switch currency to see rupee amounts first.</SectionHeading></Reveal>
             <div className="flex flex-wrap gap-3">
               <div role="group" aria-label="Filter by lab" className="inline-flex rounded-full border border-line bg-cream-100 p-1">
                 {labFilters.map((option) => (
@@ -187,7 +187,7 @@ export default function PaymentsPage() {
           </div>
 
           <div className="mt-10 hidden grid-cols-[minmax(0,1fr)_repeat(3,8.5rem)_auto] gap-6 px-5 pb-3 text-xs font-bold uppercase tracking-[0.12em] text-muted md:grid">
-            <span>Course</span><span className="text-right">Course fee</span><span className="text-right">Exam fee</span><span className="text-right">Total</span><span className="w-[5.5rem]" />
+            <span>Course</span><span className="text-right">Course Fee</span><span className="text-right">Exam Fee</span><span className="text-right">Total</span><span className="w-[5.5rem]" />
           </div>
           <div className="mt-4 grid gap-3 md:mt-0">
             {visible.map((course, index) => (
@@ -203,7 +203,7 @@ export default function PaymentsPage() {
 
       <section aria-labelledby="journey-heading" className="surface-dark texture-grid py-20">
         <Container>
-          <Reveal><SectionHeading id="journey-heading" tone="dark" eyebrow="Paying for your seat" title="What happens when you pay" align="center" /></Reveal>
+          <Reveal><SectionHeading id="journey-heading" tone="dark" eyebrow="Paying for Your Seat" title="What Happens When You Pay" align="center" /></Reveal>
           <ol className="relative mt-14 grid gap-8 md:grid-cols-3">
             <span aria-hidden="true" className="absolute left-[16%] right-[16%] top-8 hidden h-px border-t border-dashed border-white/25 md:block" />
             {journey.map((step, index) => (
@@ -223,7 +223,7 @@ export default function PaymentsPage() {
       <section aria-labelledby="security-heading" className="bg-cream-100 py-20">
         <Container className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <Reveal>
-            <SectionHeading id="security-heading" eyebrow="Security" title="Your payment details stay with Stripe">
+            <SectionHeading id="security-heading" eyebrow="Security" title="Your Payment Details Stay with Stripe">
               Stripe is a global payment provider certified to the highest level of the card industry's security standard (PCI DSS Level 1).
             </SectionHeading>
           </Reveal>
@@ -242,11 +242,11 @@ export default function PaymentsPage() {
 
       <section aria-labelledby="help-heading" className="bg-white py-20">
         <Container>
-          <Reveal><SectionHeading id="help-heading" eyebrow="Help" title="Need help with a payment?" /></Reveal>
+          <Reveal><SectionHeading id="help-heading" eyebrow="Help" title="Need Help with a Payment?" /></Reveal>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {[
-              { icon: "refresh", title: "Refunds and batch changes", text: "To ask about a refund or to move to another batch, contact admissions with your booking reference.", cta: "Contact admissions" },
-              { icon: "alert", title: "Charged but no reference?", text: "If your card was charged but you did not receive a booking reference, do not pay again. Contact us and we will check the payment.", cta: "Report a payment problem" },
+              { icon: "refresh", title: "Refunds and Batch Changes", text: "To ask about a refund or to move to another batch, contact admissions with your booking reference.", cta: "Contact Admissions" },
+              { icon: "alert", title: "Charged but No Reference?", text: "If your card was charged but you did not receive a booking reference, do not pay again. Contact us and we will check the payment.", cta: "Report a Payment Problem" },
             ].map((card, index) => (
               <Reveal key={card.title} delay={index * 90} className="h-full">
                 <a href="/contact?topic=payment" className="card-lift group flex h-full gap-5 rounded-2xl border border-line bg-cream-100/60 p-7 hover:border-emerald-700/30">

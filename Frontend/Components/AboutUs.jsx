@@ -2,7 +2,7 @@ import { Container, Eyebrow, IllustrativeTag, PageHeader, Reveal, SectionHeading
 import { labCodeOfConduct } from "../Modules/Labs/labsData";
 
 const values = [
-  { title: "Rigour", text: "We measure results and report them honestly, including the ones that disappoint." },
+  { title: "Rigor", text: "We measure results and report them honestly, including the ones that disappoint." },
   { title: "Responsibility", text: "Powerful skills are taught with clear boundaries, supervision and a duty to the public." },
   { title: "Openness", text: "We publish our fees, our course content and our methods, and we welcome scrutiny." },
   { title: "Practice", text: "Theory matters when it changes what you can build, defend or explain." },
@@ -14,7 +14,7 @@ export default function AboutUs() {
       <PageHeader
         crumbs={[{ label: "About" }]}
         eyebrow="About PSCDB"
-        title="A professional skills board for advanced technology"
+        title="A Professional Skills Board for Advanced Technology"
         intro="The Professional Skills and Community Development Board (PSCDB) delivers onsite courses and professional skills exams in artificial intelligence and cyber security."
         image="/images/lab/labs-split.jpg"
         imageAlt="The Advanced AI Lab and the Cyber Security Lab"
@@ -26,7 +26,7 @@ export default function AboutUs() {
           <Reveal className="h-full">
             <article className="h-full rounded-xl border border-line bg-white p-8 sm:p-10">
               <Eyebrow>Vision</Eyebrow>
-              <h2 id="vision-heading" className="mt-4 font-display text-2xl font-bold text-ink sm:text-3xl">A centre of excellence in AI and cyber security</h2>
+              <h2 id="vision-heading" className="mt-4 font-display text-2xl font-bold text-ink sm:text-3xl">A Center of Excellence in AI and Cyber Security</h2>
               <p className="mt-4 text-base leading-8 text-muted">
                 We aim to be a place where engineers and researchers from Pakistan and abroad can develop skills of an international standard, and where the next generation of builders and defenders learns its craft.
               </p>
@@ -35,7 +35,7 @@ export default function AboutUs() {
           <Reveal delay={100} className="h-full">
             <article className="surface-dark h-full rounded-xl p-8 sm:p-10">
               <Eyebrow tone="dark">Mission</Eyebrow>
-              <h2 className="mt-4 font-display text-2xl font-bold sm:text-3xl">Teach advanced technology the way it is practised</h2>
+              <h2 className="mt-4 font-display text-2xl font-bold sm:text-3xl">Teach Advanced Technology the Way It Is Practiced</h2>
               <p className="mt-4 text-base leading-8 text-white/75">
                 We run practical courses in large language models, AI security, penetration testing, security operations and digital forensics. Every course is delivered in a dedicated lab and ends with a professional skills exam.
               </p>
@@ -46,7 +46,7 @@ export default function AboutUs() {
 
       <section aria-labelledby="values-heading" className="bg-white py-20">
         <Container>
-          <Reveal><SectionHeading id="values-heading" eyebrow="Values" title="What guides our work" /></Reveal>
+          <Reveal><SectionHeading id="values-heading" eyebrow="Values" title="What Guides Our Work" /></Reveal>
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value, index) => (
               <Reveal key={value.title} delay={index * 70} className="h-full">
@@ -86,7 +86,7 @@ export default function AboutUs() {
       <section id="conduct" aria-labelledby="conduct-heading" className="surface-dark texture-grid py-20">
         <Container className="grid gap-12 lg:grid-cols-2 lg:items-start">
           <Reveal>
-            <SectionHeading tone="dark" id="conduct-heading" eyebrow="Code of conduct" title="Offensive security is taught under strict rules">
+            <SectionHeading tone="dark" id="conduct-heading" eyebrow="Code of Conduct" title="Offensive Security Is Taught Under Strict Rules">
               Every student agrees to these commitments before they are given access to any lab environment.
             </SectionHeading>
           </Reveal>
@@ -106,10 +106,10 @@ export default function AboutUs() {
       <section aria-label="Leadership" className="bg-white py-16">
         <Container className="flex flex-col items-start justify-between gap-6 rounded-xl border border-line bg-cream-100 p-8 sm:p-10 md:flex-row md:items-center">
           <div>
-            <h2 className="font-display text-2xl font-bold text-ink">Meet the people leading PSCDB</h2>
+            <h2 className="font-display text-2xl font-bold text-ink">Meet the People Leading PSCDB</h2>
             <p className="mt-2 text-sm text-muted">Our leadership is responsible for academic standards, governance and partnerships.</p>
           </div>
-          <a href="/leadership" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">View leadership</a>
+          <a href="/leadership" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">View Leadership</a>
         </Container>
       </section>
     </>

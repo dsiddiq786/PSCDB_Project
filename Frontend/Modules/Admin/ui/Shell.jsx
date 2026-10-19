@@ -11,9 +11,9 @@ const MENU = [
   {
     heading: "Operations",
     items: [
-      { to: "/admin/check-in", icon: "checkin", label: "Check-in desk" },
+      { to: "/admin/check-in", icon: "checkin", label: "Check-In Desk" },
       { to: "/admin/attendance", icon: "attendance", label: "Attendance" },
-      { to: "/admin/enquiries", icon: "enquiries", label: "Enquiries", badge: "enquiries" },
+      { to: "/admin/enquiries", icon: "enquiries", label: "Inquiries", badge: "enquiries" },
     ],
   },
   {
@@ -27,16 +27,16 @@ const MENU = [
   {
     heading: "Academics",
     items: [
-      { to: "/admin/courses", icon: "courses", label: "Courses and batches" },
+      { to: "/admin/courses", icon: "courses", label: "Courses and Batches" },
       { to: "/admin/shifts", icon: "shifts", label: "Shifts" },
-      { to: "/admin/centres", icon: "centres", label: "Centres" },
+      { to: "/admin/centres", icon: "centres", label: "Centers" },
     ],
   },
   {
     heading: "System",
     items: [
-      { to: "/admin/users", icon: "users", label: "Users and roles", role: "superadmin" },
-      { to: "/admin/audit", icon: "audit", label: "Audit log", role: "superadmin" },
+      { to: "/admin/users", icon: "users", label: "Users and Roles", role: "superadmin" },
+      { to: "/admin/audit", icon: "audit", label: "Audit Log", role: "superadmin" },
       { to: "/admin/settings", icon: "settings", label: "Settings" },
     ],
   },
@@ -98,7 +98,7 @@ function UserMenu({ me, onSignOut }) {
           </div>
           <div className="flex justify-between gap-2 p-3">
             <Link to="/admin/settings" onClick={() => setOpen(false)} className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Settings</Link>
-            <button type="button" onClick={onSignOut} className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"><AdminIcon name="logout" className="h-4 w-4" />Sign out</button>
+            <button type="button" onClick={onSignOut} className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"><AdminIcon name="logout" className="h-4 w-4" />Sign Out</button>
           </div>
         </div>
       )}
@@ -206,7 +206,7 @@ export default function Shell({ children, toasts, dismissToast, onSignOut }) {
         </nav>
         <a href="/" className={`flex h-11 shrink-0 items-center gap-3 border-t border-white/10 px-6 text-sm text-white/60 hover:text-white ${narrow ? "lg:justify-center lg:px-0" : ""}`}>
           <AdminIcon name="external" className="h-4 w-4" />
-          <span className={narrow ? "lg:hidden" : ""}>View website</span>
+          <span className={narrow ? "lg:hidden" : ""}>View Website</span>
         </a>
       </aside>
       {mobileOpen && <div className="fixed inset-0 z-40 bg-slate-900/50 lg:hidden" onClick={() => setMobileOpenAt(null)} />}
@@ -215,9 +215,9 @@ export default function Shell({ children, toasts, dismissToast, onSignOut }) {
         <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-slate-200 bg-white px-3 sm:px-5">
           <button type="button" onClick={toggle} aria-label="Toggle navigation" className="grid h-9 w-9 place-items-center rounded-md text-slate-600 hover:bg-slate-100"><AdminIcon name="menu" /></button>
           <Link to="/admin" className="hidden rounded-md px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 sm:block">Home</Link>
-          <Link to="/admin/check-in" className="hidden rounded-md px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 sm:block">Check-in desk</Link>
+          <Link to="/admin/check-in" className="hidden rounded-md px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 sm:block">Check-In Desk</Link>
           <div className="ml-auto flex items-center gap-1">
-            <Link to="/admin/enquiries" aria-label={`${newEnquiries} new enquiries`} className="relative grid h-9 w-9 place-items-center rounded-md text-slate-600 hover:bg-slate-100">
+            <Link to="/admin/enquiries" aria-label={`${newEnquiries} new inquiries`} className="relative grid h-9 w-9 place-items-center rounded-md text-slate-600 hover:bg-slate-100">
               <AdminIcon name="bell" />
               {newEnquiries > 0 && <span className="absolute right-1 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-red-600 px-1 text-[10px] font-bold text-white">{newEnquiries}</span>}
             </Link>

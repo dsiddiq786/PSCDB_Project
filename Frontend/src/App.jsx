@@ -52,11 +52,11 @@ function NotFoundPage() {
       <Container>
         <div className="mx-auto max-w-lg text-center">
           <p className="text-sm font-bold uppercase tracking-[0.16em] text-emerald-700">Error 404</p>
-          <h1 className="mt-4 font-display text-4xl font-extrabold text-ink">This page could not be found</h1>
+          <h1 className="mt-4 font-display text-4xl font-extrabold text-ink">This Page Could Not Be Found</h1>
           <p className="mt-4 text-base leading-7 text-muted">The link may be broken or the page may have moved. Try one of the links below, or search the site.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="/" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Back to home</a>
-            <a href="/courses" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
+            <a href="/" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Back to Home</a>
+            <a href="/courses" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse Courses</a>
             <a href="/search" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Search</a>
           </div>
         </div>

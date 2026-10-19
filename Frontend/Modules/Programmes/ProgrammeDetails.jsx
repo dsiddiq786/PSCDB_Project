@@ -15,9 +15,9 @@ export default function ProgrammeDetails({ slug }) {
     return (
       <section className="bg-cream-100 py-24">
         <Container className="max-w-xl text-center">
-          <h1 className="font-display text-3xl font-bold text-ink">This course is not available</h1>
+          <h1 className="font-display text-3xl font-bold text-ink">This Course Is Not Available</h1>
           <p className="mt-3 text-muted">It may have been withdrawn or renamed.</p>
-          <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Browse courses</a>
+          <a href="/courses" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Browse Courses</a>
         </Container>
       </section>
     );
@@ -48,7 +48,7 @@ export default function ProgrammeDetails({ slug }) {
             <h1 id="course-title" className="mt-5 font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">{course.title}</h1>
             <p className="mt-5 text-lg leading-8 text-white/75">{course.summary}</p>
             <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
-              {[["Level", course.level], ["Duration", course.duration], ["Delivery", "Onsite"], ["Centre", centre?.name || "To be announced"]].map(([term, value]) => (
+              {[["Level", course.level], ["Duration", course.duration], ["Delivery", "Onsite"], ["Center", centre?.name || "To be announced"]].map(([term, value]) => (
                 <div key={term}>
                   <dt className="text-white/50">{term}</dt>
                   <dd className="font-semibold text-white">{value}</dd>
@@ -70,7 +70,7 @@ export default function ProgrammeDetails({ slug }) {
 
             {course.outcomes.length > 0 && <Reveal as="section" aria-labelledby="outcomes-heading">
               <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
-                <h2 id="outcomes-heading" className="font-display text-2xl font-bold text-ink">What you will learn</h2>
+                <h2 id="outcomes-heading" className="font-display text-2xl font-bold text-ink">What You Will Learn</h2>
                 <ul className="mt-6 grid gap-4 sm:grid-cols-2">
                   {course.outcomes.map((outcome) => (
                     <li key={outcome} className="flex gap-3 text-sm leading-6 text-body">
@@ -83,13 +83,13 @@ export default function ProgrammeDetails({ slug }) {
             </Reveal>}
 
             <Reveal as="section" aria-labelledby="batches-heading">
-              <h2 id="batches-heading" className="font-display text-2xl font-bold text-ink">Batches and seats</h2>
+              <h2 id="batches-heading" className="font-display text-2xl font-bold text-ink">Batches and Seats</h2>
               <p className="mt-2 text-sm text-muted">Every batch is taught onsite. Seats are limited and are updated as students enroll.</p>
               <div className="mt-5"><BatchTable course={course} /></div>
             </Reveal>
 
             {course.modules.length > 0 && <Reveal as="section" aria-labelledby="modules-heading">
-              <h2 id="modules-heading" className="font-display text-2xl font-bold text-ink">Course content</h2>
+              <h2 id="modules-heading" className="font-display text-2xl font-bold text-ink">Course Content</h2>
               <ol className="mt-5 divide-y divide-line overflow-hidden rounded-xl border border-line bg-white">
                 {course.modules.map((module, index) => (
                   <li key={module.title}>
@@ -116,7 +116,7 @@ export default function ProgrammeDetails({ slug }) {
                 </ul>
               </div>}
               {course.tools.length > 0 && <div className="rounded-xl border border-line bg-white p-6">
-                <h2 className="font-display text-xl font-bold text-ink">Tools you will use</h2>
+                <h2 className="font-display text-xl font-bold text-ink">Tools You Will Use</h2>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {course.tools.map((tool) => (
                     <li key={tool} className="rounded-md bg-cream-100 px-2.5 py-1 font-mono text-xs text-body">{tool}</li>
@@ -127,7 +127,7 @@ export default function ProgrammeDetails({ slug }) {
 
             <Reveal as="section" aria-labelledby="exam-heading">
               <div className="rounded-xl border border-gold-300 bg-gold-50 p-6 sm:p-8">
-                <h2 id="exam-heading" className="font-display text-xl font-bold text-ink">Professional skills exam</h2>
+                <h2 id="exam-heading" className="font-display text-xl font-bold text-ink">Professional Skills Exam</h2>
                 <p className="mt-3 text-sm leading-7 text-body">
                   This course ends with a professional skills exam. {course.examIncludedByInstitute ? "The institute covers the exam fee for this course." : "The exam fee is paid separately and is shown in the fee summary."}{course.format ? ` Format: ${course.format.toLowerCase()}.` : ""}
                 </p>
@@ -142,11 +142,11 @@ export default function ProgrammeDetails({ slug }) {
               <p className={`mt-5 text-sm font-semibold ${left > 0 ? "text-emerald-700" : "text-red-700"}`}>{left > 0 ? course.batches.length === 1 ? `${left} seats available` : `${left} seats available across ${course.batches.length === 2 ? "both" : "all"} batches` : "All batches are fully booked"}</p>
               <div className="mt-5 flex flex-col gap-3">
                 {left > 0 ? (
-                  <a href={`/enroll/${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Enroll now</a>
+                  <a href={`/enroll/${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Enroll Now</a>
                 ) : (
-                  <a href={`/contact?topic=admission&programme=${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Join the waiting list</a>
+                  <a href={`/contact?topic=admission&program=${course.slug}`} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-700 px-6 text-sm font-bold text-white hover:bg-emerald-800">Join the Waiting List</a>
                 )}
-                <a href={`/contact?topic=programme&programme=${course.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-line px-6 text-sm font-semibold text-ink hover:border-emerald-700">Ask a question</a>
+                <a href={`/contact?topic=program&program=${course.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-line px-6 text-sm font-semibold text-ink hover:border-emerald-700">Ask a Question</a>
               </div>
             </div>
           </aside>
@@ -156,7 +156,7 @@ export default function ProgrammeDetails({ slug }) {
       {related.length > 0 && (
         <section aria-labelledby="related-heading" className="bg-white py-16">
           <Container>
-            <h2 id="related-heading" className="font-display text-2xl font-bold text-ink">More courses in the {labMeta[course.lab].name}</h2>
+            <h2 id="related-heading" className="font-display text-2xl font-bold text-ink">More Courses in the {labMeta[course.lab].name}</h2>
             <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((item, index) => <Reveal as="li" key={item.slug} delay={index * 80}><CourseCard course={item} /></Reveal>)}
             </ul>

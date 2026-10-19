@@ -7,6 +7,7 @@ import readline from "node:readline";
 import argon2 from "argon2";
 import mongoose from "mongoose";
 import Admin from "../DBModels/Admin.js";
+import { properName } from "../services/names.js";
 
 const [, , rawEmail, flag, fullName] = process.argv;
 const email = (rawEmail || "").trim().toLowerCase();
@@ -46,7 +47,7 @@ try {
 
   const passwordHash = await argon2.hash(password, { type: argon2.argon2id, memoryCost: 19456, timeCost: 2, parallelism: 1 });
   if (creating) {
-    await Admin.create({ email, name: fullName.trim().slice(0, 100), passwordHash, role: "superadmin", active: true });
+    await Admin.create({ email, name: properName(fullName).slice(0, 100), passwordHash, role: "superadmin", active: true });
     console.log(`Created superadmin ${email}. Sign in at https://pscdb.org/admin`);
   } else {
     await Admin.updateOne({ _id: existing._id }, { $set: { passwordHash, failedLogins: 0, lockedUntil: null, active: true } });

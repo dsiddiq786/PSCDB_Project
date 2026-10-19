@@ -1,4 +1,5 @@
 import Enquiry from "../DBModels/Enquiry.js";
+import { properName } from "../services/names.js";
 
 const TOPICS = ["admission", "programme", "payment", "research", "partnership", "opportunity", "other"];
 
@@ -6,7 +7,7 @@ export async function createEnquiry(req, res) {
   const body = req.body || {};
   const text = (value, max) => (typeof value === "string" ? value.trim().slice(0, max) : "");
   const enquiry = {
-    name: text(body.name, 100),
+    name: properName(text(body.name, 100)),
     email: text(body.email, 254).toLowerCase(),
     phone: text(body.phone, 20),
     topic: TOPICS.includes(body.topic) ? body.topic : "other",

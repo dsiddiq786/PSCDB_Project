@@ -3,7 +3,7 @@ import ScrollReveal3D from "./ScrollReveal3D";
 const centres = [
   {
     number: "01",
-    name: "Regional Skills Centre",
+    name: "Regional Skills Center",
     location: "Approved location",
     description:
       "A place to explore practical training and skills development.",
@@ -17,7 +17,7 @@ const centres = [
   },
   {
     number: "02",
-    name: "Community Learning Centre",
+    name: "Community Learning Center",
     location: "Approved location",
     description:
       "A community setting for learning, connection and guidance.",
@@ -31,7 +31,7 @@ const centres = [
   },
   {
     number: "03",
-    name: "Career Development Centre",
+    name: "Career Development Center",
     location: "Approved location",
     description:
       "A link between developing skills and finding future opportunities.",
@@ -115,7 +115,7 @@ export default function CentresSection() {
               delay={100}
               className="mt-4 text-balance text-3xl font-semibold tracking-[-0.035em] text-[#123b32] sm:text-4xl lg:text-5xl"
             >
-              Our Centres
+              Our Centers
             </ScrollReveal3D>
 
             <ScrollReveal3D
@@ -134,7 +134,7 @@ export default function CentresSection() {
               href="/centres"
               className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-[#123b32]/15 px-5 text-sm font-bold text-[#123b32] transition-colors hover:border-[#167a62]/40 hover:bg-[#f3f7f4] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#167a62]"
             >
-              View all centres
+              View all centers
               <span aria-hidden="true" className="text-[#167a62]">
                 ↗
               </span>
@@ -198,7 +198,7 @@ export default function CentresSection() {
                   </p>
 
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#167a62]">
-                    Explore centre
+                    Explore center
                     <span
                       aria-hidden="true"
                       className="transition-transform duration-300 group-hover:translate-x-1"

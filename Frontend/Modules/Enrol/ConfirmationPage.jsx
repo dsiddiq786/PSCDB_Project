@@ -4,7 +4,8 @@ import { api } from "../Api/client";
 import { formatUsd } from "../Catalogue/pricing";
 import { institute } from "../Config/institute";
 
-const batchLabel = { morning: "Morning batch", evening: "Evening batch" };
+/* "morning" becomes "Morning Batch"; works for any shift added in the admin panel. */
+const batchName = (id = "") => `${id.charAt(0).toUpperCase()}${id.slice(1).replaceAll("-", " ")} Batch`;
 
 export default function ConfirmationPage() {
   const reference = typeof window === "undefined" ? "" : new URLSearchParams(window.location.search).get("ref") || "";
@@ -46,13 +47,13 @@ export default function ConfirmationPage() {
         <div className="rounded-xl border border-line bg-white p-7 sm:p-10">
           {error ? (
             <>
-              <h1 id="confirmation-heading" className="font-display text-3xl font-bold text-ink">Booking not found</h1>
+              <h1 id="confirmation-heading" className="font-display text-3xl font-bold text-ink">Booking Not Found</h1>
               <p className="mt-3 text-muted">{error}</p>
-              <a href="/contact?topic=payment" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Contact admissions</a>
+              <a href="/contact?topic=payment" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white">Contact Admissions</a>
             </>
           ) : !booking ? (
             <div aria-busy="true" aria-live="polite">
-              <p className="sr-only">Loading your booking</p>
+              <p className="sr-only">Loading Your Booking</p>
               <div className="skeleton h-8 w-2/3" />
               <div className="skeleton mt-4 h-4 w-full" />
               <div className="skeleton mt-2 h-4 w-5/6" />
@@ -77,7 +78,7 @@ export default function ConfirmationPage() {
                 {[
                   ["Booking reference", <span key="ref" className="font-mono font-semibold">{booking.reference}</span>],
                   ["Course", `${booking.courseCode} ${booking.courseTitle}`],
-                  ["Batch", batchLabel[booking.batchId]],
+                  ["Batch", batchName(booking.batchId)],
                   [paid ? "Amount paid" : "Amount due", `${formatUsd(booking.totalUsd)} (PKR ${new Intl.NumberFormat("en-PK").format(booking.totalPkr)})`],
                   ["Exam fee", booking.examIncludedByInstitute ? "Included by the institute" : "Included in the amount above"],
                 ].map(([term, value]) => (
@@ -90,15 +91,15 @@ export default function ConfirmationPage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 {paid && (
-                  <a href={institute.lmsUrl} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Go to the student portal (LMS)</a>
+                  <a href={institute.lmsUrl} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Go to the Student Portal (LMS)</a>
                 )}
                 {paid && (
-                  <button type="button" onClick={() => window.print()} className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Print confirmation</button>
+                  <button type="button" onClick={() => window.print()} className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Print Confirmation</button>
                 )}
                 {!paid && !pending && booking.courseSlug && (
-                  <a href={`/enroll/${booking.courseSlug}`} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Enroll again</a>
+                  <a href={`/enroll/${booking.courseSlug}`} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Enroll Again</a>
                 )}
-                <a href="/courses" className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse more courses</a>
+                <a href="/courses" className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse More Courses</a>
               </div>
             </>
           )}

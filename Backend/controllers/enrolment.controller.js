@@ -4,6 +4,7 @@ import { getSettings } from "./public.controller.js";
 import { priceFor } from "../services/pricing.js";
 import { HOLD_MINUTES, closeUnpaid, newReference, releaseSeat, reserveSeat } from "../services/enrolment.service.js";
 import { linkStudent } from "../services/people.service.js";
+import { properName } from "../services/names.js";
 import { createCheckoutSession, simulatedPaymentsAllowed, stripeEnabled } from "../services/stripe.service.js";
 
 const rules = {
@@ -20,7 +21,7 @@ function validateStudent(body) {
   for (const [field, rule] of Object.entries(rules)) {
     const value = typeof body?.[field] === "string" ? body[field].trim() : "";
     if (!rule.re.test(value)) return { error: { field, message: rule.message } };
-    student[field] = value;
+    student[field] = field === "fullName" || field === "country" ? properName(value) : value;
   }
   return { student };
 }
@@ -122,7 +123,7 @@ export async function getEnrolment(req, res) {
 export async function cancelEnrolment(req, res) {
   const reference = String(req.params.reference || "").toUpperCase();
   const enrolment = await closeUnpaid({ reference }, "cancelled");
-  if (!enrolment) return res.status(409).json({ success: false, message: "This booking cannot be cancelled." });
+  if (!enrolment) return res.status(409).json({ success: false, message: "This booking cannot be canceled." });
   res.json({ success: true, data: { reference, status: "cancelled" } });
 }
 

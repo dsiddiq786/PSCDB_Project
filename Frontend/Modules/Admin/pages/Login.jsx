@@ -29,7 +29,7 @@ export default function Login({ onSignedIn }) {
           <p className="text-xs text-white/60">Professional Skills and Community Development Board</p>
         </div>
         <form onSubmit={submit} className="admin-pop rounded-lg border-t-[3px] border-t-gold-400 bg-white p-7 shadow-2xl">
-          <h1 className="text-center text-sm text-slate-600">Sign in to start your session</h1>
+          <h1 className="text-center text-sm text-slate-600">Sign In to Start Your Session</h1>
           <div className="mt-5 grid gap-4">
             <label className="relative block">
               <span className="sr-only">Email</span>
@@ -45,12 +45,12 @@ export default function Login({ onSignedIn }) {
             </label>
             {error && <p role="alert" className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
             <button type="submit" disabled={busy} className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-700 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-800 disabled:opacity-60">
-              {busy && <Spinner className="h-4 w-4" />}{busy ? "Signing in…" : "Sign in"}
+              {busy && <Spinner className="h-4 w-4" />}{busy ? "Signing In…" : "Sign In"}
             </button>
           </div>
-          <p className="mt-5 text-center text-xs text-slate-500">Authorised staff only. Every action is recorded.</p>
+          <p className="mt-5 text-center text-xs text-slate-500">Authorized staff only. Every action is recorded.</p>
         </form>
-        <p className="mt-6 text-center text-xs text-white/50"><a href="/" className="hover:text-white">← Back to the website</a></p>
+        <p className="mt-6 text-center text-xs text-white/50"><a href="/" className="hover:text-white">← Back to the Website</a></p>
       </div>
     </main>
   );
