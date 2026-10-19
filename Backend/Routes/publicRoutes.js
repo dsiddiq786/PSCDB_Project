@@ -3,6 +3,8 @@ import rateLimit from "express-rate-limit";
 import { getCourse, listCourses, publicSettings } from "../controllers/public.controller.js";
 import { cancelEnrolment, createEnrolment, getEnrolment, simulatePayment } from "../controllers/enrolment.controller.js";
 import { createEnquiry } from "../controllers/enquiry.controller.js";
+import { certificationDetail, siteData } from "../controllers/site.controller.js";
+import { serveLogo } from "../admin/media.js";
 
 const router = Router();
 
@@ -13,6 +15,9 @@ const lookupLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 120, standard
 router.get("/courses", listCourses);
 router.get("/courses/:slug", getCourse);
 router.get("/settings", publicSettings);
+router.get("/site", siteData);
+router.get("/certifications/:slug", certificationDetail);
+router.get("/logos/:name", serveLogo);
 
 router.post("/enrolments", enrolLimiter, createEnrolment);
 router.post("/enquiries", enquiryLimiter, createEnquiry);

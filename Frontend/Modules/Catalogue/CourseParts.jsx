@@ -4,7 +4,7 @@ import { labMeta } from "./labMeta";
 import { centreById } from "../Config/institute";
 
 export function LabTag({ lab, className = "" }) {
-  const meta = labMeta[lab];
+  const meta = labMeta[lab] || labMeta.ai;
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${meta.tag} ${className}`}>
       <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
@@ -19,7 +19,7 @@ export function CodeTag({ code }) {
 
 export function CourseCard({ course, className = "" }) {
   const { rate } = useCatalogue();
-  const meta = labMeta[course.lab];
+  const meta = labMeta[course.lab] || labMeta.ai;
   const pkr = formatPkr(course.feeUsd, rate);
 
   return (

@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import Attendance from "../DBModels/Attendance.js";
 import Centre from "../DBModels/Centre.js";
+import Institute from "../DBModels/Institute.js";
+import Lab from "../DBModels/Lab.js";
+import NavItem from "../DBModels/NavItem.js";
 import Course from "../DBModels/Course.js";
 import Enquiry from "../DBModels/Enquiry.js";
 import Enrolment from "../DBModels/Enrolment.js";
@@ -393,10 +396,13 @@ export async function dashboard(_req, res) {
 
 /* Options for form drop-downs: shifts, centres, courses with batches, and students. */
 export async function lookups(req, res) {
-  const [shifts, centres, courses] = await Promise.all([
+  const [shifts, centres, courses, institutes, labs, navParents] = await Promise.all([
     Shift.find({}).sort({ startTime: 1 }).lean(),
     Centre.find({}).sort({ name: 1 }).lean(),
-    Course.find({}, { code: 1, title: 1, batches: 1, published: 1 }).sort({ code: 1 }).lean(),
+    Course.find({}, { code: 1, title: 1, batches: 1, published: 1, lab: 1 }).sort({ code: 1 }).lean(),
+    Institute.find({}, { name: 1, slug: 1, active: 1 }).sort({ order: 1, name: 1 }).lean(),
+    Lab.find({}, { name: 1, slug: 1, visible: 1 }).sort({ order: 1 }).lean(),
+    NavItem.find({ parent: null, kind: "link" }, { label: 1 }).sort({ order: 1 }).lean(),
   ]);
   const q = typeof req.query.students === "string" ? req.query.students.trim().slice(0, 60) : null;
   let students = [];
@@ -411,6 +417,9 @@ export async function lookups(req, res) {
       centres: centres.map((c) => ({ value: c.code, label: `${c.name}, ${c.city}`, active: c.active })),
       courses: courses.map((c) => ({ value: String(c._id), code: c.code, label: `${c.code} ${c.title}`, batches: c.batches.map((b) => ({ value: b.id, label: `${b.label} (${b.seatsAvailable} of ${b.capacity} free)` })) })),
       students: students.map((s) => ({ value: String(s._id), label: `${s.studentId} ${s.fullName} (${s.email})` })),
+      institutes: institutes.map((i) => ({ value: String(i._id), slug: i.slug, label: i.name, active: i.active })),
+      labs: labs.map((l) => ({ value: l.slug, label: l.name, active: l.visible })),
+      navParents: navParents.map((n) => ({ value: String(n._id), label: n.label })),
     },
   });
 }

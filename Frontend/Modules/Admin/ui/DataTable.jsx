@@ -211,7 +211,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
           {(config.filters || []).map((f) => (
             <select key={f.key} aria-label={f.label} value={filters[f.key] ?? ""} onChange={(e) => setFilter(f.key, e.target.value)} className={`${compactInput} min-w-[8.5rem] pr-8`}>
               <option value="">{f.label}: All</option>
-              {f.options.map((o) => <option key={String(o.value)} value={o.value}>{o.label}</option>)}
+              {(f.options || []).map((o) => <option key={String(o.value)} value={o.value}>{o.label}</option>)}
             </select>
           ))}
           {config.dateFilter && (

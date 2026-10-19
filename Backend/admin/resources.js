@@ -9,6 +9,12 @@ import Enrolment from "../DBModels/Enrolment.js";
 import Shift, { WEEKDAYS } from "../DBModels/Shift.js";
 import Staff, { STAFF_ROLES } from "../DBModels/Staff.js";
 import Student from "../DBModels/Student.js";
+import Institute from "../DBModels/Institute.js";
+import Certification from "../DBModels/Certification.js";
+import SiteSection from "../DBModels/SiteSection.js";
+import NavItem from "../DBModels/NavItem.js";
+import Lab from "../DBModels/Lab.js";
+import { logoUrl, removeLogoFile } from "./media.js";
 import { nextCode } from "../DBModels/Counter.js";
 import { HttpError, resource } from "../services/crud.js";
 import { attendanceSummary, avatarUrl, removeAvatarFile } from "./profile.js";
@@ -22,6 +28,11 @@ async function requireShift(code) {
 async function requireCentre(code, field = "centre") {
   if (code && !(await Centre.exists({ code }))) throw new HttpError(400, "Choose a valid center.", field);
 }
+
+async function requireLab(slug) {
+  if (slug && !(await Lab.exists({ slug }))) throw new HttpError(400, "Choose a valid lab.", "lab");
+}
+const LINK = /^(\/[a-z0-9/_?=&#.-]*|https:\/\/[^\s]{3,})$/i;
 
 /* ------------------------------------------------------------------ Students */
 const students = resource({
@@ -195,7 +206,7 @@ const courseFields = {
   code: { type: "string", label: "Course code", required: true, max: 20, upper: true, pattern: /^[A-Za-z0-9-]{3,20}$/, patternMessage: "Use letters, numbers and hyphens, for example AI-102." },
   slug: { type: "string", label: "Web address", required: true, max: 120, pattern: /^[a-z0-9-]{3,120}$/, patternMessage: "Use lower-case letters, numbers and hyphens." },
   title: { type: "string", label: "Title", required: true, max: 160 },
-  lab: { type: "enum", label: "Lab", values: ["ai", "cyber"], required: true },
+  lab: { type: "code", label: "Lab", required: true },
   level: { type: "enum", label: "Level", values: ["Beginner", "Intermediate", "Advanced"], required: true },
   duration: { type: "string", label: "Duration", required: true, max: 40 },
   centre: { type: "code", label: "Center", required: true },
@@ -223,6 +234,7 @@ const courses = resource({
     },
     async beforeCreate(data, req) {
       await requireCentre(data.centre);
+      await requireLab(data.lab);
       const capacity = Number.isInteger(req.body?.capacity) && req.body.capacity > 0 && req.body.capacity <= 1000 ? req.body.capacity : 50;
       const wanted = Array.isArray(req.body?.shifts) ? req.body.shifts : null;
       const list = await Shift.find(wanted ? { code: { $in: wanted } } : { active: true }).sort({ startTime: 1 }).lean();
@@ -231,6 +243,7 @@ const courses = resource({
     },
     async beforeUpdate(data) {
       await requireCentre(data.centre);
+      await requireLab(data.lab);
       return data;
     },
     async beforeDelete(doc) {
@@ -377,4 +390,217 @@ const auditLog = resource({
   readOnly: true,
 });
 
-export const resources = { students, staff, shifts, centres, courses, enrolments, attendance, enquiries, users, audit: auditLog };
+/* ------------------------------------------------------------------ Certification institutes */
+const institutes = resource({
+  name: "institutes",
+  model: Institute,
+  fields: {
+    name: { type: "string", label: "Name", required: true, max: 100 },
+    slug: { type: "code", label: "Web address", required: true },
+    shortName: { type: "string", label: "Short name", max: 40 },
+    website: { type: "url", label: "Official website" },
+    description: { type: "text", label: "Description", max: 600 },
+    logoSource: { type: "string", label: "Logo source", max: 500 },
+    partnershipVerified: { type: "boolean", label: "Verified partner", default: false },
+    partnershipNote: { type: "string", label: "Partnership note", max: 300 },
+    showInStrip: { type: "boolean", label: "Show in homepage logos", default: true },
+    showInNav: { type: "boolean", label: "Show in menu", default: true },
+    order: { type: "number", label: "Order", integer: true, min: 0, max: 10000, default: 100 },
+    active: { type: "boolean", label: "Active", default: true },
+  },
+  search: ["name", "slug", "shortName"],
+  sortable: ["name", "order", "createdAt"],
+  filters: ["active", "showInStrip", "showInNav"],
+  defaultSort: "order",
+  hooks: {
+    present: (doc) => ({ ...doc, logoUrl: logoUrl(doc.logo) }),
+    async beforeCreate(data) {
+      checkPartnership(data, {});
+      return data;
+    },
+    async beforeUpdate(data, existing) {
+      checkPartnership(data, existing);
+      return data;
+    },
+    async beforeDelete(doc) {
+      if (await Certification.exists({ institute: doc._id })) throw new HttpError(409, `${doc.name} has certifications. Delete or move them first, or mark the institute inactive.`);
+      await removeLogoFile(doc.logo);
+    },
+    async related(doc) {
+      const certs = await Certification.find({ institute: doc._id }, { title: 1, code: 1, slug: 1 }).sort({ order: 1, title: 1 }).lean();
+      return { certifications: certs.map((c) => ({ id: String(c._id), title: c.title, code: c.code, slug: c.slug })) };
+    },
+  },
+});
+
+/* A partner badge needs a written record of what was verified. */
+function checkPartnership(data, existing) {
+  const verified = data.partnershipVerified ?? existing.partnershipVerified;
+  const note = data.partnershipNote ?? existing.partnershipNote;
+  if (verified && !note) throw new HttpError(400, "Describe the verified partnership (for example the agreement and its date).", "partnershipNote");
+}
+
+/* ------------------------------------------------------------------ Certifications */
+const certifications = resource({
+  name: "certifications",
+  model: Certification,
+  fields: {
+    institute: { type: "objectId", label: "Institute", required: true },
+    title: { type: "string", label: "Title", required: true, max: 160 },
+    code: { type: "string", label: "Exam code", max: 40 },
+    slug: { type: "string", label: "Web address", required: true, max: 80, pattern: /^[a-z0-9-]{2,80}$/, patternMessage: "Use lower-case letters, numbers and hyphens." },
+    category: { type: "enum", label: "Category", values: ["ai_ml", "cybersecurity"], required: true },
+    level: { type: "string", label: "Level", max: 40 },
+    description: { type: "text", label: "Description", max: 1000 },
+    officialUrl: { type: "url", label: "Official page" },
+    prerequisites: { type: "lines", label: "Prerequisites", maxItems: 20 },
+    objectives: { type: "pairs", label: "Exam objectives", maxItems: 30 },
+    examFormat: { type: "string", label: "Exam format", max: 200, db: "exam.format" },
+    examQuestions: { type: "string", label: "Questions", max: 60, db: "exam.questions" },
+    examDurationMinutes: { type: "number", label: "Exam length (minutes)", integer: true, min: 0, max: 2000, db: "exam.durationMinutes" },
+    examPassingScore: { type: "string", label: "Passing score", max: 80, db: "exam.passingScore" },
+    examLanguages: { type: "string", label: "Languages", max: 300, db: "exam.languages" },
+    examDelivery: { type: "string", label: "Delivery", max: 200, db: "exam.delivery" },
+    examFeeAmount: { type: "money", label: "Official exam fee", min: 0, max: 100000, db: "examFee.amountCents" },
+    examFeeCurrency: { type: "string", label: "Exam fee currency", max: 3, upper: true, pattern: /^[A-Za-z]{3}$/, patternMessage: "Use a 3-letter currency code such as USD.", default: "USD", db: "examFee.currency" },
+    examFeeRegion: { type: "string", label: "Price region", max: 120, db: "examFee.region" },
+    examFeeSourceUrl: { type: "url", label: "Fee source", db: "examFee.sourceUrl" },
+    examFeeVerifiedAt: { type: "date", label: "Fee verified on", db: "examFee.verifiedAt" },
+    examFeeNotes: { type: "text", label: "Fee notes", max: 1000, db: "examFee.notes" },
+    prepFeeUsd: { type: "money", label: "PSCDB preparation fee (USD)", min: 0, max: 100000, db: "prepFeeUsdCents" },
+    prepIncludesExam: { type: "boolean", label: "Preparation fee includes the exam", default: false },
+    prepDuration: { type: "string", label: "Training duration", max: 60 },
+    labs: { type: "lines", label: "Practical labs", maxItems: 30 },
+    curriculum: { type: "lines", label: "Preparation curriculum", maxItems: 30 },
+    courses: { type: "refs", label: "Related courses", maxItems: 30 },
+    featured: { type: "boolean", label: "Featured on homepage", default: false },
+    order: { type: "number", label: "Order", integer: true, min: 0, max: 10000, default: 100 },
+    active: { type: "boolean", label: "Active", default: true },
+    sources: { type: "lines", label: "Sources", maxItems: 20, max: 500 },
+    notes: { type: "text", label: "Internal notes", max: 1000 },
+  },
+  search: ["title", "code", "slug", "level"],
+  sortable: ["title", "code", "order", "examFeeAmount", "prepFeeUsd", "createdAt"],
+  filters: ["category", "institute", "featured", "active"],
+  defaultSort: "order",
+  describe: (doc) => `${doc.code ? `${doc.code} ` : ""}${doc.title}`,
+  hooks: {
+    async beforeCreate(data) {
+      await checkCertificationLinks(data);
+      return data;
+    },
+    async beforeUpdate(data) {
+      await checkCertificationLinks(data);
+      return data;
+    },
+  },
+});
+async function checkCertificationLinks(data) {
+  if (data.institute && !(await Institute.exists({ _id: data.institute }))) throw new HttpError(400, "Choose a valid institute.", "institute");
+  if (data.courses?.length && (await Course.countDocuments({ _id: { $in: data.courses } })) !== data.courses.length) {
+    throw new HttpError(400, "Choose valid related courses.", "courses");
+  }
+}
+
+/* ------------------------------------------------------------------ Website sections */
+const sections = resource({
+  name: "sections",
+  model: SiteSection,
+  fields: {
+    eyebrow: { type: "string", label: "Eyebrow", max: 80 },
+    title: { type: "string", label: "Title", max: 160 },
+    subtitle: { type: "text", label: "Subtitle", max: 400 },
+    body: { type: "text", label: "Body", max: 2000 },
+    bullets: { type: "lines", label: "Points", maxItems: 12, max: 300 },
+    ctaLabel: { type: "string", label: "Button label", max: 60 },
+    ctaHref: { type: "string", label: "Button link", max: 200, pattern: LINK, patternMessage: "Use a page path such as /certifications or a full https:// address." },
+    visible: { type: "boolean", label: "Visible", default: true },
+    logoOpacity: { type: "number", label: "Logo opacity (%)", integer: true, min: 10, max: 100 },
+    grayscale: { type: "boolean", label: "Grayscale logos" },
+    logoHeight: { type: "number", label: "Logo height (px)", integer: true, min: 16, max: 80 },
+    maxItems: { type: "number", label: "Items to show", integer: true, min: 1, max: 24 },
+  },
+  search: ["name", "title"],
+  sortable: ["name"],
+  filters: ["visible"],
+  defaultSort: "name",
+  roles: { create: "none", delete: "none" },
+  describe: (doc) => doc.name,
+});
+
+/* ------------------------------------------------------------------ Navigation */
+const navigation = resource({
+  name: "navigation",
+  model: NavItem,
+  fields: {
+    label: { type: "string", label: "Label", required: true, max: 40 },
+    kind: { type: "enum", label: "Type", values: ["link", "certifications", "labs"], default: "link" },
+    href: { type: "string", label: "Link", max: 200, pattern: LINK, patternMessage: "Use a page path such as /courses or a full https:// address." },
+    parent: { type: "objectId", label: "Parent menu item" },
+    order: { type: "number", label: "Order", integer: true, min: 0, max: 10000, default: 100 },
+    visible: { type: "boolean", label: "Visible", default: true },
+  },
+  search: ["label", "href"],
+  sortable: ["order", "label"],
+  filters: ["kind", "visible"],
+  defaultSort: "order",
+  describe: (doc) => doc.label,
+  hooks: {
+    async beforeCreate(data) {
+      await checkNav(data);
+      return data;
+    },
+    async beforeUpdate(data, existing) {
+      await checkNav({ ...existing, ...data }, existing._id);
+      return data;
+    },
+    async beforeDelete(doc) {
+      if (await NavItem.exists({ parent: doc._id })) throw new HttpError(409, `${doc.label} has sub-items. Move or delete them first.`);
+    },
+  },
+});
+async function checkNav(item, selfId) {
+  if (item.kind === "link" && !item.href) throw new HttpError(400, "A link needs an address.", "href");
+  if (!item.parent) return;
+  if (selfId && String(item.parent) === String(selfId)) throw new HttpError(400, "An item cannot be its own parent.", "parent");
+  const parent = await NavItem.findById(item.parent).lean();
+  if (!parent) throw new HttpError(400, "Choose a valid parent menu item.", "parent");
+  // Two levels at most: a top item and its sub-items.
+  if (parent.parent) throw new HttpError(400, "Sub-items can only be added to top-level menu items.", "parent");
+  if (parent.kind !== "link") throw new HttpError(400, "Certifications and Labs menus are filled automatically.", "parent");
+}
+
+/* ------------------------------------------------------------------ Labs */
+const labs = resource({
+  name: "labs",
+  model: Lab,
+  fields: {
+    name: { type: "string", label: "Name", required: true, max: 80 },
+    shortName: { type: "string", label: "Short name", required: true, max: 40 },
+    slug: { type: "code", label: "Web address", required: true },
+    category: { type: "enum", label: "Category", values: ["ai_ml", "cybersecurity"], required: true },
+    headline: { type: "string", label: "Headline", max: 160 },
+    intro: { type: "text", label: "Introduction", max: 1000 },
+    pillars: { type: "pairs", label: "Core areas", maxItems: 8, valueKey: "text", valueMax: 300 },
+    capabilities: { type: "lines", label: "What students practice", maxItems: 16 },
+    order: { type: "number", label: "Order", integer: true, min: 0, max: 10000, default: 100 },
+    visible: { type: "boolean", label: "Visible", default: true },
+  },
+  search: ["name", "slug"],
+  sortable: ["order", "name"],
+  filters: ["category", "visible"],
+  defaultSort: "order",
+  hooks: {
+    async beforeUpdate(data, existing) {
+      if (data.slug && data.slug !== existing.slug && (await Course.exists({ lab: existing.slug }))) {
+        throw new HttpError(409, "Courses use this lab, so its web address cannot change.", "slug");
+      }
+      return data;
+    },
+    async beforeDelete(doc) {
+      if (await Course.exists({ lab: doc.slug })) throw new HttpError(409, `${doc.name} has courses. Move them to another lab first, or hide the lab.`);
+    },
+  },
+});
+
+export const resources = { institutes, certifications, sections, navigation, labs, students, staff, shifts, centres, courses, enrolments, attendance, enquiries, users, audit: auditLog };

@@ -3,6 +3,7 @@ import rateLimit from "express-rate-limit";
 import { requireAdmin } from "../middleware/adminAuth.js";
 import { adminGetSettings, adminLogin, adminLogout, adminMe, adminUpdateSettings } from "../controllers/admin.controller.js";
 import { resources } from "../admin/resources.js";
+import { deleteInstituteLogo, handleLogoUpload, uploadInstituteLogo } from "../admin/media.js";
 import { changeMyPassword, deleteAvatar, getMyProfile, handleUpload, serveAvatar, updateMyProfile, uploadAvatar } from "../admin/profile.js";
 import {
   bulkDeleteEnrolments, checkIn, createManualEnrolment, dashboard, deleteEnrolment, lookupPeople, lookups, markAbsent, todayAttendance, updateCourseBatches, updateEnrolment,
@@ -31,6 +32,8 @@ router.post("/profile/password", passwordLimiter, changeMyPassword);
 router.post("/profile/avatar", uploadLimiter, handleUpload, uploadAvatar);
 router.delete("/profile/avatar", deleteAvatar);
 router.get("/avatars/:name", serveAvatar);
+router.post("/institutes/:id/logo", uploadLimiter, handleLogoUpload, uploadInstituteLogo);
+router.delete("/institutes/:id/logo", deleteInstituteLogo);
 router.post("/:kind/:id/avatar", uploadLimiter, handleUpload, uploadAvatar);
 router.delete("/:kind/:id/avatar", deleteAvatar);
 

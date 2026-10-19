@@ -439,3 +439,35 @@ details[open]::details-content {
 @media (prefers-reduced-motion: reduce) {
   .admin-pop, .admin-toast, .admin-slide, .admin-enter { animation: none; }
 }
+
+/* Main menu dropdowns */
+@keyframes nav-flyout {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes nav-pane {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.nav-flyout { animation: nav-flyout 160ms var(--ease-out-soft); }
+.nav-flyout-pane { animation: nav-pane 140ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .nav-flyout, .nav-flyout-pane { animation: none; }
+}
+
+/* Certification provider logos on the homepage: quiet until hovered or focused. */
+.institute-logo {
+  opacity: var(--logo-o, 0.55);
+  transition: opacity 300ms ease, filter 300ms ease, transform 300ms ease;
+}
+.institute-logo.is-gray { filter: grayscale(1); }
+.institute-logo:hover,
+.institute-logo:focus-visible {
+  opacity: 1;
+  filter: none;
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .institute-logo { transition: none; }
+  .institute-logo:hover, .institute-logo:focus-visible { transform: none; }
+}

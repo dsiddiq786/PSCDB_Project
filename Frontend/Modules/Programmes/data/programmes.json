@@ -11,7 +11,9 @@
       "Fine-tune an open-weight model with LoRA and QLoRA",
       "Design a retrieval-augmented generation (RAG) pipeline with a vector index",
       "Evaluate model quality with repeatable benchmarks instead of impressions",
-      "Serve a quantized model behind a documented API"
+      "Serve a quantized model behind a documented API",
+      "Build and evaluate an agent that plans, uses tools and keeps memory",
+      "Deploy, monitor and govern a generative AI application in production"
     ],
     "modules": [
       {
@@ -41,6 +43,22 @@
       {
         "title": "Serving and Optimization",
         "topics": "Quantization, batching, latency and cost trade-offs"
+      },
+      {
+        "title": "Prompt and Context Engineering",
+        "topics": "System prompts, few-shot examples, structured output and managing the context window"
+      },
+      {
+        "title": "Agents and Tool Use",
+        "topics": "Planning, tool calling, memory and multi-agent patterns, with their failure modes"
+      },
+      {
+        "title": "MLOps and Production Monitoring",
+        "topics": "Pipelines, model registries, monitoring for drift and cost, and safe rollout"
+      },
+      {
+        "title": "Safety and Governance",
+        "topics": "Guardrails, evaluation of harmful output, data governance and compliance"
       }
     ],
     "tools": [
@@ -77,7 +95,19 @@
     "centre": "sahiwal",
     "feeUsd": 65,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Fine-tune an open-weight model with LoRA and QLoRA on a custom dataset",
+      "Build a RAG pipeline with chunking, a vector index and reranking",
+      "Compare prompts and system instructions with an automated evaluation set",
+      "Build a tool-using agent and test it against failure cases",
+      "Quantize and serve a model, then measure latency and cost",
+      "Add monitoring and guardrails to a deployed application"
+    ],
+    "projects": [
+      "Capstone: a domain assistant with retrieval, a fine-tuned model and a documented evaluation report",
+      "Agent project: a multi-step agent with tools, memory and a safety review"
+    ]
   },
   {
     "id": "ai-machine-learning-foundations",
@@ -91,7 +121,9 @@
       "Prepare and validate a tabular dataset in Python",
       "Train, tune and compare classical machine learning models",
       "Explain the main sources of overfitting and how to detect them",
-      "Build and train a small neural network from scratch"
+      "Build and train a small neural network from scratch",
+      "Explain core AI, machine learning and generative AI concepts in plain terms",
+      "Apply responsible AI principles: fairness, transparency, privacy and security"
     ],
     "modules": [
       {
@@ -113,6 +145,14 @@
       {
         "title": "Neural Network Basics",
         "topics": "Gradients, backpropagation, training loops in PyTorch"
+      },
+      {
+        "title": "Generative AI and Foundation Models",
+        "topics": "What foundation models are, prompting basics, common use cases and their limits"
+      },
+      {
+        "title": "Responsible AI and Governance",
+        "topics": "Bias, fairness, transparency, data privacy and the security of AI solutions"
       }
     ],
     "tools": [
@@ -148,7 +188,18 @@
     "centre": "sahiwal",
     "feeUsd": 35,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Clean, explore and visualize a real tabular dataset with pandas",
+      "Train and compare regression and classification models with scikit-learn",
+      "Detect overfitting with cross-validation and learning curves",
+      "Build and train a small neural network in PyTorch",
+      "Write and compare prompts for a hosted foundation model"
+    ],
+    "projects": [
+      "End-to-end prediction project: from raw data to an evaluated model and a short written report",
+      "Responsible AI review of your own model: data sources, bias checks and limitations"
+    ]
   },
   {
     "id": "ai-security-red-teaming",
@@ -162,7 +213,9 @@
       "Identify prompt injection and jailbreak paths in an LLM application",
       "Threat-model an application that uses retrieval and tools",
       "Build an automated red-team test suite with clear pass and fail criteria",
-      "Recommend layered controls and document the residual risk"
+      "Recommend layered controls and document the residual risk",
+      "Assess AI systems against governance and risk frameworks",
+      "Secure the data, training and deployment pipeline of an AI system"
     ],
     "modules": [
       {
@@ -184,6 +237,18 @@
       {
         "title": "Defenses and Guardrails",
         "topics": "Input and output filtering, least privilege, monitoring"
+      },
+      {
+        "title": "Adversarial Machine Learning",
+        "topics": "Evasion, poisoning, model extraction and privacy attacks on models"
+      },
+      {
+        "title": "AI Governance, Risk and Compliance",
+        "topics": "AI risk management, auditing AI systems, policies and documentation"
+      },
+      {
+        "title": "Securing AI Infrastructure",
+        "topics": "Cloud, MLOps pipeline and vector database security for AI workloads"
       }
     ],
     "tools": [
@@ -218,7 +283,18 @@
     "centre": "sahiwal",
     "feeUsd": 55,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Exploit direct and indirect prompt injection in a deliberately vulnerable chatbot",
+      "Attack a RAG pipeline through poisoned documents and test the fix",
+      "Abuse an agent's tools, then design least-privilege controls",
+      "Run an automated red-team scan and turn the results into test cases",
+      "Perform an AI risk assessment against a governance framework"
+    ],
+    "projects": [
+      "Red-team engagement on an AI application, ending with a findings report and remediation plan",
+      "AI risk register and control set for a fictional organization deploying an LLM"
+    ]
   },
   {
     "id": "cyber-penetration-testing",
@@ -232,7 +308,9 @@
       "Run a full penetration test methodology from scoping to reporting",
       "Enumerate and exploit weaknesses in network and Active Directory environments",
       "Escalate privileges and document attack paths clearly",
-      "Write a report that a technical team can act on and an executive can read"
+      "Write a report that a technical team can act on and an executive can read",
+      "Test web applications and client-side attack paths within a defined scope",
+      "Attack cloud-connected identity and explain the defensive fixes"
     ],
     "modules": [
       {
@@ -262,6 +340,18 @@
       {
         "title": "Reporting",
         "topics": "Risk rating, reproduction steps, remediation guidance"
+      },
+      {
+        "title": "Web and Client-Side Attacks",
+        "topics": "SQL injection, XSS, command injection, file upload and directory traversal"
+      },
+      {
+        "title": "Password Attacks and Lateral Movement",
+        "topics": "Hash cracking, credential reuse, pivoting and tunneling"
+      },
+      {
+        "title": "Cloud and Hybrid Identity Attacks",
+        "topics": "Azure and Entra ID attack paths and their integration with Active Directory"
       }
     ],
     "tools": [
@@ -297,7 +387,19 @@
     "centre": "sahiwal",
     "feeUsd": 65,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Scope and plan an engagement with written rules of engagement",
+      "Enumerate a network range and prioritize findings",
+      "Exploit web and service vulnerabilities on lab hosts",
+      "Escalate privileges on Windows and Linux targets",
+      "Compromise an Active Directory domain and map the attack path with BloodHound",
+      "Pivot between network segments through a compromised host"
+    ],
+    "projects": [
+      "Full penetration test of a multi-host lab network, delivered as a professional report",
+      "Timed practical assessment in exam-style conditions"
+    ]
   },
   {
     "id": "cyber-web-application-security",
@@ -311,7 +413,8 @@
       "Find injection, cross-site scripting and access control flaws in web applications",
       "Test REST and GraphQL APIs for authorization and data exposure issues",
       "Review application code for secure coding defects",
-      "Explain each finding with a proof of concept and a tested fix"
+      "Explain each finding with a proof of concept and a tested fix",
+      "Test for server-side flaws such as SSRF, XXE and template injection"
     ],
     "modules": [
       {
@@ -337,6 +440,14 @@
       {
         "title": "Secure Code Review",
         "topics": "Static analysis, reading code for security defects"
+      },
+      {
+        "title": "Server-Side Vulnerabilities",
+        "topics": "SSRF, XXE, server-side template injection, deserialization and file inclusion"
+      },
+      {
+        "title": "Reconnaissance and Testing Methodology",
+        "topics": "Mapping an application, wordlists, scoping and reporting findings"
       }
     ],
     "tools": [
@@ -371,7 +482,19 @@
     "centre": "sahiwal",
     "feeUsd": 45,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Map a web application and its attack surface with Burp Suite",
+      "Exploit SQL injection manually and with sqlmap",
+      "Find and exploit stored, reflected and DOM-based XSS",
+      "Bypass broken access control and test authorization in APIs",
+      "Exploit SSRF and XXE, then verify the fix",
+      "Review code for security defects with Semgrep"
+    ],
+    "projects": [
+      "Security assessment of a vulnerable web application with proofs of concept and tested fixes",
+      "API security review of a REST and GraphQL service"
+    ]
   },
   {
     "id": "cyber-security-operations",
@@ -385,7 +508,9 @@
       "Collect, normalize and search security logs in a SIEM",
       "Write and tune detection rules, including Sigma rules",
       "Triage alerts and decide quickly between noise and incident",
-      "Run a threat hunt from a hypothesis to a documented finding"
+      "Run a threat hunt from a hypothesis to a documented finding",
+      "Lead incident response from detection to containment and recovery",
+      "Monitor network, endpoint and cloud activity for signs of compromise"
     ],
     "modules": [
       {
@@ -407,6 +532,22 @@
       {
         "title": "Threat Hunting",
         "topics": "Hypothesis-driven hunts, baselining, anomaly review"
+      },
+      {
+        "title": "Incident Response",
+        "topics": "Preparation, triage, containment, eradication, recovery and lessons learned"
+      },
+      {
+        "title": "Network and Endpoint Monitoring",
+        "topics": "Packet and flow analysis, host-based analysis and endpoint detection"
+      },
+      {
+        "title": "Cloud and Identity Security Monitoring",
+        "topics": "Identity logs, cloud audit trails and common cloud attack patterns"
+      },
+      {
+        "title": "Security Governance and Vulnerability Management",
+        "topics": "Policies, risk, vulnerability scanning and prioritization"
       }
     ],
     "tools": [
@@ -441,7 +582,19 @@
     "centre": "sahiwal",
     "feeUsd": 50,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Ingest and normalize Windows, Linux and network logs into a SIEM",
+      "Write and tune detection rules, including Sigma rules",
+      "Triage a queue of alerts from recorded attack scenarios",
+      "Analyze network traffic and endpoint telemetry for intrusion signs",
+      "Run a hypothesis-driven threat hunt mapped to MITRE ATT&CK",
+      "Respond to a simulated incident and write the incident report"
+    ],
+    "projects": [
+      "Detection engineering project: a tested rule set mapped to MITRE ATT&CK",
+      "Simulated SOC shift ending with an incident report and a threat hunt write-up"
+    ]
   },
   {
     "id": "cyber-forensics-and-incident-response",
@@ -455,7 +608,8 @@
       "Acquire and preserve digital evidence with a documented chain of custody",
       "Analyze disk images, memory captures and artifacts for attacker activity",
       "Build a timeline of an intrusion from multiple sources",
-      "Write an incident report and a lessons-learned review"
+      "Write an incident report and a lessons-learned review",
+      "Investigate Windows, Linux and network artifacts to reconstruct attacker activity"
     ],
     "modules": [
       {
@@ -481,6 +635,18 @@
       {
         "title": "Reporting and Review",
         "topics": "Findings, limitations, recommendations and post-incident review"
+      },
+      {
+        "title": "Windows and Linux Artifacts",
+        "topics": "Registry, event logs, file system artifacts and Linux logs"
+      },
+      {
+        "title": "Network and Malware Forensics",
+        "topics": "Packet captures, indicators of compromise and basic malware triage"
+      },
+      {
+        "title": "Anti-Forensics",
+        "topics": "Detecting deleted data, timestamp tampering and log clearing"
       }
     ],
     "tools": [
@@ -515,6 +681,18 @@
     "centre": "sahiwal",
     "feeUsd": 45,
     "examFeeUsd": 90,
-    "examIncludedByInstitute": false
+    "examIncludedByInstitute": false,
+    "labs": [
+      "Acquire a disk image and record the chain of custody",
+      "Analyze a disk image with Autopsy",
+      "Analyze a memory capture with Volatility",
+      "Collect artifacts across endpoints with Velociraptor",
+      "Build a super-timeline of an intrusion with Plaso",
+      "Triage a suspicious file and extract indicators of compromise"
+    ],
+    "projects": [
+      "Closing case study: investigate a prepared intrusion and present the findings",
+      "Incident report and lessons-learned review written for technical and executive readers"
+    ]
   }
 ]

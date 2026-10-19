@@ -97,7 +97,7 @@ export function IllustrativeTag() {
 }
 
 /* Reveals children on scroll. Content stays visible when JavaScript is unavailable. */
-export function Reveal({ children, delay = 0, as: Tag = "div", className = "" }) {
+export function Reveal({ children, delay = 0, as: Tag = "div", className = "", ...rest }) {
   const ref = useRef(null);
   const [inView, setInView] = useState(() => typeof window !== "undefined" && !("IntersectionObserver" in window));
 
@@ -118,7 +118,7 @@ export function Reveal({ children, delay = 0, as: Tag = "div", className = "" })
   }, [inView]);
 
   return (
-    <Tag ref={ref} data-reveal className={`${inView ? "is-in" : ""} ${className}`} style={{ "--delay": `${delay}ms` }}>
+    <Tag {...rest} ref={ref} data-reveal className={`${inView ? "is-in" : ""} ${className}`} style={{ "--delay": `${delay}ms` }}>
       {children}
     </Tag>
   );

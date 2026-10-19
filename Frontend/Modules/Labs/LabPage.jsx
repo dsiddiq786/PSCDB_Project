@@ -2,17 +2,18 @@ import { Container, IllustrativeTag, PageHeader, Reveal, SectionHeading } from "
 import { useCatalogue } from "../Catalogue/catalogueContext";
 import { CourseCard } from "../Catalogue/CourseParts";
 import { labMeta } from "../Catalogue/labMeta";
-import { labs, labCodeOfConduct } from "./labsData";
+import { labCodeOfConduct } from "./labsData";
+import { useLab } from "./useLab";
 
 const toneClass = { muted: "text-white/40", body: "text-white/85", gold: "text-gold-300" };
 
 export default function LabPage({ slug }) {
   const { courses } = useCatalogue();
-  const lab = labs[slug];
+  const lab = useLab(slug);
   if (!lab) return null;
-  const meta = labMeta[slug];
+  const meta = labMeta[slug] || labMeta[lab.category === "cybersecurity" ? "cyber" : "ai"];
   const labCourses = courses.filter((course) => course.lab === slug);
-  const isCyber = slug === "cyber";
+  const isCyber = lab.category ? lab.category === "cybersecurity" : slug === "cyber";
 
   return (
     <>
@@ -79,7 +80,7 @@ export default function LabPage({ slug }) {
                 : "Training runs are configured, tracked and evaluated so that results can be reproduced."}
             </SectionHeading>
           </Reveal>
-          <Reveal delay={120} className="min-w-0">
+          {lab.code?.length > 0 && <Reveal delay={120} className="min-w-0">
             <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/30">
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
                 <span className="font-mono text-xs text-white/60">{lab.codeTitle}</span>
@@ -91,7 +92,7 @@ export default function LabPage({ slug }) {
                 ))}
               </pre>
             </figure>
-          </Reveal>
+          </Reveal>}
         </Container>
       </section>
 

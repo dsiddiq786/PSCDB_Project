@@ -18,11 +18,14 @@ function initialValue(field, row) {
     if (field.type === "date") return String(value).slice(0, 10);
     if (field.type === "datetime") return toLocalInput(value);
     if (field.type === "password") return "";
+    if (field.type === "lines") return Array.isArray(value) ? value.join("\n") : value;
+    if (field.type === "pairs") return Array.isArray(value) ? value.map((row) => [row.title, row[field.valueKey || "weight"]].filter(Boolean).join(" | ")).join("\n") : value;
+    if (field.type === "multiselect") return Array.isArray(value) ? value.map(String) : [];
     return value;
   }
   if (field.default !== undefined) return field.default;
   if (field.type === "checkbox") return false;
-  if (field.type === "days") return [];
+  if (field.type === "days" || field.type === "multiselect") return [];
   return "";
 }
 
@@ -101,7 +104,7 @@ export default function RecordForm({ open, title, fields, row, endpoint, method,
     }
     const body = {};
     for (const f of shown) {
-      if (f.type === "hidden" || (f.showIf && !f.showIf(values))) continue;
+      if (f.type === "hidden" || f.type === "heading" || (f.showIf && !f.showIf(values))) continue;
       if (f.type === "password" && !values[f.name]) continue;
       body[f.name] = outputValue(f, values[f.name]);
     }
@@ -129,6 +132,7 @@ export default function RecordForm({ open, title, fields, row, endpoint, method,
         {formError && <p role="alert" className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 sm:col-span-2">{formError}</p>}
         {shown.map((f) => {
           if (f.type === "hidden" || (f.showIf && !f.showIf(values))) return null;
+          if (f.type === "heading") return <h3 key={f.name} className="border-b border-slate-200 pb-1.5 pt-2 text-xs font-bold uppercase tracking-wider text-slate-500 sm:col-span-2">{f.label}</h3>;
           const id = `field-${f.name}`;
           const value = values[f.name];
           const invalid = Boolean(errors[f.name]);
@@ -136,7 +140,9 @@ export default function RecordForm({ open, title, fields, row, endpoint, method,
           let control;
           switch (f.type) {
             case "textarea":
-              control = <textarea {...common} rows={f.rows || 3} value={value} onChange={(e) => set(f.name, e.target.value)} className={`${inputClass} h-auto py-2`} maxLength={f.max} />;
+            case "lines":
+            case "pairs":
+              control = <textarea {...common} rows={f.rows || (f.type === "textarea" ? 3 : 5)} value={value} onChange={(e) => set(f.name, e.target.value)} placeholder={f.placeholder} className={`${inputClass} h-auto py-2 ${f.type !== "textarea" ? "font-mono text-[13px]" : ""}`} maxLength={f.type === "textarea" ? f.max : undefined} />;
               break;
             case "select": {
               const options = optionsFor(f);
@@ -183,7 +189,7 @@ export default function RecordForm({ open, title, fields, row, endpoint, method,
               control = <StudentPicker id={id} value={value} onChange={(v) => set(f.name, v)} invalid={invalid} />;
               break;
             default: {
-              const type = { money: "number", datetime: "datetime-local", phone: "tel" }[f.type] || f.type || "text";
+              const type = { money: "number", datetime: "datetime-local", phone: "tel", url: "url" }[f.type] || f.type || "text";
               control = (
                 <div className="relative">
                   {f.type === "money" && <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">$</span>}
@@ -204,7 +210,7 @@ export default function RecordForm({ open, title, fields, row, endpoint, method,
             }
           }
           return (
-            <Field key={f.name} label={f.label} htmlFor={id} required={f.required && !(f.type === "password" && editing)} hint={editing && f.editHint ? f.editHint : f.hint} error={errors[f.name]} className={f.wide || ["textarea", "days", "multiselect", "student"].includes(f.type) ? "sm:col-span-2" : ""}>
+            <Field key={f.name} label={f.label} htmlFor={id} required={f.required && !(f.type === "password" && editing)} hint={editing && f.editHint ? f.editHint : f.hint} error={errors[f.name]} className={f.wide || ["textarea", "lines", "pairs", "days", "multiselect", "student"].includes(f.type) ? "sm:col-span-2" : ""}>
               {control}
             </Field>
           );

@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "ai",
+    "name": "Advanced AI Lab",
+    "shortName": "AI Lab",
+    "category": "ai_ml",
+    "headline": "Explore, Train and Fine-Tune Large Language Models",
+    "intro": "The AI Lab is a working environment for engineers and researchers who want to understand how modern language models are built, adapted and evaluated. You will move from model internals to production-style systems, and you will measure every change you make.",
+    "pillars": [
+      {
+        "title": "Model Foundations",
+        "text": "Understand attention, tokenization and embeddings well enough to debug a model rather than guess at it."
+      },
+      {
+        "title": "Fine-Tuning",
+        "text": "Adapt open-weight models with LoRA and QLoRA on curated datasets, and track each run so results can be reproduced."
+      },
+      {
+        "title": "Retrieval and Grounding",
+        "text": "Connect models to documents through retrieval pipelines so that answers can be traced to their sources."
+      },
+      {
+        "title": "Evaluation and Safety",
+        "text": "Judge models with held-out tests, human review and red-team exercises before anything reaches users."
+      }
+    ],
+    "capabilities": [
+      "Supervised fine-tuning and parameter-efficient adaptation",
+      "Preference alignment concepts, including DPO and RLHF",
+      "Vector search and retrieval-augmented generation",
+      "Quantization and latency-aware model serving",
+      "Benchmarking with repeatable metrics",
+      "Prompt injection testing for LLM applications"
+    ],
+    "order": 10
+  },
+  {
+    "slug": "cyber",
+    "name": "Cyber Security Lab",
+    "shortName": "Cyber Lab",
+    "category": "cybersecurity",
+    "headline": "Learn to Attack, Defend and Investigate, Safely",
+    "intro": "The Cyber Security Lab teaches the skills that organizations rely on: finding weaknesses before attackers do, watching for intrusions, and reconstructing incidents afterwards. Offensive techniques are practiced only in isolated lab networks, under written rules of engagement.",
+    "pillars": [
+      {
+        "title": "Penetration Testing",
+        "text": "Follow a full methodology from reconnaissance to reporting, against systems built for training."
+      },
+      {
+        "title": "Security Operations",
+        "text": "Monitor, triage and hunt threats using SIEM platforms, detection rules and MITRE ATT&CK."
+      },
+      {
+        "title": "Digital Forensics",
+        "text": "Preserve evidence correctly, analyze disk and memory images, and build a verified timeline of an intrusion."
+      },
+      {
+        "title": "Application and Cloud Security",
+        "text": "Find and fix authorization, injection and configuration flaws in web applications, APIs and cloud environments."
+      }
+    ],
+    "capabilities": [
+      "Reconnaissance, scanning and service enumeration",
+      "Web application testing with Burp Suite and OWASP ZAP",
+      "Active Directory attack paths and defensive hardening",
+      "Log analysis and detection engineering with Sigma rules",
+      "Disk and memory forensics with Autopsy and Volatility",
+      "Professional reporting with risk ratings and remediation"
+    ],
+    "order": 20
+  }
+]

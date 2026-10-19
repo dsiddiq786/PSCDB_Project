@@ -34,6 +34,16 @@ const MENU = [
     ],
   },
   {
+    heading: "Website",
+    items: [
+      { to: "/admin/certifications", icon: "award", label: "Certifications" },
+      { to: "/admin/institutes", icon: "centres", label: "Certification Institutes" },
+      { to: "/admin/labs", icon: "layers", label: "Labs" },
+      { to: "/admin/navigation", icon: "menu", label: "Navigation Menu", role: "manager" },
+      { to: "/admin/sections", icon: "enrolments", label: "Page Sections", role: "manager" },
+    ],
+  },
+  {
     heading: "System",
     items: [
       { to: "/admin/users", icon: "users", label: "Users and Roles", role: "superadmin" },

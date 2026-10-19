@@ -1,3 +1,4 @@
+import { FeaturedCertifications, InstitutesStrip } from "../Certifications/HomeSections";
 import { useRef, useState } from "react";
 import HeroSection from "../../Components/heroSection";
 import { Container, Eyebrow, IllustrativeTag, Reveal, SectionHeading } from "../../Components/ui";
@@ -131,17 +132,19 @@ function Courses() {
 }
 
 function Labs() {
+  const { site } = useCatalogue();
+  const list = site.labs.length ? site.labs : [labs.ai, labs.cyber];
   return (
     <section aria-labelledby="labs-heading" className="surface-dark texture-grid py-20 sm:py-24">
       <Container>
         <Reveal>
-          <SectionHeading tone="dark" id="labs-heading" eyebrow="Our Labs" title="Two Labs, Built for Hands-On Practice">
+          <SectionHeading tone="dark" id="labs-heading" eyebrow="Our Labs" title="Labs Built for Hands-On Practice">
             Every course is taught in a dedicated lab, on equipment set up for the work you will do after you graduate.
           </SectionHeading>
         </Reveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          {[labs.ai, labs.cyber].map((lab, index) => {
-            const meta = labMeta[lab.slug];
+          {list.map((lab, index) => {
+            const meta = labMeta[lab.slug] || labMeta[lab.category === "cybersecurity" ? "cyber" : "ai"];
             return (
               <Reveal key={lab.slug} delay={index * 120} className="h-full">
                 <a href={`/labs/${lab.slug}`} className="card-lift card-lift-dark group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
@@ -150,7 +153,7 @@ function Labs() {
                     <IllustrativeTag />
                   </figure>
                   <div className="flex flex-1 flex-col p-7">
-                    <p className={`text-xs font-bold uppercase tracking-[0.16em] ${lab.slug === "ai" ? "text-emerald-300" : "text-cyber-100"}`}>{lab.name}</p>
+                    <p className={`text-xs font-bold uppercase tracking-[0.16em] ${lab.category === "cybersecurity" || lab.slug === "cyber" ? "text-cyber-100" : "text-emerald-300"}`}>{lab.name}</p>
                     <h3 className="mt-3 font-display text-2xl font-bold text-white">{lab.headline}</h3>
                     <ul className="mt-5 grid gap-2 text-sm text-white/75 sm:grid-cols-2">
                       {lab.pillars.map((pillar) => (
@@ -306,6 +309,8 @@ export default function HomePage() {
       <HeroSection />
       <Facts />
       <Courses />
+      <InstitutesStrip />
+      <FeaturedCertifications />
       <Labs />
       <HowItWorks />
       <International />

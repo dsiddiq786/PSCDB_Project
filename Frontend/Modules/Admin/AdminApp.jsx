@@ -11,7 +11,7 @@ import ResourcePage from "./pages/ResourcePage";
 import Settings from "./pages/Settings";
 import ProfilePage from "./pages/ProfilePage";
 
-const EMPTY_LOOKUPS = { shifts: [], centres: [], courses: [], students: [] };
+const EMPTY_LOOKUPS = { shifts: [], centres: [], courses: [], students: [], institutes: [], labs: [], navParents: [] };
 
 /* Opens the add form when a quick action links here with ?new=1. */
 function Resource({ name }) {
@@ -83,7 +83,7 @@ export default function AdminApp() {
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="check-in" element={<CheckInDesk />} />
-          {["students", "staff", "enrolments", "courses", "shifts", "centres", "attendance", "enquiries"].map((name) => (
+          {["students", "staff", "enrolments", "courses", "shifts", "centres", "attendance", "enquiries", "certifications", "institutes", "labs", "navigation", "sections"].map((name) => (
             <Route key={name} path={name} element={<Resource name={name} />} />
           ))}
           <Route path="users" element={guard("superadmin", <Resource name="users" />)} />

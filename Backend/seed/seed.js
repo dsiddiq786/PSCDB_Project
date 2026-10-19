@@ -4,6 +4,8 @@ import Setting from "../DBModels/Setting.js";
 import Admin from "../DBModels/Admin.js";
 import Centre from "../DBModels/Centre.js";
 import Shift from "../DBModels/Shift.js";
+import { seedSite } from "./site.seed.js";
+import { importCertifications } from "./certifications.seed.js";
 
 const batches = () => [
   { id: "morning", label: "Morning Batch", timing: "", capacity: 50, seatsAvailable: 50 },
@@ -63,6 +65,9 @@ export async function runSeed() {
       }
     }
   }
+
+  await seedSite();
+  await importCertifications();
 
   const adminCount = await Admin.countDocuments();
   if (adminCount === 0 && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {

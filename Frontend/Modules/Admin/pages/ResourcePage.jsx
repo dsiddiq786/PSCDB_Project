@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../Api/client";
+import { api, upload } from "../../Api/client";
 import AdminIcon from "../ui/AdminIcon";
 import DataTable from "../ui/DataTable";
 import { renderCell } from "../ui/cells";
 import RecordForm from "../ui/RecordForm";
-import { Badge, Btn, Confirm, IconBtn, Spinner, inputClass } from "../ui/kit";
+import { Badge, Btn, Confirm, IconBtn, Modal, Spinner, inputClass } from "../ui/kit";
 import { date, dayLabel, time, titleWords, usd } from "../lib/format";
 import { hasRole, useAdmin } from "../lib/adminContext";
 import { resources } from "../lib/resources";
@@ -171,6 +171,37 @@ function BatchEditor({ course, onClose, onSaved }) {
   );
 }
 
+/* Upload, replace or remove an institute's logo. Files are converted to PNG on the server. */
+function LogoEditor({ institute, onClose, onSaved }) {
+  const { toast } = useAdmin();
+  const [url, setUrl] = useState(institute.logoUrl);
+  const [busy, setBusy] = useState(false);
+  const run = async (file) => {
+    setBusy(true);
+    const r = file ? await upload(`/admin/institutes/${institute.id}/logo`, "logo", file) : await api(`/admin/institutes/${institute.id}/logo`, { method: "DELETE" });
+    setBusy(false);
+    if (!r.ok) return toast({ tone: "error", title: "Logo Not Saved", message: r.message });
+    setUrl(r.data.logoUrl);
+    toast({ tone: "success", title: file ? "Logo Updated" : "Logo Removed" });
+    onSaved();
+  };
+  return (
+    <Modal open title={`Logo for ${institute.name}`} onClose={onClose} size="sm" footer={<Btn onClick={onClose}>Done</Btn>}>
+      <div className="grid gap-4">
+        <div className="grid h-32 place-items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 p-4">
+          {busy ? <Spinner className="h-6 w-6 text-emerald-700" /> : url ? <img src={url} alt="" className="max-h-20 max-w-full object-contain" /> : <span className="text-sm text-slate-400">No logo yet</span>}
+        </div>
+        <label className="inline-flex h-9 cursor-pointer items-center justify-center rounded-md bg-emerald-700 px-3.5 text-sm font-semibold text-white hover:bg-emerald-800">
+          {url ? "Replace Logo" : "Upload Logo"}
+          <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; if (f) run(f); }} />
+        </label>
+        {url && <Btn variant="ghost" onClick={() => run(null)}>Remove Logo</Btn>}
+        <p className="text-xs leading-5 text-slate-500">PNG, JPG, WebP or SVG up to 2 MB. Use logos only where the owner's brand guidelines allow it, and record the source in the institute's details.</p>
+      </div>
+    </Modal>
+  );
+}
+
 export default function ResourcePage({ name, openNew = false }) {
   const config = resources[name];
   const { me, lookups, refreshLookups, toast } = useAdmin();
@@ -179,10 +210,16 @@ export default function ResourcePage({ name, openNew = false }) {
   const [batches, setBatches] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [absent, setAbsent] = useState(false);
+  const [logoFor, setLogoFor] = useState(null);
   const [busy, setBusy] = useState(false);
 
   const filters = useMemo(() => (typeof config.filters === "function" ? config.filters(lookups) : config.filters || []), [config, lookups]);
-  const tableConfig = useMemo(() => ({ ...config, filters }), [config, filters]);
+  // Columns that hold a record id show that record's name from the shared drop-down lists.
+  const tableConfig = useMemo(() => ({
+    ...config,
+    filters,
+    columns: config.columns.map((c) => (c.lookupLabel ? { ...c, render: (r) => (lookups[c.lookupLabel] || []).find((o) => o.value === String(r[c.key]))?.label || <span className="text-slate-300">—</span>, csv: (r) => (lookups[c.lookupLabel] || []).find((o) => o.value === String(r[c.key]))?.label || "" } : c)),
+  }), [config, filters, lookups]);
   const canUpdate = hasRole(me, config.can?.update ?? "manager");
   const closeView = useCallback(() => setViewing(null), []);
   const navigate = useNavigate();
@@ -192,7 +229,7 @@ export default function ResourcePage({ name, openNew = false }) {
   const saved = () => {
     setForm(null);
     setReloadKey((k) => k + 1);
-    if (["courses", "shifts", "centres"].includes(name)) refreshLookups();
+    if (["courses", "shifts", "centres", "institutes", "labs", "navigation"].includes(name)) refreshLookups();
   };
 
   const markAbsent = async () => {
@@ -216,7 +253,11 @@ export default function ResourcePage({ name, openNew = false }) {
         onAdd={config.readOnly || name === "attendance" ? undefined : () => setForm({ row: null })}
         onEdit={config.readOnly ? undefined : (row) => setForm({ row })}
         onView={(row) => (hasProfile ? navigate(`/admin/${name}/${row.id}`) : setViewing(row))}
-        extraActions={name === "courses" && hasRole(me, "manager") ? (row) => <IconBtn icon="layers" label="Batches" tone="green" onClick={() => setBatches(row)} /> : undefined}
+        extraActions={
+          name === "courses" && hasRole(me, "manager") ? (row) => <IconBtn icon="layers" label="Batches" tone="green" onClick={() => setBatches(row)} />
+          : name === "institutes" && hasRole(me, "manager") ? (row) => <IconBtn icon="image" label="Logo" tone="green" onClick={() => setLogoFor(row)} />
+          : undefined
+        }
         extraTools={name === "attendance" && hasRole(me, "manager") ? <Btn icon="alert" onClick={() => setAbsent(true)}>Mark Absentees</Btn> : name === "attendance" ? null : undefined}
       />
 
@@ -234,6 +275,7 @@ export default function ResourcePage({ name, openNew = false }) {
         />
       )}
       {viewing && <DetailDrawer config={config} row={viewing} onClose={closeView} canEdit={!config.readOnly && canUpdate} onEdit={(row) => { setViewing(null); setForm({ row }); }} />}
+      {logoFor && <LogoEditor institute={logoFor} onClose={() => setLogoFor(null)} onSaved={() => { setReloadKey((k) => k + 1); refreshLookups(); }} />}
       {batches && <BatchEditor course={batches} onClose={() => setBatches(null)} onSaved={() => { setBatches(null); setReloadKey((k) => k + 1); refreshLookups(); }} />}
       <Confirm
         open={absent}

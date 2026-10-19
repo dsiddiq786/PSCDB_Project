@@ -27,8 +27,8 @@ function convert(name, spec, raw) {
   if (empty) {
     if (spec.required) throw new HttpError(400, `${label} is required.`, name);
     if (spec.type === "boolean") return false;
-    if (spec.type === "array") return [];
-    if (["number", "money", "date"].includes(spec.type)) return null;
+    if (["array", "lines", "pairs", "refs"].includes(spec.type)) return [];
+    if (["number", "money", "date", "objectId"].includes(spec.type)) return null;
     return "";
   }
 
@@ -91,6 +91,44 @@ function convert(name, spec, raw) {
       if (!mongoose.isValidObjectId(raw)) throw new HttpError(400, `Choose a valid ${label.toLowerCase()}.`, name);
       return raw;
     }
+    case "url": {
+      const value = String(raw).trim();
+      let parsed;
+      try {
+        parsed = new URL(value);
+      } catch {
+        throw new HttpError(400, `${label} must be a full web address starting with https://.`, name);
+      }
+      if (!["https:", "http:"].includes(parsed.protocol) || value.length > 500) throw new HttpError(400, `${label} must be a web address starting with https://.`, name);
+      return value;
+    }
+    case "lines": {
+      // A list of short texts, sent as an array or as one text with one item per line.
+      const list = (Array.isArray(raw) ? raw : String(raw).split("\n")).map((item) => String(item).trim()).filter(Boolean);
+      const maxItems = spec.maxItems ?? 40;
+      const max = spec.max ?? 300;
+      if (list.length > maxItems) throw new HttpError(400, `${label} can have at most ${maxItems} items.`, name);
+      if (list.some((item) => item.length > max)) throw new HttpError(400, `Each item in ${label.toLowerCase()} must be ${max} characters or fewer.`, name);
+      return list;
+    }
+    case "pairs": {
+      // A title and an optional second value per line, separated by "|", for example "Threat detection | 20%".
+      const key = spec.valueKey || "weight";
+      const valueMax = spec.valueMax ?? 40;
+      const rows = Array.isArray(raw) ? raw : String(raw).split("\n");
+      const list = rows
+        .map((row) => (typeof row === "object" && row ? [row.title, row[key]] : String(row).split("|")))
+        .map(([title = "", value = ""]) => ({ title: String(title).trim(), [key]: String(value ?? "").trim() }))
+        .filter((row) => row.title);
+      if (list.length > (spec.maxItems ?? 30)) throw new HttpError(400, `${label} can have at most ${spec.maxItems ?? 30} items.`, name);
+      if (list.some((row) => row.title.length > 200 || row[key].length > valueMax)) throw new HttpError(400, `${label} has an item that is too long.`, name);
+      return list;
+    }
+    case "refs": {
+      const list = Array.isArray(raw) ? raw : [raw];
+      if (list.length > (spec.maxItems ?? 50) || list.some((id) => !mongoose.isValidObjectId(id))) throw new HttpError(400, `Choose valid ${label.toLowerCase()}.`, name);
+      return [...new Set(list.map(String))];
+    }
     default:
       throw new HttpError(400, `${label} is not supported.`, name);
   }
@@ -114,15 +152,39 @@ export function parseBody(fields, body, { partial = false } = {}) {
 }
 
 /* Converts a stored document for the API: money back to dollars, ids to strings. */
+const getPath = (obj, path) => path.split(".").reduce((value, key) => (value == null ? undefined : value[key]), obj);
+
+/* Turns { "examFee.amountCents": 1 } into { examFee: { amountCents: 1 } } for creating documents. */
+export function unflatten(data) {
+  const out = {};
+  for (const [key, value] of Object.entries(data)) {
+    const parts = key.split(".");
+    let node = out;
+    parts.slice(0, -1).forEach((part) => {
+      node[part] = node[part] && typeof node[part] === "object" ? node[part] : {};
+      node = node[part];
+    });
+    node[parts.at(-1)] = value;
+  }
+  return out;
+}
+
 export function toApi(fields, doc) {
   if (!doc) return doc;
   const out = { ...doc, id: String(doc._id) };
   delete out._id;
   for (const [name, spec] of Object.entries(fields)) {
-    if (spec.type === "money" && spec.db && doc[spec.db] !== undefined) {
-      out[name] = doc[spec.db] === null ? null : doc[spec.db] / 100;
-      delete out[spec.db];
-    }
+    if (!spec.db) continue;
+    const value = getPath(doc, spec.db);
+    if (value === undefined) continue;
+    if (spec.type === "money") out[name] = value === null ? null : value / 100;
+    else if (spec.type === "date" && value) out[name] = value;
+    else out[name] = value;
+    if (!spec.db.includes(".")) delete out[spec.db];
+  }
+  for (const [name, spec] of Object.entries(fields)) {
+    if (spec.type === "refs" && Array.isArray(out[spec.db || name])) out[name] = out[spec.db || name].map(String);
+    if (spec.type === "objectId" && out[spec.db || name]) out[name] = String(out[spec.db || name]);
   }
   return out;
 }
@@ -231,7 +293,7 @@ export function resource(cfg) {
       guard(req, "create");
       let data = parseBody(fields, req.body);
       if (hooks.beforeCreate) data = await hooks.beforeCreate(data, req);
-      const doc = await model.create(data);
+      const doc = await model.create(unflatten(data));
       if (hooks.afterCreate) await hooks.afterCreate(doc, req);
       await audit(req, "create", name, doc._id, describe(doc));
       res.status(201).json({ success: true, data: present(doc.toObject()) });

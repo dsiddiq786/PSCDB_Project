@@ -18,7 +18,8 @@ const courseSchema = new mongoose.Schema(
     slug: { type: String, required: true, unique: true, trim: true, lowercase: true, maxlength: 120 },
     code: { type: String, required: true, unique: true, trim: true, uppercase: true, maxlength: 20 },
     title: { type: String, required: true, trim: true, maxlength: 160 },
-    lab: { type: String, required: true, enum: ["ai", "cyber"] },
+    // The slug of the lab this course belongs to (see Lab).
+    lab: { type: String, required: true, trim: true, lowercase: true, match: /^[a-z0-9-]{2,40}$/ },
     level: { type: String, required: true, enum: ["Beginner", "Intermediate", "Advanced"] },
     duration: { type: String, required: true, trim: true, maxlength: 40 },
     // Used on the public site for courses added in the admin panel.

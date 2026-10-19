@@ -4,6 +4,7 @@ import { BatchTable, CodeTag, CourseCard, FeePanel, LabTag } from "../Catalogue/
 import { labMeta } from "../Catalogue/labMeta";
 import { seatsLeft } from "../Catalogue/pricing";
 import { centreById } from "../Config/institute";
+import CourseCertifications, { CertificationCoverage } from "../Certifications/CourseCertifications";
 
 const two = (index) => String(index + 1).padStart(2, "0");
 
@@ -37,7 +38,7 @@ export default function ProgrammeDetails({ slug }) {
               <li aria-hidden="true">/</li>
               <li><a href="/courses" className="hover:text-white">Courses</a></li>
               <li aria-hidden="true">/</li>
-              <li><a href={`/labs/${course.lab}`} className="hover:text-white">{labMeta[course.lab].name}</a></li>
+              <li><a href={`/labs/${course.lab}`} className="hover:text-white">{labMeta[course.lab]?.name || "Lab"}</a></li>
             </ol>
           </nav>
           <div className="mt-8 max-w-3xl lg:max-w-[calc(100%-26rem)]">
@@ -106,6 +107,31 @@ export default function ProgrammeDetails({ slug }) {
               </ol>
             </Reveal>}
 
+            {(course.labs?.length > 0 || course.projects?.length > 0) && <Reveal as="section" aria-labelledby="practice-heading">
+              <h2 id="practice-heading" className="font-display text-2xl font-bold text-ink">Practical Labs and Projects</h2>
+              <p className="mt-2 text-sm text-muted">Every module is practiced hands-on in the lab, on PSCDB systems.</p>
+              <div className="mt-5 grid gap-6 md:grid-cols-2">
+                {course.labs?.length > 0 && <div className="rounded-xl border border-line bg-white p-6">
+                  <h3 className="font-display text-lg font-bold text-ink">Hands-On Labs</h3>
+                  <ol className="mt-4 flex flex-col gap-3 text-sm leading-6 text-body">
+                    {course.labs.map((lab, index) => (
+                      <li key={lab} className="flex gap-3"><span className="tabular font-mono text-xs font-semibold leading-6 text-emerald-700">{two(index)}</span>{lab}</li>
+                    ))}
+                  </ol>
+                </div>}
+                {course.projects?.length > 0 && <div className="rounded-xl border border-line bg-white p-6">
+                  <h3 className="font-display text-lg font-bold text-ink">Projects</h3>
+                  <ul className="mt-4 flex flex-col gap-3 text-sm leading-6 text-body">
+                    {course.projects.map((project) => (
+                      <li key={project} className="flex gap-3"><span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400" />{project}</li>
+                    ))}
+                  </ul>
+                </div>}
+              </div>
+            </Reveal>}
+
+            <CertificationCoverage course={course} />
+
             {(course.prerequisites.length > 0 || course.tools.length > 0) && <Reveal as="section" aria-labelledby="requirements-heading" className="grid gap-6 md:grid-cols-2">
               {course.prerequisites.length > 0 && <div className="rounded-xl border border-line bg-white p-6">
                 <h2 id="requirements-heading" className="font-display text-xl font-bold text-ink">Prerequisites</h2>
@@ -148,6 +174,7 @@ export default function ProgrammeDetails({ slug }) {
                 )}
                 <a href={`/contact?topic=program&program=${course.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-line px-6 text-sm font-semibold text-ink hover:border-emerald-700">Ask a Question</a>
               </div>
+              <CourseCertifications course={course} />
             </div>
           </aside>
         </Container>
@@ -156,7 +183,7 @@ export default function ProgrammeDetails({ slug }) {
       {related.length > 0 && (
         <section aria-labelledby="related-heading" className="bg-white py-16">
           <Container>
-            <h2 id="related-heading" className="font-display text-2xl font-bold text-ink">More Courses in the {labMeta[course.lab].name}</h2>
+            <h2 id="related-heading" className="font-display text-2xl font-bold text-ink">More Courses in the {labMeta[course.lab]?.name || "Same Lab"}</h2>
             <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((item, index) => <Reveal as="li" key={item.slug} delay={index * 80}><CourseCard course={item} /></Reveal>)}
             </ul>

@@ -4,7 +4,8 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "
 import MainLayout from "../MainLayout/MainLayout";
 import HomePage from "../Modules/Home/HomePage";
 import LabPage from "../Modules/Labs/LabPage";
-import { labs } from "../Modules/Labs/labsData";
+import { useLab } from "../Modules/Labs/useLab";
+import CertificationsPage from "../Modules/Certifications/CertificationsPage";
 import ProgrammesSection from "../Modules/Programmes/ProgrammesSection";
 import ProgrammeDetails from "../Modules/Programmes/ProgrammeDetails";
 import PaymentsPage from "../Modules/Payments/PaymentsPage";
@@ -25,7 +26,8 @@ const AdminApp = lazy(() => import("../Modules/Admin/AdminApp"));
 
 function LabRoute() {
   const { slug } = useParams();
-  if (!labs[slug]) return <NotFoundPage />;
+  const lab = useLab(slug);
+  if (!lab) return <NotFoundPage />;
   return <LabPage slug={slug} />;
 }
 
@@ -78,6 +80,8 @@ export default function App() {
           <Route path="courses/:slug" element={<ProgrammeRoute />} />
           <Route path="enroll/confirmation" element={<ConfirmationPage />} />
           <Route path="enroll/:slug" element={<EnrolRoute />} />
+          <Route path="certifications" element={<CertificationsPage />} />
+          <Route path="certifications/:slug" element={<CertificationsPage />} />
           <Route path="admissions" element={<AdmissionsPage />} />
           <Route path="about" element={<AboutUs />} />
           <Route path="leadership" element={<LeadershipPage />} />
