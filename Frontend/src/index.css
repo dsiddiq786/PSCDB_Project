@@ -1,160 +1,415 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap");
 @import "tailwindcss";
 
-html,
-body,
-#root {
-  width: 100%;
-  max-width: 100%;
-  min-height: 100%;
+/* ------------------------------------------------------------------
+   PSCDB design tokens
+   Brand green and deep forest from the crest, crest gold for small
+   highlights, a blue for the cyber domain, and a warm off-white so
+   pages are not white from top to bottom.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Green: brand and actions */
+  --color-emerald-950: #06241b;
+  --color-emerald-900: #0a3125;
+  --color-emerald-800: #0a4a35;
+  --color-emerald-700: #0b6b47;
+  --color-emerald-600: #128058;
+  --color-emerald-500: #1f9a6c;
+  --color-emerald-300: #8fd1b2;
+  --color-emerald-100: #d9efe4;
+  --color-emerald-50: #edf7f1;
+
+  /* Crest gold: highlights only */
+  --color-gold-600: #a07b22;
+  --color-gold-500: #b8902f;
+  --color-gold-400: #c9a24a;
+  --color-gold-300: #e2c77e;
+  --color-gold-200: #f1e3b8;
+  --color-gold-50: #fbf6e8;
+
+  /* Cyber domain */
+  --color-cyber-900: #0d2152;
+  --color-cyber-700: #1747ae;
+  --color-cyber-600: #1f5bd8;
+  --color-cyber-100: #dbe6fc;
+  --color-cyber-50: #eef3fe;
+
+  /* Neutrals */
+  --color-cream-50: #ffffff;
+  --color-cream-100: #f6f4ef;
+  --color-cream-200: #ece8de;
+  --color-paper: #f6f4ef;
+  --color-ink: #14201b;
+  --color-body: #37443e;
+  --color-muted: #66726c;
+  --color-line: #e3e0d6;
+  --color-line-dark: rgba(255, 255, 255, 0.14);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
 html {
-  scroll-padding-top: 82px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  margin: 0;
+  background: #ffffff;
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: clip;
 }
 
-.pscdb-reveal {
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-400);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--color-gold-200);
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------
+   Surfaces
+   ------------------------------------------------------------------ */
+.surface-dark {
+  background: var(--color-emerald-950);
+  color: #c7d6ce;
+}
+
+.surface-dark h1,
+.surface-dark h2,
+.surface-dark h3 {
+  color: #ffffff;
+}
+
+/* Fine texture for dark bands: a faint grid, so flat colour does not look empty. */
+.texture-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Legacy names kept so older markup still renders cleanly. */
+.aurora,
+.grain::after,
+.circuit-grid {
+  display: none;
+}
+
+.glass {
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+}
+
+.ambient-light {
+  background: #ffffff;
+}
+
+.italic-accent {
+  font-style: normal;
+  color: var(--color-gold-400);
+}
+
+.gold-text {
+  color: var(--color-gold-400);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   Motion: short and calm. Nothing loops except the slider.
+   ------------------------------------------------------------------ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.rise {
+  animation: rise 650ms var(--ease-out-soft) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.js [data-reveal] {
   opacity: 0;
-  transform: perspective(1100px) translate3d(0, 36px, -55px) rotateX(7deg)
-    scale(0.98);
-  transform-style: preserve-3d;
+  transform: translate3d(0, 16px, 0);
   transition:
-    opacity 650ms cubic-bezier(0.2, 0.75, 0.25, 1),
-    transform 750ms cubic-bezier(0.2, 0.75, 0.25, 1);
-  will-change: opacity, transform;
+    opacity 650ms var(--ease-out-soft),
+    transform 650ms var(--ease-out-soft);
+  transition-delay: var(--delay, 0ms);
 }
 
-.pscdb-reveal--left {
-  transform: perspective(1100px) translate3d(-24px, 10px, -45px) rotateY(7deg)
-    rotateX(3deg) scale(0.98);
-}
-
-.pscdb-reveal--right {
-  transform: perspective(1100px) translate3d(24px, 10px, -45px) rotateY(-7deg)
-    rotateX(3deg) scale(0.98);
-}
-
-.pscdb-reveal--front {
-  transform: perspective(1100px) translate3d(0, 0, -90px) rotateX(5deg)
-    scale(0.94);
-}
-
-.pscdb-reveal.is-visible {
+.js [data-reveal].is-in {
   opacity: 1;
-  transform: perspective(1100px) translate3d(0, 0, 0) rotateX(0) rotateY(0)
-    scale(1);
+  transform: translate3d(0, 0, 0);
 }
 
+.card-lift {
+  transition:
+    transform 300ms var(--ease-out-soft),
+    box-shadow 300ms var(--ease-out-soft),
+    border-color 300ms var(--ease-out-soft);
+}
+
+.card-lift:hover {
+  transform: translate3d(0, -3px, 0);
+  box-shadow: 0 18px 36px -22px rgba(6, 36, 27, 0.4);
+}
+
+.card-lift-dark:hover {
+  border-color: rgba(201, 162, 74, 0.5);
+}
+
+.draw-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 300ms var(--ease-out-soft);
+}
+
+.draw-link:hover {
+  background-size: 100% 1px;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #ece8de 25%, #f6f4ef 50%, #ece8de 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+
+/* ------------------------------------------------------------------
+   Interaction polish
+   ------------------------------------------------------------------ */
+
+/* Each page fades in gently when it opens. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-enter {
+  animation: page-enter 450ms var(--ease-out-soft) both;
+}
+
+/* Hero slider dots fill while the current image is shown. */
+@keyframes dot-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.dot-fill {
+  transform-origin: left center;
+  animation: dot-fill var(--duration, 6000ms) linear both;
+}
+
+/* Buttons and links that feel pressed. */
+.press {
+  transition:
+    transform 150ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.press:active {
+  transform: scale(0.97);
+}
+
+/* Every button and button-styled link gets the same gentle press. */
+button:not(:disabled),
+a[class*="rounded-lg"][class*="min-h-1"] {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 200ms;
+}
+
+button:not(:disabled):active,
+a[class*="rounded-lg"][class*="min-h-1"]:active {
+  transform: scale(0.97);
+}
+
+/* Navigation underline that grows from the centre on hover. */
+.nav-underline {
+  position: relative;
+}
+
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-emerald-700);
+  transform: scaleX(0);
+  transition: transform 300ms var(--ease-out-soft);
+}
+
+.nav-underline:hover::after,
+.nav-underline[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Smooth opening and closing for details and summary accordions. */
+:root {
+  interpolate-size: allow-keywords;
+}
+
+details::details-content {
+  height: 0;
+  overflow: hidden;
+  transition:
+    height 350ms var(--ease-out-soft),
+    content-visibility 350ms allow-discrete;
+}
+
+details[open]::details-content {
+  height: auto;
+}
+
+/* Arrow that moves forward on hover inside a link or button. */
+.group:hover .nudge,
+.nudge-parent:hover .nudge {
+  transform: translateX(3px);
+}
+
+.nudge {
+  display: inline-block;
+  transition: transform 250ms var(--ease-out-soft);
+}
+
+/* Small pop used for confirmation ticks. */
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop {
+  animation: pop 450ms var(--ease-out-soft) both;
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
-  .pscdb-reveal,
-  .pscdb-reveal--left,
-  .pscdb-reveal--right,
-  .pscdb-reveal--front {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise,
+  .card-lift,
+  .skeleton,
+  .marquee-track,
+  .page-enter,
+  .dot-fill,
+  .press,
+  .nav-underline::after,
+  .nudge,
+  .pop,
+  details::details-content {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .js [data-reveal] {
     opacity: 1;
     transform: none;
     transition: none;
-    will-change: auto;
   }
 
-  .pathway-card,
-  .pathway-card * {
-    transition-duration: 0.01ms !important;
+  button:active,
+  a:active {
     transform: none !important;
   }
-}@keyframes pscdbHeroFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-9px);
-  }
 }
-
-.pscdb-hero-float {
-  animation: pscdbHeroFloat 7s ease-in-out infinite;
-}
-
-.pscdb-hero-image-frame {
-  transform: perspective(1400px) rotateY(-5deg) rotateX(2deg);
-  transform-style: preserve-3d;
-  transition:
-    transform 750ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 750ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.pscdb-hero-image-frame img {
-  transition: transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.pscdb-hero-image-frame:hover {
-  transform: perspective(1400px) rotateY(0deg) rotateX(0deg) translateZ(14px)
-    scale(1.015);
-  box-shadow: 0 38px 90px -24px rgba(0, 0, 0, 0.72);
-}
-
-.pscdb-hero-image-frame:hover img {
-  transform: scale(1.035);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pscdb-hero-float {
-    animation: none;
-  }
-
-  .pscdb-hero-image-frame,
-  .pscdb-hero-image-frame img {
-    transition: none;
-  }
-}
-
-
-@keyframes pscdb-letter-3d {
-  0%,
-  100% {
-    opacity: 0.65;
-    transform: perspective(400px) translateY(2px) rotateX(-22deg) rotateY(-8deg);
-  }
-
-  50% {
-    opacity: 1;
-    transform: perspective(400px) translateY(-2px) rotateX(0) rotateY(8deg);
-  }
-}
-
-@keyframes pscdb-dots {
-  0%,
-  20% {
-    opacity: 0.2;
-  }
-
-  50%,
-  100% {
-    opacity: 1;
-  }
-}
-
-.pscdb-loader-letter {
-  transform-style: preserve-3d;
-  animation: pscdb-letter-3d 1.4s ease-in-out infinite;
-}
-
-.pscdb-sync-dots {
-  display: inline-block;
-  animation: pscdb-dots 1s steps(3, end) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pscdb-loader-letter,
-  .pscdb-sync-dots {
-    animation: none;
-  }
-}
-

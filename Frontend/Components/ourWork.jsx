@@ -213,7 +213,7 @@ export default function OurWorkSection() {
 
                 <div className="relative flex items-start justify-between">
                   <span
-                    className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/[0.08]"
+                    className="grid h-12 w-12 place-items-center rounded-sm border border-white/10 bg-cream-50/[0.08]"
                     style={{ color: area.accent }}
                   >
                     <WorkIcon type={area.icon} />
@@ -243,7 +243,7 @@ export default function OurWorkSection() {
                   {area.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-[11px] text-[#E1EBDF]"
+                      className="rounded-full border border-white/15 bg-cream-50/[0.06] px-3 py-1.5 text-[11px] text-[#E1EBDF]"
                     >
                       {tag}
                     </span>
@@ -255,7 +255,7 @@ export default function OurWorkSection() {
         </div>
 
         <ScrollReveal3D as="div" direction="front" delay={120}>
-          <div className="mt-10 flex flex-col gap-5 rounded-3xl border border-[#C4ED70]/20 bg-[#0B362D]/85 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="mt-10 flex flex-col gap-5 rounded-sm border border-[#C4ED70]/20 bg-[#0B362D]/85 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <p className="text-lg font-semibold text-white">
                 Explore learning pathways

@@ -1,316 +1,117 @@
-import ScrollReveal3D from "./ScrollReveal3D";
-import { useState } from "react";
+import { Container, Eyebrow, IllustrativeTag, PageHeader, Reveal, SectionHeading } from "./ui";
+import { labCodeOfConduct } from "../Modules/Labs/labsData";
 
-const leadership = [
-  {
-    name: "Rana Kaif Ullah",
-    role: "Chief Executive Officer (CEO)",
-    image: "/images/leadership/Rana kaif Ullah.png",
-    initials: "CB",
-  },
-   {
-    name: "Syed Ali Raza Shah",
-    role: "Director",
-    image: "/images/leadership/Syed Ali Raza Shah.png",
-    initials: "BM",
-  },
-  {
-    name: "Col. (Retd.) M.Zaka Ullah",
-    role: "Director ",
-    image: "/images/leadership/Muhammad Zaka Ullah.png",
-    initials: "DG",
-  },
- 
-  {
-    name: "Abdullah Shafiq",
-    role: "Director",
-    image: "/images/leadership/Abdullah Shafiq.png",
-    initials: "VC",
-  },
-];
-
-function LeadershipCard({ leader }) {
-  const [imageError, setImageError] = useState(false);
-  return (
-    <article className="group overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-b from-[#14503E] to-[#0A342C] shadow-[0_20px_60px_-35px_rgba(0,0,0,0.8)] transition duration-500 hover:-translate-y-2 hover:border-[#C4ED70]/50 hover:shadow-[0_30px_70px_-35px_rgba(0,0,0,0.9)]">
-      <div className="relative aspect-[4/4.2] overflow-hidden bg-[#123B32]">
-        {!imageError ? (
-          <img
-            src={leader.image}
-            alt={leader.name}
-            loading="lazy"
-            onError={() => setImageError(true)}
-            className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <div className="grid h-full w-full place-items-center bg-[radial-gradient(circle_at_top,#23735A,#0A342C_70%)]">
-            <span className="grid h-24 w-24 place-items-center rounded-full border border-[#C4ED70]/40 bg-[#C4ED70]/10 text-3xl font-bold text-[#C4ED70]">
-              {leader.initials}
-            </span>
-          </div>
-        )}
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06271F] via-transparent to-transparent"
-        />
-      </div>
-
-      <div className="p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C4ED70]">
-          {leader.role}
-        </p>
-        <h3 className="mt-2 text-lg font-semibold text-[#FFFDF5]">
-          {leader.name}
-        </h3>
-      </div>
-    </article>
-  );
-}
 const values = [
-  {
-    number: "01",
-    title: "Practical learning",
-    description: "Build practical handson skills through real time  learning by building real world projects.",
-  },
-  {
-    number: "02",
-    title: "Inclusive access",
-    description: "Help learners from different backgrounds move forward with confidence.",
-  },
-  {
-    number: "03",
-    title: "Community impact",
-    description: "Connect learners, mentors and partners to create lasting progress.",
-  },
+  { title: "Rigour", text: "We measure results and report them honestly, including the ones that disappoint." },
+  { title: "Responsibility", text: "Powerful skills are taught with clear boundaries, supervision and a duty to the public." },
+  { title: "Openness", text: "We publish our fees, our course content and our methods, and we welcome scrutiny." },
+  { title: "Practice", text: "Theory matters when it changes what you can build, defend or explain." },
 ];
 
 export default function AboutUs() {
-const [aboutImageError, setAboutImageError] = useState(false);
-
   return (
-    <section
-      id="about"
-      className="relative isolate overflow-hidden bg-[#073B31] px-5 py-20 text-white sm:px-8 sm:py-24 lg:px-12 lg:py-28"
-    >
-      {/* Soft background glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[#B8E85B]/15 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-40 -left-32 -z-10 h-96 w-96 rounded-full bg-[#D8B65A]/10 blur-3xl"
+    <>
+      <PageHeader
+        crumbs={[{ label: "About" }]}
+        eyebrow="About PSCDB"
+        title="A professional skills board for advanced technology"
+        intro="The Professional Skills and Community Development Board (PSCDB) delivers onsite courses and professional skills exams in artificial intelligence and cyber security."
+        image="/images/lab/labs-split.jpg"
+        imageAlt="The Advanced AI Lab and the Cyber Security Lab"
+        illustrative
       />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-        {/* Text content */}
-        <div>
-          <ScrollReveal3D as="div" direction="left">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#B8E85B]/30 bg-[#B8E85B]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#D2F28D] sm:text-sm">
-              <span className="h-2 w-2 rounded-full bg-[#B8E85B]" />
-              About PSCDB
-            </span>
-          </ScrollReveal3D>
-
-          <ScrollReveal3D as="div" direction="left" delay={100}>
-          <h2 className="mt-6 max-w-2xl text-4xl font-semibold leading-[1.08] tracking-[-0.035em] text-[#FFFDF5] sm:text-5xl lg:text-[3.5rem]">
-  Skills that Open Doors
-  <span className="mt-2 block text-[#C4ED70]">
-    and Empower Communities.
-  </span>
-</h2>
-          </ScrollReveal3D>
-
-          <ScrollReveal3D as="div" direction="left" delay={180}>
-       <p className="mt-6 max-w-xl text-base leading-7 text-[#E1EBDF] sm:text-lg sm:leading-8">
-  PSCDB helps people build practical skills, grow their confidence and
-  prepare for new opportunities.
-</p>
-
-<p className="mt-4 max-w-xl text-sm leading-7 text-[#BDCEC0] sm:text-base">
-  We connect learners, educators, donors and community partners to make
-  skill development more accessible and support progress in work and life.
-</p>
-          </ScrollReveal3D>
-
-          <ScrollReveal3D as="div" direction="left" delay={260}>
-            <a
-              href="#programmes"
-              className="group mt-8 inline-flex items-center gap-3 rounded-full bg-[#C4ED70] px-6 py-3.5 text-sm font-bold text-[#123B2B] shadow-[0_10px_35px_rgba(196,237,112,0.2)] transition duration-300 hover:-translate-y-1 hover:bg-[#D7F69A] hover:shadow-[0_16px_40px_rgba(196,237,112,0.3)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#C4ED70]/40"
-            >
-              Explore our Programmes
-              <span className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </a>
-          </ScrollReveal3D>
-        </div>
-
-        {/* Values panel */}
-        <ScrollReveal3D as="div" direction="right" delay={120}>
-  <div className="mx-auto max-w-xl">
-    <div className="group relative overflow-hidden rounded-[2rem] border border-white/15 bg-[#0B362D] shadow-[0_30px_90px_rgba(0,0,0,0.35)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_38px_100px_rgba(0,0,0,0.45)]">
-      <div className="relative aspect-[4/3.5] overflow-hidden">
-        {!aboutImageError ? (
-          <img
-            src="/images/about-learning.png"
-            alt="Students arriving at the PSCDB campus"
-            loading="lazy"
-            onError={() => setAboutImageError(true)}
-            className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
-          />
-        ) : (
-          <div className="grid h-full place-items-center bg-gradient-to-br from-[#14503E] to-[#062D26] p-8 text-center">
-            <div>
-              <span className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-[#C4ED70] text-2xl font-black text-[#123B2B]">
-                P
-              </span>
-              <p className="mt-4 text-sm font-semibold text-white">
-                PSCDB Learning Community
+      <section aria-labelledby="vision-heading" className="bg-cream-100 py-20">
+        <Container className="grid gap-6 lg:grid-cols-2">
+          <Reveal className="h-full">
+            <article className="h-full rounded-xl border border-line bg-white p-8 sm:p-10">
+              <Eyebrow>Vision</Eyebrow>
+              <h2 id="vision-heading" className="mt-4 font-display text-2xl font-bold text-ink sm:text-3xl">A centre of excellence in AI and cyber security</h2>
+              <p className="mt-4 text-base leading-8 text-muted">
+                We aim to be a place where engineers and researchers from Pakistan and abroad can develop skills of an international standard, and where the next generation of builders and defenders learns its craft.
               </p>
-          
-            </div>
+            </article>
+          </Reveal>
+          <Reveal delay={100} className="h-full">
+            <article className="surface-dark h-full rounded-xl p-8 sm:p-10">
+              <Eyebrow tone="dark">Mission</Eyebrow>
+              <h2 className="mt-4 font-display text-2xl font-bold sm:text-3xl">Teach advanced technology the way it is practised</h2>
+              <p className="mt-4 text-base leading-8 text-white/75">
+                We run practical courses in large language models, AI security, penetration testing, security operations and digital forensics. Every course is delivered in a dedicated lab and ends with a professional skills exam.
+              </p>
+            </article>
+          </Reveal>
+        </Container>
+      </section>
+
+      <section aria-labelledby="values-heading" className="bg-white py-20">
+        <Container>
+          <Reveal><SectionHeading id="values-heading" eyebrow="Values" title="What guides our work" /></Reveal>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value, index) => (
+              <Reveal key={value.title} delay={index * 70} className="h-full">
+                <article className="h-full rounded-xl border border-line p-6">
+                  <span className="font-display text-sm font-bold text-gold-500">0{index + 1}</span>
+                  <h3 className="mt-3 font-display text-xl font-bold text-ink">{value.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-muted">{value.text}</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
-        )}
+        </Container>
+      </section>
 
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06271F]/95 via-[#06271F]/15 to-transparent"
-        />
+      <section aria-labelledby="labs-heading" className="bg-cream-100 py-20">
+        <Container className="grid gap-6 md:grid-cols-2">
+          {[
+            { href: "/labs/ai", image: "/images/lab/ai-lab-team.jpg", title: "Advanced AI Lab", text: "Train, fine-tune and evaluate language models." },
+            { href: "/labs/cyber", image: "/images/lab/cyber-lab-team.jpg", title: "Cyber Security Lab", text: "Attack, defend and investigate in isolated ranges." },
+          ].map((lab, index) => (
+            <Reveal key={lab.href} delay={index * 100}>
+              <a href={lab.href} className="card-lift group block overflow-hidden rounded-xl border border-line bg-white">
+                <figure className="relative">
+                  <img src={lab.image} alt="" loading="lazy" className="aspect-[16/7] w-full object-cover" />
+                  <IllustrativeTag />
+                </figure>
+                <div className="p-6">
+                  <h2 id={index === 0 ? "labs-heading" : undefined} className="font-display text-xl font-bold text-ink group-hover:text-emerald-800">{lab.title}</h2>
+                  <p className="mt-1 text-sm text-muted">{lab.text}</p>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </Container>
+      </section>
 
-        <span className="absolute left-5 top-5 rounded-full border border-white/20 bg-[#062D26]/65 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-[#D7F69A] backdrop-blur-md sm:left-6 sm:top-6">
-          Our Learning Cmmunity
-        </span>
+      <section id="conduct" aria-labelledby="conduct-heading" className="surface-dark texture-grid py-20">
+        <Container className="grid gap-12 lg:grid-cols-2 lg:items-start">
+          <Reveal>
+            <SectionHeading tone="dark" id="conduct-heading" eyebrow="Code of conduct" title="Offensive security is taught under strict rules">
+              Every student agrees to these commitments before they are given access to any lab environment.
+            </SectionHeading>
+          </Reveal>
+          <Reveal delay={100}>
+            <ol className="grid gap-3">
+              {labCodeOfConduct.map((item, index) => (
+                <li key={item} className="flex gap-4 rounded-xl border border-white/10 bg-white/[0.04] p-5">
+                  <span className="font-display text-sm font-bold text-gold-300">{index + 1}</span>
+                  <p className="text-sm leading-7 text-white/80">{item}</p>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+        </Container>
+      </section>
 
-        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#D7F69A]">
-            Learning with Purpose
-          </p>
-          <h3 className="mt-2 max-w-md text-2xl font-semibold leading-tight text-white sm:text-3xl">
-            Practical Skills. Real Opportunities.
-          </h3>
-          <p className="mt-2 max-w-md text-sm leading-6 text-white/80">
-            Bringing Learners and Communities together to Build a Stronger
-           Future.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-      {values.map((value) => (
-        <article
-          key={value.number}
-          className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 transition duration-300 hover:-translate-y-1 hover:border-[#C4ED70]/40 hover:bg-white/[0.09]"
-        >
-          <span className="text-xs font-extrabold tracking-widest text-[#C4ED70]">
-            {value.number}
-          </span>
-          <h4 className="mt-2 text-sm font-semibold text-white">
-            {value.title}
-          </h4>
-          <p className="mt-1 text-xs leading-5 text-[#BDCEC0]">
-            {value.description}
-          </p>
-        </article>
-      ))}
-    </div>
-  </div>
-</ScrollReveal3D>
-      </div>
-
-
-
-
-
-
-<div className="mx-auto mt-20 grid max-w-7xl items-stretch gap-6 lg:grid-cols-2">
-  <ScrollReveal3D direction="left">
-    <article className="group relative h-full overflow-hidden rounded-[2rem] border border-[#C4ED70]/25 bg-gradient-to-br from-[#14503E] via-[#0D4034] to-[#0A342C] p-7 shadow-[0_24px_65px_-38px_rgba(0,0,0,0.8)] transition duration-500 hover:-translate-y-2 hover:border-[#C4ED70]/60 hover:shadow-[0_32px_75px_-38px_rgba(0,0,0,0.9)] hover:[transform:perspective(1100px)_rotateX(3deg)_rotateY(-2deg)_translateZ(10px)] sm:p-9">
-      <span className="inline-flex rounded-full border border-[#C4ED70]/25 bg-[#C4ED70]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#C4ED70]">
-        Our vision
-      </span>
-
-      <h3 className="mt-6 text-2xl font-semibold text-[#FFFDF5] sm:text-3xl">
-        A future built on opportunity.
-      </h3>
-
-      <p className="mt-4 text-sm leading-7 text-[#D5E9DD] sm:text-base sm:leading-8">
-        To build a nationally and internationally recognized education,
-        skills, technology and digital-enterprise platform that expands access
-        to quality learning, professional skills, innovation,
-        entrepreneurship, employment and responsible community development.
-      </p>
-
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-16 -right-12 h-44 w-44 rounded-full bg-[#A7E85A]/15 blur-3xl transition duration-500 group-hover:scale-125"
-      />
-    </article>
-  </ScrollReveal3D>
-
-  <ScrollReveal3D direction="right" delay={120}>
-    <article className="group relative h-full overflow-hidden rounded-[2rem] border border-white/10 bg-[#F6F3E8] p-7 text-[#123B2B] shadow-[0_24px_65px_-38px_rgba(0,0,0,0.45)] transition duration-500 hover:-translate-y-2 hover:border-[#D8B65A]/60 hover:shadow-[0_32px_75px_-38px_rgba(0,0,0,0.6)] hover:[transform:perspective(1100px)_rotateX(3deg)_rotateY(2deg)_translateZ(10px)] sm:p-9">
-      <span className="inline-flex rounded-full border border-[#167A62]/20 bg-[#167A62]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#167A62]">
-        Our mission
-      </span>
-
-      <h3 className="mt-6 text-2xl font-semibold sm:text-3xl">
-        Learning with purpose.
-      </h3>
-
-      <p className="mt-4 text-sm leading-7 text-[#52665A] sm:text-base sm:leading-8">
-        To provide high-quality, market-oriented skills and education
-        services; establish and support lawfully approved educational
-        institutions and university collaborations; develop international
-        language and virtual-school programs; operate technology, software
-        and e-commerce platforms; and promote entrepreneurship, employment
-        and community development through responsible corporate governance.
-      </p>
-
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-16 -right-12 h-44 w-44 rounded-full bg-[#D8B65A]/20 blur-3xl transition duration-500 group-hover:scale-125"
-      />
-    </article>
-  </ScrollReveal3D>
-</div>
-
-<p className="mx-auto mt-5 max-w-4xl text-center text-xs leading-6 text-[#BDCEC0]">
-  Regulated education activities and institutional collaborations are subject
-  to the approvals, recognition, affiliation or accreditation required by law.
-</p>
-      <div className="mx-auto mt-24 max-w-7xl">
-  <ScrollReveal3D as="div" direction="up">
-    <div className="mx-auto max-w-2xl text-center">
-      {/* <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C4ED70] sm:text-sm">
-        Our leadership
-      </p> */}
-
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#FFFDF5] sm:text-4xl lg:text-5xl">
-Board of          <span className=" text-[#C4ED70]">Directors</span>
-      </h2>
-
-      {/* <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#D5E9DD] sm:text-base">
-        Meet the people guiding PSCDB’s mission, governance and community
-        development work.
-      </p> */}
-    </div>
-  </ScrollReveal3D>
-
-  <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-    {leadership.map((leader, index) => (
-      <ScrollReveal3D
-        key={leader.role}
-        direction={index % 2 === 0 ? "left" : "right"}
-        delay={index * 100}
-      >
-        <LeadershipCard leader={leader} />
-      </ScrollReveal3D>
-    ))}
-  </div>
-</div>
-    </section>
+      <section aria-label="Leadership" className="bg-white py-16">
+        <Container className="flex flex-col items-start justify-between gap-6 rounded-xl border border-line bg-cream-100 p-8 sm:p-10 md:flex-row md:items-center">
+          <div>
+            <h2 className="font-display text-2xl font-bold text-ink">Meet the people leading PSCDB</h2>
+            <p className="mt-2 text-sm text-muted">Our leadership is responsible for academic standards, governance and partnerships.</p>
+          </div>
+          <a href="/leadership" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">View leadership</a>
+        </Container>
+      </section>
+    </>
   );
 }

@@ -1,294 +1,134 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { institute } from "../Modules/Config/institute";
 
-const links = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Governce & Managment", href: "/directors" },
-  { label: "Projects", href: "/our-work" },
-  { label: "Contact Us", href: "/contact" },
-  { label: "Student Portal", href: "/contact" },
+const navLinks = [
+  { label: "Courses", href: "/programmes" },
+  { label: "AI Lab", href: "/labs/ai" },
+  { label: "Cyber Lab", href: "/labs/cyber" },
+  { label: "Admissions", href: "/admissions" },
+  { label: "Fees", href: "/payments" },
+  { label: "About", href: "/about" },
 ];
 
-function MenuIcon({ open }) {
+function SearchIcon({ className = "h-5 w-5" }) {
   return (
-    <svg
-      aria-hidden="true"
-      className="h-6 w-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    >
-      {open ? (
-        <path d="m6 6 12 12M18 6 6 18" />
-      ) : (
-        <path d="M4 7h16M4 12h16M4 17h16" />
-      )}
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m20 20-4-4" />
     </svg>
   );
 }
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [openPath, setOpenPath] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
 
-  const menuButtonRef = useRef(null);
-  const closeButtonRef = useRef(null);
-  const drawerRef = useRef(null);
+  // The mobile menu belongs to the page it was opened on, so navigating closes it.
+  const open = openPath === pathname;
+  const setOpen = (value) => setOpenPath(value ? pathname : null);
 
   useEffect(() => {
-    function handleScroll() {
-      setScrolled(window.scrollY > 12);
-    }
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
-
-    function handleKeyDown(event) {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-        return;
-      }
-
-      if (event.key === "Tab" && drawerRef.current) {
-        const focusableElements = drawerRef.current.querySelectorAll(
-          'a[href], button:not([disabled])'
-        );
-
-        const first = focusableElements[0];
-        const last = focusableElements[focusableElements.length - 1];
-
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-      menuButtonRef.current?.focus();
+    if (!open) return undefined;
+    const onKey = (event) => {
+      if (event.key === "Escape") setOpenPath(null);
     };
-  }, [menuOpen]);
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
-  function closeMenu() {
-    setMenuOpen(false);
-  }
+  const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-50 border-b border-[#123b32]/10 bg-white/95 text-[#123b32] backdrop-blur-xl transition-shadow duration-300 ${
-          scrolled
-            ? "shadow-md shadow-[#123b32]/10"
-            : "shadow-sm shadow-[#123b32]/5"
-        }`}
-      >
-        <div className="mx-auto flex min-h-[82px] max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-10">
-          {/* Logo and brand */}
-          <a
-            href="/"
-            aria-label="PSCDB home"
-            className="flex shrink-0 items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#167a62]"
-          >
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-[#d6b66b] bg-white p-0.5 shadow-sm sm:h-16 sm:w-16">
-              <img
-                src="/logo.png"
-                alt="Pakistan Skills Development Community Board logo"
-                className="h-full w-full rounded-full object-contain"
-              />
-            </span>
+      <div className="hidden bg-emerald-950 text-[13px] text-white/75 md:block">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+          <p>Onsite courses in AI and cyber security · Sahiwal, Pakistan</p>
+          <div className="flex items-center gap-5">
+            <a href={`mailto:${institute.email}`} className="hover:text-white">{institute.email}</a>
+            <a href="/contact" className="hover:text-white">Contact</a>
+            <a href={institute.lmsUrl} className="inline-flex items-center gap-1.5 font-semibold text-gold-300 hover:text-gold-200">
+              Student login
+              <span className="sr-only">(opens the learning platform)</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M7 17 17 7M9 7h8v8" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
 
-            <span className="hidden leading-tight sm:block">
-              <span className="block text-3xl font-extrabold tracking-[0.16em] text-[#123b32]">
-                PSCDB
-              </span>
-           
+      <header className={`sticky top-0 z-50 w-full border-b bg-white transition-shadow duration-300 ${scrolled ? "border-line shadow-[0_6px_20px_-14px_rgba(6,36,27,0.35)]" : "border-line"}`}>
+        <div className="mx-auto flex h-[72px] max-w-7xl items-center gap-6 px-5 sm:px-8 lg:px-10">
+          <a href="/" className="flex shrink-0 items-center gap-3" aria-label="PSCDB home">
+            <img src="/brand/crest-768.png" alt="" width="48" height="48" className="h-12 w-12 object-contain" />
+            <span className="flex flex-col leading-tight">
+              <span className="font-display text-xl font-extrabold tracking-tight text-ink">PSCDB</span>
+              <span className="hidden text-[11px] font-medium text-muted lg:block">Professional Skills and Community Development Board</span>
             </span>
           </a>
 
-          {/* Desktop navigation */}
-          <nav
-            aria-label="Main navigation"
-            className="hidden items-center gap-7 lg:flex xl:gap-9"
-          >
-            {links.map((link) => (
+          <nav aria-label="Primary" className="ml-auto hidden items-center gap-1 xl:flex">
+            {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="group relative rounded py-2 text-[13px] font-semibold text-[#40564d] transition-colors hover:text-[#167a62] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#167a62]"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={`relative rounded-md px-3 py-2 text-[15px] font-medium transition-colors after:absolute after:inset-x-3 after:-bottom-[17px] after:h-0.5 after:origin-center after:rounded-full after:bg-emerald-700 after:transition-transform after:duration-300 ${
+                  isActive(link.href) ? "text-emerald-800 after:scale-x-100" : "text-body after:scale-x-0 hover:text-emerald-800 hover:after:scale-x-100"
+                }`}
               >
                 {link.label}
-                <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-[#d6b66b] transition-transform duration-200 group-hover:scale-x-100" />
               </a>
             ))}
           </nav>
 
-          {/* Desktop actions */}
-          <div className="hidden shrink-0 items-center gap-5 lg:flex">
-            <a
-              href="/register"
-              className="rounded-lg px-2 py-2 text-[13px] font-bold text-[#123b32] transition-colors hover:text-[#167a62] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#167a62]"
-            >
-              Sign In
+          <div className="ml-auto flex items-center gap-2 xl:ml-2">
+            <a href="/search" aria-label="Search" className="grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-cream-100">
+              <SearchIcon />
             </a>
-
-            <a
-              href="/register"
-              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#123b32] px-5 text-[13px] font-bold text-white shadow-md shadow-[#123b32]/15 transition hover:-translate-y-0.5 hover:bg-[#167a62] hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d6b66b]"
-            >
-Register              <span aria-hidden="true" className="text-[#e8cf8e]">
-                ↗
-              </span>
+            <a href="/programmes" className="hidden min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 sm:inline-flex">
+              Enrol now
             </a>
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="grid h-10 w-10 place-items-center rounded-lg text-ink hover:bg-cream-100 xl:hidden"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                {open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+              </svg>
+            </button>
           </div>
-
-          {/* Mobile/tablet menu button */}
-          <button
-            ref={menuButtonRef}
-            type="button"
-            aria-label={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-            aria-expanded={menuOpen}
-            aria-controls="pscdb-mobile-drawer"
-            onClick={() => setMenuOpen((open) => !open)}
-            className="grid h-11 w-11 place-items-center rounded-full border border-[#123b32]/15 bg-white text-[#123b32] transition hover:border-[#167a62]/40 hover:bg-[#f3f7f4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#167a62] lg:hidden"
-          >
-            <MenuIcon open={menuOpen} />
-          </button>
         </div>
-      </header>
 
-      {/* Backdrop: sibling of header, covers the viewport */}
-      <button
-        type="button"
-        tabIndex={-1}
-        aria-hidden="true"
-        onClick={closeMenu}
-        className={`fixed inset-0 z-[60] cursor-default bg-[#10251f]/40 transition-[opacity,visibility] duration-300 lg:hidden ${
-          menuOpen ? "visible opacity-100" : "invisible opacity-0 delay-300"
-        }`}
-      />
-
-      {/* Right-side mobile drawer: sibling of header */}
-      <aside
-        id="pscdb-mobile-drawer"
-        ref={drawerRef}
-        role={menuOpen ? "dialog" : undefined}
-        aria-modal={menuOpen ? "true" : undefined}
-        aria-label="Mobile navigation"
-        aria-hidden={!menuOpen}
-        className={`fixed inset-y-0 right-0 z-[70] flex h-dvh w-[min(88vw,390px)] flex-col overflow-hidden bg-white shadow-2xl shadow-[#10251f]/20 transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {menuOpen && (
-          <>
-            {/* Drawer header */}
-            <div className="flex min-h-[82px] shrink-0 items-center justify-between border-b border-[#123b32]/10 px-5">
-              <a
-                href="/"
-                onClick={closeMenu}
-                className="flex items-center gap-3"
-              >
-                <img
-                  src="/logo.png"
-                  alt=""
-                  className="h-12 w-12 rounded-full border border-[#d6b66b] object-contain"
-                />
-                <span className="text-sm font-extrabold tracking-[0.16em] text-[#123b32]">
-                  PSCDB
-                </span>
-              </a>
-
-              <button
-                ref={closeButtonRef}
-                type="button"
-                aria-label="Close menu"
-                onClick={closeMenu}
-                className="grid h-10 w-10 place-items-center rounded-full border border-[#123b32]/15 text-[#123b32] transition hover:bg-[#f3f7f4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#167a62]"
-              >
-                <MenuIcon open />
-              </button>
-            </div>
-
-            {/* Drawer links */}
-            <nav
-              aria-label="Mobile navigation"
-              className="flex-1 overflow-y-auto px-5 py-6"
-            >
-              <p className="mb-4 px-3 text-xs font-bold uppercase tracking-[0.16em] text-[#8a968f]">
-                Explore PSCDB
-              </p>
-
-              <div className="grid gap-2">
-                {links.map((link, index) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className="group flex min-h-14 items-center justify-between rounded-2xl px-4 text-[15px] font-semibold text-[#40564d] transition-all duration-200 hover:translate-x-1 hover:bg-[#f3f7f4] hover:text-[#123b32] focus-visible:outline-2 focus-visible:outline-[#167a62]"
-                  >
-                    <span className="flex items-center gap-4">
-                      <span className="text-xs font-semibold text-[#b18d3f]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      {link.label}
-                    </span>
-
-                    <span
-                      aria-hidden="true"
-                      className="text-[#167a62] opacity-0 transition-opacity group-hover:opacity-100"
-                    >
-                      ↗
-                    </span>
-                  </a>
-                ))}
-              </div>
+        {open && (
+          <div id="mobile-menu" className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-white xl:hidden">
+            <nav aria-label="Mobile" className="flex flex-col px-5 py-4">
+              {[...navLinks, { label: "Careers", href: "/careers" }, { label: "Leadership", href: "/leadership" }, { label: "Contact", href: "/contact" }].map((link) => (
+                <a key={link.href} href={link.href} aria-current={isActive(link.href) ? "page" : undefined} className="border-b border-line py-4 text-lg font-semibold text-ink">
+                  {link.label}
+                </a>
+              ))}
+              <a href={institute.lmsUrl} className="border-b border-line py-4 text-lg font-semibold text-emerald-800">Student login (LMS)</a>
+              <a href="/programmes" className="mt-8 rounded-lg bg-emerald-700 py-3.5 text-center text-sm font-semibold text-white">Enrol now</a>
             </nav>
-
-            {/* Drawer actions */}
-            <div className="grid shrink-0 gap-3 border-t border-[#123b32]/10 p-5">
-              <a
-                href="/sign-in"
-                onClick={closeMenu}
-                className="flex min-h-12 items-center justify-center rounded-full border border-[#123b32]/20 text-sm font-bold text-[#123b32] transition hover:bg-[#f3f7f4] focus-visible:outline-2 focus-visible:outline-[#167a62]"
-              >
-                Sign In
-              </a>
-
-              <a
-                href="/register"
-                onClick={closeMenu}
-                className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#123b32] text-sm font-bold text-white transition hover:bg-[#167a62] focus-visible:outline-2 focus-visible:outline-[#d6b66b]"
-              >
-Register
-                <span aria-hidden="true" className="text-[#e8cf8e]">
-                  ↗
-                </span>
-              </a>
-            </div>
-          </>
+          </div>
         )}
-      </aside>
+      </header>
     </>
   );
 }

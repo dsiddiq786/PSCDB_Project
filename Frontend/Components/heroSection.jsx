@@ -1,236 +1,145 @@
-import ScrollReveal3D from "./ScrollReveal3D";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const heroImages = [
-  {
-    src: "/images/",
-    alt: "Learner developing practical skills",
-    
-    position: "left-[4%] top-[22%]",
-    layer: "z-10",
-    direction: "left",
-    delay: 100,
-    start:
-      "[transform:perspective(1200px)_rotateY(12deg)_rotateX(5deg)_rotateZ(-6deg)_translateZ(-25px)]",
-    hover:
-      "hover:[transform:perspective(1200px)_translate3d(-20px,-8px,90px)_rotateY(4deg)_rotateX(3deg)_rotateZ(-2deg)] focus-visible:[transform:perspective(1200px)_translate3d(-20px,-8px,90px)_rotateY(4deg)_rotateX(3deg)_rotateZ(-2deg)]",
-  },
-  {
-    src: "/images/leadership/groupphoto.jpeg",
-    alt: "Mentor guiding a learner",
-    position: "left-[33%] top-[14%]",
-    layer: "z-20",
-    direction: "front",
-    delay: 220,
-    start:
-      "[transform:perspective(1200px)_rotateY(-4deg)_rotateX(4deg)_rotateZ(1deg)_translateZ(-15px)]",
-    hover:
-      "hover:[transform:perspective(1200px)_translate3d(0,-18px,110px)_rotateY(0deg)_rotateX(5deg)_rotateZ(0deg)] focus-visible:[transform:perspective(1200px)_translate3d(0,-18px,110px)_rotateY(0deg)_rotateX(5deg)_rotateZ(0deg)]",
-  },
-  {
-    src: "/images/",
-    alt: "People learning together in a workshop",
-    position: "left-[62%] top-[22%]",
-    layer: "z-30",
-    direction: "right",
-    delay: 340,
-    start:
-      "[transform:perspective(1200px)_rotateY(-12deg)_rotateX(5deg)_rotateZ(6deg)_translateZ(-25px)]",
-    hover:
-      "hover:[transform:perspective(1200px)_translate3d(20px,-8px,90px)_rotateY(-4deg)_rotateX(3deg)_rotateZ(2deg)] focus-visible:[transform:perspective(1200px)_translate3d(20px,-8px,90px)_rotateY(-4deg)_rotateX(3deg)_rotateZ(2deg)]",
-  },
+const slides = [
+  { image: "/images/lab/ai-lab-room.jpg", label: "Advanced AI Lab", href: "/labs/ai", alt: "Workstations in the Advanced AI Lab" },
+  { image: "/images/lab/cyber-lab-room.jpg", label: "Cyber Security Lab", href: "/labs/cyber", alt: "Monitoring screens and equipment in the Cyber Security Lab" },
+  { image: "/images/lab/ai-lab-team.jpg", label: "Students in the AI Lab", href: "/labs/ai", alt: "Students working with language models in the AI Lab" },
+  { image: "/images/lab/cyber-lab-team.jpg", label: "Students in the Cyber Lab", href: "/labs/cyber", alt: "Students investigating a security incident in the Cyber Lab" },
 ];
 
+const popular = [
+  { label: "LLM fine-tuning", href: "/programmes/llm-engineering-and-fine-tuning" },
+  { label: "Penetration testing", href: "/programmes/penetration-testing-professional" },
+  { label: "Digital forensics", href: "/programmes/digital-forensics-and-incident-response" },
+];
+
+const INTERVAL_MS = 6000;
+
 export default function HeroSection() {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const count = slides.length;
+
+  useEffect(() => {
+    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const timer = window.setInterval(() => setIndex((value) => (value + 1) % count), INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [paused, count]);
+
+  const submit = (event) => {
+    event.preventDefault();
+    const term = query.trim();
+    navigate(term ? `/search?q=${encodeURIComponent(term)}` : "/programmes");
+  };
+
   return (
-    <section
-      id="home"
-      aria-labelledby="hero-heading"
-      className="relative isolate overflow-hidden bg-[#123b32] text-white"
-    >
-      {/* Decorative background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-48 -top-40 h-[30rem] w-[32rem] rounded-full border border-white/10"
-      />
+    <section aria-labelledby="hero-heading" className="surface-dark texture-grid relative overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-0 h-full w-1/2 bg-gradient-to-l from-emerald-800/40 to-transparent" />
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16 lg:px-10 lg:py-24">
+        <div>
+          <p className="rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white/85">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold-400" />
+            Admissions open for morning and evening batches
+          </p>
+          <h1 id="hero-heading" style={{ "--delay": "80ms" }} className="rise mt-6 font-display text-4xl font-extrabold leading-[1.08] text-white sm:text-5xl lg:text-[3.4rem]">
+            Professional skills in <span className="text-gold-300">AI and cyber security</span>, taught in real labs
+          </h1>
+          <p style={{ "--delay": "160ms" }} className="rise mt-6 max-w-xl text-lg leading-8 text-white/75">
+            Onsite courses that end in a professional skills exam. Choose a course, pick a batch and reserve your seat online in minutes.
+          </p>
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-28 -top-28 h-[20rem] w-[24rem] rounded-full border border-[#d6b66b]/20"
-      />
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 bottom-[-12rem] h-[24rem] w-[28rem] rounded-full bg-[#167a62]/20 blur-3xl"
-      />
-
-      <div className="relative mx-auto grid min-h-[620px] max-w-7xl items-center gap-10 px-5 py-14 sm:px-8 sm:py-16 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:px-10">
-        {/* Hero text: each piece reveals separately */}
-        <div className="relative z-10 max-w-2xl">
-          <ScrollReveal3D
-            as="p"
-            direction="left"
-            className="inline-flex items-center gap-2 rounded-full border border-[#d6b66b]/30 bg-white/5 px-4 py-2 text-xs font-semibold tracking-wide text-[#e8cf8e] sm:text-sm"
-          >
-            <span
-              aria-hidden="true"
-              className="h-2 w-2 text-3xl rounded-full bg-[#d6b66b]"
+          <form role="search" onSubmit={submit} style={{ "--delay": "240ms" }} className="rise mt-8 flex max-w-xl items-center gap-2 rounded-xl bg-white p-2 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.6)]">
+            <label htmlFor="hero-search" className="sr-only">What do you want to learn?</label>
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="ml-2 h-5 w-5 shrink-0 text-muted" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4-4" /></svg>
+            <input
+              id="hero-search"
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="What do you want to learn?"
+              className="h-11 min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-muted"
             />
-            Professtional Skills and  Community Development  Beirat
-          </ScrollReveal3D>
+            <button type="submit" className="min-h-11 shrink-0 rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800">Search</button>
+          </form>
 
-          <ScrollReveal3D
-            as="h1"
-            id="hero-heading"
-            direction="front"
-            delay={100}
-            className="mt-5 text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-[3.5rem]"
-          >
-            EMPOWERING PEOPLE ,{" "}
-            <span className="text-[#e8cf8e]">BUILDING COMMUNITIES</span>
-          </ScrollReveal3D>
-          
+          <div style={{ "--delay": "300ms" }} className="rise mt-5 flex flex-wrap items-center gap-2 text-sm text-white/60">
+            <span>Popular:</span>
+            {popular.map((item) => (
+              <a key={item.href} href={item.href} className="rounded-full border border-white/15 px-3 py-1 text-white/85 transition-colors hover:border-white/40 hover:text-white">{item.label}</a>
+            ))}
+          </div>
 
-          <ScrollReveal3D
-            as="p"
-            direction="left"
-            delay={180}
-            className="mt-5 max-w-xl text-pretty text-sm leading-7 text-white/75 sm:text-base sm:leading-8"
-          >
-           Through quality education, innovative skills development, emerging technologies, entrepreneurship, and building communities, we equip people with the knowledge, confidence, and capabilities to succeed.
-          </ScrollReveal3D>
-
-          <ScrollReveal3D
-            direction="right"
-            delay={260}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            className="mt-8 flex flex-wrap items-center gap-3"
-          >
-            <a
-              href="/programmes"
-              className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#d6b66b] px-6 text-sm font-bold text-[#173c32] shadow-lg shadow-black/20 transition duration-200 hover:-translate-y-1 hover:bg-[#e8cf8e] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-reduce:transition-none motion-reduce:hover:transform-none"
-            >
-              Explore Programmes
-              <span aria-hidden="true">↗</span>
-            </a>
-
-            <a
-              href="/opportunities"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/25 px-6 text-sm font-semibold text-white transition-colors duration-200 hover:border-white/50 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e8cf8e] motion-reduce:transition-none"
-            >
-              Discover Opportunities
-            </a>
-          </ScrollReveal3D>
-
-          <ScrollReveal3D
-            as="p"
-            direction="up"
-            delay={340}
-            className="mt-6 flex items-center gap-2 text-xs text-white/60 sm:text-sm"
-          >
-            <span aria-hidden="true" className="text-[#e8cf8e]">
-              ✓
-            </span>
-            Skills, guidance and opportunity in one community
-          </ScrollReveal3D>
+          <div style={{ "--delay": "360ms" }} className="rise mt-10 flex flex-wrap gap-3">
+            <a href="/programmes" className="inline-flex min-h-12 items-center rounded-lg bg-white px-6 text-sm font-bold text-emerald-950 transition-colors hover:bg-cream-100">Browse all courses</a>
+            <a href="/admissions" className="inline-flex min-h-12 items-center rounded-lg border border-white/30 px-6 text-sm font-semibold text-white transition-colors hover:border-white">How enrolment works</a>
+          </div>
         </div>
 
-        {/* Three individual 3D image cards */}
-        <div className="group relative mx-auto h-[360px] w-full max-w-[590px] [perspective:1200px] sm:h-[450px] lg:h-[500px]">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[75%] w-[75%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#167a62]/35 blur-3xl transition-all duration-700 group-hover:scale-110 group-hover:bg-[#167a62]/45 motion-reduce:transition-none"
-          />
-
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[78%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10 transition-transform duration-700 group-hover:rotate-6 motion-reduce:transition-none"
-          />
-{/* Single animated campus image */}
-<ScrollReveal3D
-  direction="right"
-  delay={220}
-  className="relative mx-auto w-full max-w-[660px]"
->
-{/* About-style campus visual */}
-<div className="relative mx-auto w-full max-w-[640px] [perspective:1400px]">
-  {/* Soft background glow */}
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute -inset-5 rounded-[2rem] bg-[#d6b66b]/20 blur-2xl sm:-inset-7"
-  />
-
-  <figure className="group relative aspect-[1.55/1] overflow-hidden rounded-[1.5rem] border border-white/30 bg-[#0b3027] shadow-[0_30px_80px_-24px_rgba(0,0,0,0.65)] sm:rounded-[2rem]">
-    <img
-      src="/images/PSCDB%20Campus%20Welcome.png"
-      alt="Students gathered outside the PSCDB campus for a welcome event"
-      loading="eager"
-      fetchPriority="high"
-      className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04] group-hover:[transform:perspective(1400px)_rotateY(-3deg)_rotateX(2deg)_scale(1.04)] motion-reduce:transition-none motion-reduce:transform-none"
-    />
-
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#071f19]/75 via-transparent to-[#071f19]/10"
-    />
-
-    <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-6">
-      <div>
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-[#123b32]/75 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#e8cf8e] backdrop-blur-md sm:text-xs">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#d6b66b]" />
-          Welcome to PSCDB
-        </span>
-
-        <p className="mt-2 text-sm font-semibold text-white drop-shadow sm:text-base">
-          Learn · Connect · Grow
-        </p>
-      </div>
-
-      <span
-        aria-hidden="true"
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/30 bg-white/15 text-lg text-white backdrop-blur-md"
-      >
-        ↗
-      </span>
-    </figcaption>
-  </figure>
-
-  {/* Offset gold frame */}
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute -bottom-3 -right-3 -z-10 h-full w-full rounded-[1.5rem] border border-[#d6b66b]/50 sm:-bottom-4 sm:-right-4 sm:rounded-[2rem]"
-  />
-</div>
-</ScrollReveal3D>
-
-          <div className="pointer-events-none absolute bottom-1 left-1/2 z-40 -translate-x-1/2 rounded-full border border-white/15 bg-[#123b32]/75 px-3 py-2 text-[10px] font-medium tracking-wide text-white/80 backdrop-blur-md sm:text-xs">
-            LEARN · CONNECT · GROW
+        <div
+          className="rise relative"
+          style={{ "--delay": "150ms" }}
+          aria-roledescription="carousel"
+          aria-label="Our labs"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
+          <div className="relative aspect-[4/3.2] overflow-hidden rounded-2xl ring-1 ring-white/10 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]">
+            {slides.map((slide, slideIndex) => {
+              const active = slideIndex === index;
+              return (
+                <figure
+                  key={slide.image}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${slideIndex + 1} of ${count}`}
+                  aria-hidden={!active}
+                  className={`absolute inset-0 transition-opacity duration-1000 ease-out ${active ? "opacity-100" : "opacity-0"}`}
+                >
+                  <img src={slide.image} alt={active ? slide.alt : ""} loading={slideIndex === 0 ? "eager" : "lazy"} className={`h-full w-full object-cover transition-transform duration-[7000ms] ease-out ${active ? "scale-105" : "scale-100"}`} />
+                  <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-5 pt-16">
+                    <a href={slide.href} tabIndex={active ? 0 : -1} className="font-display text-lg font-bold text-white hover:underline">{slide.label} →</a>
+                    <span className="rounded bg-black/50 px-2 py-0.5 text-[11px] text-white/80">Illustrative image</span>
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex gap-2" role="tablist" aria-label="Choose image">
+              {slides.map((slide, slideIndex) => (
+                <button
+                  key={slide.image}
+                  type="button"
+                  role="tab"
+                  aria-selected={slideIndex === index}
+                  aria-label={`Show ${slide.label}`}
+                  onClick={() => setIndex(slideIndex)}
+                  className={`relative h-1.5 overflow-hidden rounded-full bg-white/25 transition-all duration-500 hover:bg-white/50 ${slideIndex === index ? "w-10" : "w-4"}`}
+                >
+                  {slideIndex === index && (
+                    <span
+                      key={`${index}-${paused}`}
+                      aria-hidden="true"
+                      className="dot-fill absolute inset-0 rounded-full bg-gold-400"
+                      style={{ "--duration": `${INTERVAL_MS}ms`, animationPlayState: paused ? "paused" : "running" }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setIndex((index - 1 + count) % count)} aria-label="Previous image" className="grid h-9 w-9 place-items-center rounded-full border border-white/25 text-white hover:bg-white/10">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M15 6l-6 6 6 6" /></svg>
+              </button>
+              <button type="button" onClick={() => setIndex((index + 1) % count)} aria-label="Next image" className="grid h-9 w-9 place-items-center rounded-full border border-white/25 text-white hover:bg-white/10">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 6l6 6-6 6" /></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

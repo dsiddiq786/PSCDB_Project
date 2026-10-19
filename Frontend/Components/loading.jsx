@@ -11,7 +11,7 @@ export default function Loading({
       aria-live="polite"
       aria-busy="true"
     >
-      <div className="rounded-2xl border border-white/70 bg-white/75 px-6 py-5 text-center shadow-lg backdrop-blur-xl">
+      <div className="rounded-sm border border-white/70 bg-cream-50/75 px-6 py-5 text-center shadow-lg backdrop-blur-xl">
         <div
           aria-hidden="true"
           className="flex justify-center gap-0.5 text-2xl font-black tracking-wide text-[#0B4F3C] sm:text-3xl"

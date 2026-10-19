@@ -1,98 +1,520 @@
 [
   {
-    "id": "pscdb-web-development",
-    "slug": "web-development",
-    "title": "Web Development",
-    "category": "Digital Skills",
-    "level": "Foundation to advanced",
-    "description": "Learn to plan and build responsive websites using modern web technologies.",
-    "skills": ["HTML & CSS", "JavaScript", "Problem solving"],
-    "initials": "WD",
-    "accent": "#76A83B",
+    "id": "ai-llm-engineering",
+    "slug": "llm-engineering-and-fine-tuning",
+    "lab": "ai",
+    "title": "LLM Engineering and Fine-Tuning",
+    "level": "Advanced",
     "duration": "12 weeks",
-    "timing": "Monday–Friday · 4:00–6:00 PM",
-    "creditHours": 6,
-    "maxSeats": 50,
-    "enrolledSeats": 18
+    "summary": "Build, adapt and evaluate large language models. You will fine-tune an open-weight model on your own dataset, connect it to retrieval pipelines and measure whether it actually improved.",
+    "outcomes": [
+      "Fine-tune an open-weight model with LoRA and QLoRA",
+      "Design a retrieval-augmented generation (RAG) pipeline with a vector index",
+      "Evaluate model quality with repeatable benchmarks instead of impressions",
+      "Serve a quantised model behind a documented API"
+    ],
+    "modules": [
+      {
+        "title": "Transformer architecture",
+        "topics": "Attention, positional encoding, tokenisation, context windows"
+      },
+      {
+        "title": "Embeddings and retrieval",
+        "topics": "Vector representations, similarity search, chunking strategies"
+      },
+      {
+        "title": "Retrieval-augmented generation",
+        "topics": "Indexing, reranking, grounding and citation of answers"
+      },
+      {
+        "title": "Parameter-efficient fine-tuning",
+        "topics": "LoRA, QLoRA, instruction datasets, training stability"
+      },
+      {
+        "title": "Preference alignment",
+        "topics": "Supervised fine-tuning, DPO and RLHF concepts, reward modelling"
+      },
+      {
+        "title": "Evaluation and benchmarking",
+        "topics": "Held-out test sets, automated metrics, human review"
+      },
+      {
+        "title": "Serving and optimisation",
+        "topics": "Quantisation, batching, latency and cost trade-offs"
+      }
+    ],
+    "tools": [
+      "PyTorch",
+      "Hugging Face Transformers",
+      "PEFT",
+      "bitsandbytes",
+      "FAISS"
+    ],
+    "prerequisites": [
+      "Python programming",
+      "Machine learning fundamentals",
+      "Basic linear algebra"
+    ],
+    "format": "Hands-on lab sessions with a capstone project",
+    "thumbnail": "/thumbnails/llm-engineering-and-fine-tuning.jpg",
+    "code": "AI-301",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 65,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
   },
   {
-    "id": "pscdb-graphic-design",
-    "slug": "graphic-design",
-    "title": "Graphic Design",
-    "category": "Creative Skills",
-    "level": "Foundation to advanced",
-    "description": "Develop visual communication skills for digital and print design projects.",
-    "skills": ["Visual design", "Branding", "Digital media"],
-    "initials": "GD",
-    "accent": "#D6A73B",
+    "id": "ai-machine-learning-foundations",
+    "slug": "machine-learning-foundations",
+    "lab": "ai",
+    "title": "Applied Machine Learning Foundations",
+    "level": "Beginner",
+    "duration": "8 weeks",
+    "summary": "The required foundation for the advanced AI track. Learn to prepare data, train supervised models and judge results honestly before moving on to neural networks and language models.",
+    "outcomes": [
+      "Prepare and validate a tabular dataset in Python",
+      "Train, tune and compare classical machine learning models",
+      "Explain the main sources of overfitting and how to detect them",
+      "Build and train a small neural network from scratch"
+    ],
+    "modules": [
+      {
+        "title": "Python for data work",
+        "topics": "NumPy, pandas, data cleaning, exploratory analysis"
+      },
+      {
+        "title": "Statistics for modelling",
+        "topics": "Distributions, sampling, hypothesis testing basics"
+      },
+      {
+        "title": "Supervised learning",
+        "topics": "Regression, classification, decision trees, ensembles"
+      },
+      {
+        "title": "Model evaluation",
+        "topics": "Cross-validation, precision and recall, calibration"
+      },
+      {
+        "title": "Neural network basics",
+        "topics": "Gradients, backpropagation, training loops in PyTorch"
+      }
+    ],
+    "tools": [
+      "Python",
+      "pandas",
+      "scikit-learn",
+      "PyTorch",
+      "Jupyter"
+    ],
+    "prerequisites": [
+      "Basic programming experience",
+      "High school mathematics"
+    ],
+    "format": "Lab-based weekly sessions with graded exercises",
+    "thumbnail": "/thumbnails/machine-learning-foundations.jpg",
+    "code": "AI-101",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 35,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
+  },
+  {
+    "id": "ai-security-red-teaming",
+    "slug": "ai-security-and-red-teaming",
+    "lab": "ai",
+    "title": "AI Security and Red Teaming",
+    "level": "Advanced",
+    "duration": "8 weeks",
+    "summary": "Test language model applications the way an attacker would. Cover prompt injection, data leakage and unsafe tool use, then design the controls that stop them.",
+    "outcomes": [
+      "Identify prompt injection and jailbreak paths in an LLM application",
+      "Threat-model an application that uses retrieval and tools",
+      "Build an automated red-team test suite with clear pass and fail criteria",
+      "Recommend layered controls and document the residual risk"
+    ],
+    "modules": [
+      {
+        "title": "LLM threat landscape",
+        "topics": "OWASP Top 10 for LLM Applications, attacker goals, trust boundaries"
+      },
+      {
+        "title": "Prompt injection",
+        "topics": "Direct and indirect injection, data exfiltration through outputs"
+      },
+      {
+        "title": "Tool and agent security",
+        "topics": "Permission scoping, unsafe actions, confused-deputy risks"
+      },
+      {
+        "title": "Data and model risks",
+        "topics": "Training-data leakage, membership inference, model extraction"
+      },
+      {
+        "title": "Defences and guardrails",
+        "topics": "Input and output filtering, least privilege, monitoring"
+      }
+    ],
+    "tools": [
+      "OWASP LLM Top 10",
+      "Python",
+      "Open-source LLM scanners",
+      "Custom test harnesses"
+    ],
+    "prerequisites": [
+      "LLM Engineering and Fine-Tuning, or equivalent experience",
+      "Basic web security knowledge"
+    ],
+    "format": "Lab exercises against intentionally vulnerable AI applications",
+    "thumbnail": "/thumbnails/ai-security-and-red-teaming.jpg",
+    "code": "AI-401",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 55,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
+  },
+  {
+    "id": "cyber-penetration-testing",
+    "slug": "penetration-testing-professional",
+    "lab": "cyber",
+    "title": "Penetration Testing Professional",
+    "level": "Advanced",
+    "duration": "12 weeks",
+    "summary": "A complete penetration testing course, from reconnaissance to a professional report. Every technique is practised in isolated lab networks, under written rules of engagement.",
+    "outcomes": [
+      "Run a full penetration test methodology from scoping to reporting",
+      "Enumerate and exploit weaknesses in network and Active Directory environments",
+      "Escalate privileges and document attack paths clearly",
+      "Write a report that a technical team can act on and an executive can read"
+    ],
+    "modules": [
+      {
+        "title": "Methodology and rules of engagement",
+        "topics": "Scoping, authorisation, legal boundaries, PTES phases"
+      },
+      {
+        "title": "Reconnaissance and OSINT",
+        "topics": "Passive discovery, DNS and certificate analysis, asset mapping"
+      },
+      {
+        "title": "Scanning and enumeration",
+        "topics": "Port scanning, service fingerprinting, version analysis"
+      },
+      {
+        "title": "Exploitation fundamentals",
+        "topics": "Known-vulnerability exploitation in isolated targets"
+      },
+      {
+        "title": "Active Directory attacks",
+        "topics": "Kerberos abuse, credential access, lateral movement paths"
+      },
+      {
+        "title": "Post-exploitation and privilege escalation",
+        "topics": "Persistence concepts, local escalation, data access"
+      },
+      {
+        "title": "Reporting",
+        "topics": "Risk rating, reproduction steps, remediation guidance"
+      }
+    ],
+    "tools": [
+      "Nmap",
+      "Burp Suite",
+      "Metasploit Framework",
+      "BloodHound",
+      "Wireshark"
+    ],
+    "prerequisites": [
+      "Networking fundamentals (TCP/IP, DNS, HTTP)",
+      "Linux command-line experience"
+    ],
+    "format": "Isolated lab ranges, capture-the-flag exercises and a final assessment",
+    "thumbnail": "/thumbnails/penetration-testing-professional.jpg",
+    "code": "CY-401",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 65,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
+  },
+  {
+    "id": "cyber-web-application-security",
+    "slug": "web-application-security",
+    "lab": "cyber",
+    "title": "Web Application Security",
+    "level": "Intermediate",
+    "duration": "8 weeks",
+    "summary": "Find and fix the flaws that cause most real-world breaches in web applications and APIs. You will test vulnerable applications, then write the secure code that closes the gaps.",
+    "outcomes": [
+      "Find injection, cross-site scripting and access control flaws in web applications",
+      "Test REST and GraphQL APIs for authorisation and data exposure issues",
+      "Review application code for secure coding defects",
+      "Explain each finding with a proof of concept and a tested fix"
+    ],
+    "modules": [
+      {
+        "title": "HTTP and browser security",
+        "topics": "Sessions, cookies, same-origin policy, CORS"
+      },
+      {
+        "title": "Injection and XSS",
+        "topics": "SQL injection, cross-site scripting, safe output handling"
+      },
+      {
+        "title": "Authentication and session flaws",
+        "topics": "Password storage, multi-factor logic, token handling"
+      },
+      {
+        "title": "Access control",
+        "topics": "Broken object-level authorisation, privilege escalation"
+      },
+      {
+        "title": "API security",
+        "topics": "Mass assignment, rate limiting, excessive data exposure"
+      },
+      {
+        "title": "Secure code review",
+        "topics": "Static analysis, reading code for security defects"
+      }
+    ],
+    "tools": [
+      "Burp Suite",
+      "OWASP ZAP",
+      "Semgrep",
+      "Browser developer tools"
+    ],
+    "prerequisites": [
+      "Basic web development",
+      "Networking fundamentals"
+    ],
+    "format": "Practical labs against deliberately vulnerable applications",
+    "thumbnail": "/thumbnails/web-application-security.jpg",
+    "code": "CY-301",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 45,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
+  },
+  {
+    "id": "cyber-security-operations",
+    "slug": "security-operations-and-threat-hunting",
+    "lab": "cyber",
+    "title": "Security Operations and Threat Hunting",
+    "level": "Intermediate",
     "duration": "10 weeks",
-    "timing": "Monday–Friday · 10:00 AM–12:00 PM",
-    "creditHours": 5,
-    "maxSeats": 50,
-    "enrolledSeats": 32
+    "summary": "Learn how a Security Operations Centre detects and triages threats. Write detection rules, hunt for attackers who evade alerts and map what you find to MITRE ATT&CK.",
+    "outcomes": [
+      "Collect, normalise and search security logs in a SIEM",
+      "Write and tune detection rules, including Sigma rules",
+      "Triage alerts and decide quickly between noise and incident",
+      "Run a threat hunt from a hypothesis to a documented finding"
+    ],
+    "modules": [
+      {
+        "title": "SOC fundamentals",
+        "topics": "Tiers, workflows, severity, escalation and handover"
+      },
+      {
+        "title": "Log analysis",
+        "topics": "Windows and Linux event logs, network telemetry, normalisation"
+      },
+      {
+        "title": "SIEM and detection engineering",
+        "topics": "Search queries, correlation rules, Sigma, false-positive tuning"
+      },
+      {
+        "title": "MITRE ATT&CK",
+        "topics": "Mapping techniques to detections and measuring coverage"
+      },
+      {
+        "title": "Threat hunting",
+        "topics": "Hypothesis-driven hunts, baselining, anomaly review"
+      }
+    ],
+    "tools": [
+      "Elastic Stack",
+      "Wazuh",
+      "Sigma",
+      "MITRE ATT&CK Navigator"
+    ],
+    "prerequisites": [
+      "Networking fundamentals",
+      "Comfort with Linux and Windows logs"
+    ],
+    "format": "Simulated SOC environment with recorded attack scenarios",
+    "thumbnail": "/thumbnails/security-operations-and-threat-hunting.jpg",
+    "code": "CY-302",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 50,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
   },
   {
-    "id": "pscdb-digital-marketing",
-    "slug": "digital-marketing",
-    "title": "Digital Marketing",
-    "category": "Digital Skills",
-    "level": "Foundation to advanced",
-    "description": "Explore online campaigns, content planning and digital audience engagement.",
-    "skills": ["Content strategy", "SEO basics", "Campaign planning"],
-    "initials": "DM",
-    "accent": "#4B9BB6",
+    "id": "cyber-forensics-and-incident-response",
+    "slug": "digital-forensics-and-incident-response",
+    "lab": "cyber",
+    "title": "Digital Forensics and Incident Response",
+    "level": "Intermediate",
     "duration": "8 weeks",
-    "timing": "Monday–Friday · 2:00–4:00 PM",
-    "creditHours": 4,
-    "maxSeats": 50,
-    "enrolledSeats": 50
-  },
-  {
-    "id": "pscdb-entrepreneurship",
-    "slug": "entrepreneurship",
-    "title": "Entrepreneurship",
-    "category": "Business Skills",
-    "level": "Foundation to advanced",
-    "description": "Build a foundation in shaping, planning and communicating a business idea.",
-    "skills": ["Business planning", "Research", "Communication"],
-    "initials": "EN",
-    "accent": "#C77857",
-    "duration": "8 weeks",
-    "timing": "Saturday–Sunday · 10:00 AM–1:00 PM",
-    "creditHours": 4,
-    "maxSeats": 50,
-    "enrolledSeats": 21
-  },
-  {
-    "id": "pscdb-office-productivity",
-    "slug": "office-productivity",
-    "title": "Office Productivity",
-    "category": "Digital Skills",
-    "level": "Foundation to advanced",
-    "description": "Strengthen everyday digital skills for organised, productive work.",
-    "skills": ["Documents", "Spreadsheets", "Digital workflow"],
-    "initials": "OP",
-    "accent": "#8170B5",
-    "duration": "6 weeks",
-    "timing": "Monday–Friday · 9:00–11:00 AM",
-    "creditHours": 3,
-    "maxSeats": 50,
-    "enrolledSeats": 12
-  },
-  {
-    "id": "pscdb-professional-communication",
-    "slug": "professional-communication",
-    "title": "Professional Communication",
-    "category": "Career Skills",
-    "level": "Foundation to advanced",
-    "description": "Practise clear communication for workplace and professional settings.",
-    "skills": ["Presentations", "Teamwork", "Workplace writing"],
-    "initials": "PC",
-    "accent": "#C66F8D",
-    "duration": "6 weeks",
-    "timing": "Saturday–Sunday · 2:00–5:00 PM",
-    "creditHours": 3,
-    "maxSeats": 50,
-    "enrolledSeats": 27
+    "summary": "Investigate a compromised system from start to finish. Preserve evidence correctly, reconstruct what happened and produce findings that stand up to scrutiny.",
+    "outcomes": [
+      "Acquire and preserve digital evidence with a documented chain of custody",
+      "Analyse disk images, memory captures and artefacts for attacker activity",
+      "Build a timeline of an intrusion from multiple sources",
+      "Write an incident report and a lessons-learned review"
+    ],
+    "modules": [
+      {
+        "title": "Incident response lifecycle",
+        "topics": "Preparation, containment, eradication, recovery"
+      },
+      {
+        "title": "Evidence handling",
+        "topics": "Chain of custody, write blockers, hashing, documentation"
+      },
+      {
+        "title": "Disk forensics",
+        "topics": "File systems, deleted data, registry and artefact analysis"
+      },
+      {
+        "title": "Memory forensics",
+        "topics": "Process analysis, injected code, network connections in memory"
+      },
+      {
+        "title": "Timeline analysis",
+        "topics": "Correlating logs, file metadata and user activity"
+      },
+      {
+        "title": "Reporting and review",
+        "topics": "Findings, limitations, recommendations and post-incident review"
+      }
+    ],
+    "tools": [
+      "Autopsy",
+      "Volatility",
+      "Velociraptor",
+      "Plaso"
+    ],
+    "prerequisites": [
+      "Security operations fundamentals, or equivalent experience",
+      "Operating system internals basics"
+    ],
+    "format": "Forensic labs using prepared evidence images and a closing case study",
+    "thumbnail": "/thumbnails/digital-forensics-and-incident-response.jpg",
+    "code": "CY-303",
+    "batches": [
+      {
+        "id": "morning",
+        "label": "Morning batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      },
+      {
+        "id": "evening",
+        "label": "Evening batch",
+        "timing": "",
+        "capacity": 50,
+        "seatsAvailable": 50
+      }
+    ],
+    "centre": "sahiwal",
+    "feeUsd": 45,
+    "examFeeUsd": 90,
+    "examIncludedByInstitute": false
   }
 ]

@@ -4,3 +4,19 @@ frontend/.env
 Backend/.env
 Backend/node_modules
 frontend/node_modules
+
+# AI assistant instruction files: never commit
+AGENTS.md
+agents.md
+CLAUDE.md
+claude.md
+**/AGENTS.md
+**/agents.md
+**/CLAUDE.md
+**/claude.md
+.claude/
+
+# Correct-case paths (the folders are Frontend and Backend)
+Frontend/.env
+Frontend/node_modules/
+Frontend/dist/

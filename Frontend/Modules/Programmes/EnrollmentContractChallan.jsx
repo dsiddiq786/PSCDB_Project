@@ -76,7 +76,7 @@ export default function EnrollmentContractChallan({
 
       <div className="grid items-start gap-6 lg:grid-cols-[1fr_0.9fr]">
         <div className="space-y-6">
-          <section className="rounded-3xl border border-[#E5EBE3] bg-white p-5 shadow-sm sm:p-7">
+          <section className="rounded-md border border-[#E5EBE3] bg-cream-50 p-5 shadow-sm sm:p-7">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-wide text-[#608B3E]">
@@ -93,28 +93,28 @@ export default function EnrollmentContractChallan({
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl bg-[#F7F9F5] p-4">
+              <div className="rounded-md bg-[#F7F9F5] p-4">
                 <p className="text-xs text-[#829087]">Class timing</p>
                 <p className="mt-1 text-sm font-bold text-[#173A30]">
                   {programme.timing || "To be announced"}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-[#F7F9F5] p-4">
+              <div className="rounded-md bg-[#F7F9F5] p-4">
                 <p className="text-xs text-[#829087]">Credit hours</p>
                 <p className="mt-1 text-sm font-bold text-[#173A30]">
                   {programme.creditHours ?? "To be announced"}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-[#F7F9F5] p-4">
+              <div className="rounded-md bg-[#F7F9F5] p-4">
                 <p className="text-xs text-[#829087]">Student</p>
                 <p className="mt-1 text-sm font-bold text-[#173A30]">
                   {student.fullName || "Student"}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-[#F7F9F5] p-4">
+              <div className="rounded-md bg-[#F7F9F5] p-4">
                 <p className="text-xs text-[#829087]">Email</p>
                 <p className="mt-1 break-all text-sm font-bold text-[#173A30]">
                   {student.email || "Not available"}
@@ -123,7 +123,7 @@ export default function EnrollmentContractChallan({
             </div>
           </section>
 
-          <section className="rounded-3xl border border-[#E5EBE3] bg-white p-5 shadow-sm sm:p-7">
+          <section className="rounded-md border border-[#E5EBE3] bg-cream-50 p-5 shadow-sm sm:p-7">
             <p className="text-xs font-bold uppercase tracking-wide text-[#608B3E]">
               Draft enrollment contract
             </p>
@@ -159,7 +159,7 @@ export default function EnrollmentContractChallan({
           </section>
         </div>
 
-        <aside className="rounded-3xl border border-[#DCE9D4] bg-white p-5 shadow-sm sm:p-7 lg:sticky lg:top-24">
+        <aside className="rounded-md border border-[#DCE9D4] bg-cream-50 p-5 shadow-sm sm:p-7 lg:sticky lg:top-24">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-bold uppercase tracking-wide text-[#608B3E]">
@@ -175,7 +175,7 @@ export default function EnrollmentContractChallan({
             </span>
           </div>
 
-          <div className="mt-5 rounded-2xl bg-[#F7F9F5] p-5">
+          <div className="mt-5 rounded-md bg-[#F7F9F5] p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-[#829087]">
               Amount due
             </p>

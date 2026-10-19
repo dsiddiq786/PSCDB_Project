@@ -9,13 +9,13 @@ function ModeCard({ mode, selected, onSelect }) {
       type="button"
       aria-pressed={selected}
       onClick={onSelect}
-      className={`group rounded-3xl border p-6 text-left transition duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-[#167A62]/20 ${
+      className={`group rounded-md border p-6 text-left transition duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-[#167A62]/20 ${
         selected
           ? "border-[#167A62] bg-[#EFF7E9] shadow-md"
-          : "border-[#E5EBE3] bg-white hover:border-[#B8C9B6]"
+          : "border-[#E5EBE3] bg-cream-50 hover:border-[#B8C9B6]"
       }`}
     >
-      <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#0B4F3C] text-xl text-[#D6F28D]">
+      <span className="grid h-12 w-12 place-items-center rounded-md bg-[#0B4F3C] text-xl text-[#D6F28D]">
         {mode === "remote" ? "⌂" : "⌖"}
       </span>
 
@@ -87,7 +87,7 @@ export default function ProgrammeEnrollment({ programme, onBack }) {
   if (preparedPayload) {
     return (
       <section className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
-        <div className="rounded-3xl border border-[#DCE9D4] bg-white p-7 text-center shadow-sm sm:p-10">
+        <div className="rounded-md border border-[#DCE9D4] bg-cream-50 p-7 text-center shadow-sm sm:p-10">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#EAF4E2] text-2xl font-bold text-[#167A62]">
             ✓
           </span>

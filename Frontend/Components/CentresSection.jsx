@@ -96,7 +96,7 @@ export default function CentresSection() {
     <section
       id="centres"
       aria-labelledby="centres-heading"
-      className="overflow-hidden bg-white px-5 py-20 text-[#18231f] sm:px-8 sm:py-24 lg:px-10"
+      className="overflow-hidden bg-cream-50 px-5 py-20 text-[#18231f] sm:px-8 sm:py-24 lg:px-10"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
@@ -153,7 +153,7 @@ export default function CentresSection() {
               <a
                 href={centre.href}
                 style={{ "--centre-accent": centre.accent }}
-                className={`group block h-full overflow-hidden rounded-[1.6rem] border border-[#123b32]/10 bg-white shadow-[0_18px_50px_-35px_rgba(18,59,50,0.45)] [transform:perspective(1100px)_rotateX(0deg)_rotateY(0deg)] [transform-style:preserve-3d] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:border-[#167a62]/30 hover:shadow-[0_30px_65px_-34px_rgba(18,59,50,0.35)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#167a62] motion-reduce:transition-none ${centre.hover}`}
+                className={`group block h-full overflow-hidden rounded-[1.6rem] border border-[#123b32]/10 bg-cream-50 shadow-[0_18px_50px_-35px_rgba(18,59,50,0.45)] [transform:perspective(1100px)_rotateX(0deg)_rotateY(0deg)] [transform-style:preserve-3d] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:border-[#167a62]/30 hover:shadow-[0_30px_65px_-34px_rgba(18,59,50,0.35)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#167a62] motion-reduce:transition-none ${centre.hover}`}
               >
                 <div
                   className={`relative grid h-48 place-items-center overflow-hidden bg-gradient-to-br ${centre.theme}`}
@@ -168,13 +168,13 @@ export default function CentresSection() {
                   />
 
                   <span
-                    className="relative grid h-32 w-32 place-items-center rounded-full border border-white/80 bg-white/55 shadow-[0_18px_38px_-22px_rgba(18,59,50,0.32)] backdrop-blur-sm [transform:translateZ(20px)] transition-transform duration-500 group-hover:[transform:translateZ(48px)_rotateY(8deg)]"
+                    className="relative grid h-32 w-32 place-items-center rounded-full border border-white/80 bg-cream-50/55 shadow-[0_18px_38px_-22px_rgba(18,59,50,0.32)] backdrop-blur-sm [transform:translateZ(20px)] transition-transform duration-500 group-hover:[transform:translateZ(48px)_rotateY(8deg)]"
                     style={{ color: centre.accent }}
                   >
                     <CentreIllustration accent={centre.accent} />
                   </span>
 
-                  <span className="absolute left-5 top-5 rounded-full border border-white/70 bg-white/70 px-3 py-1 text-[10px] font-bold tracking-[0.14em] text-[#40564d] backdrop-blur">
+                  <span className="absolute left-5 top-5 rounded-full border border-white/70 bg-cream-50/70 px-3 py-1 text-[10px] font-bold tracking-[0.14em] text-[#40564d] backdrop-blur">
                     CENTRE {centre.number}
                   </span>
                 </div>

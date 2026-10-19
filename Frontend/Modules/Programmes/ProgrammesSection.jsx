@@ -1,316 +1,166 @@
 import { useMemo, useState } from "react";
-import ScrollReveal3D from "../../Components/ScrollReveal3D";
-import ProgrammeEnrollment from "./ProgrammeEnrollment";
-import programmes from "./data/programmes.json";
+import { Container, PageHeader, Reveal } from "../../Components/ui";
+import { useCatalogue } from "../Catalogue/catalogueContext";
+import { CourseCard } from "../Catalogue/CourseParts";
 
-const categories = [
-  "All programmes",
-  ...new Set(programmes.map((programme) => programme.category)),
+const labOptions = [
+  { value: "ai", label: "AI Lab" },
+  { value: "cyber", label: "Cyber Security Lab" },
+];
+const levelOptions = ["Beginner", "Intermediate", "Advanced"].map((level) => ({ value: level, label: level }));
+const batchOptions = [
+  { value: "morning", label: "Morning batch" },
+  { value: "evening", label: "Evening batch" },
+];
+const sorts = [
+  { value: "title", label: "Title, A to Z" },
+  { value: "fee-asc", label: "Fee, low to high" },
+  { value: "fee-desc", label: "Fee, high to low" },
+  { value: "duration", label: "Shortest first" },
 ];
 
+const weeks = (course) => Number.parseInt(course.duration, 10) || 0;
+
+function initialLab() {
+  if (typeof window === "undefined") return [];
+  const lab = new URLSearchParams(window.location.search).get("lab");
+  return lab === "ai" || lab === "cyber" ? [lab] : [];
+}
+
+function CheckGroup({ legend, options, selected, onToggle }) {
+  return (
+    <fieldset>
+      <legend className="mb-3 text-sm font-bold text-ink">{legend}</legend>
+      <div className="flex flex-col gap-2.5">
+        {options.map((option) => (
+          <label key={option.value} className="flex cursor-pointer items-center gap-3 text-sm text-body">
+            <input type="checkbox" checked={selected.includes(option.value)} onChange={() => onToggle(option.value)} className="h-4 w-4 accent-emerald-700" />
+            {option.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 export default function ProgrammesSection() {
-  const [activeCategory, setActiveCategory] = useState("All programmes");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedProgramme, setSelectedProgramme] = useState(null);
+  const { courses, status } = useCatalogue();
+  const [query, setQuery] = useState("");
+  const [lab, setLab] = useState(initialLab);
+  const [level, setLevel] = useState([]);
+  const [batch, setBatch] = useState([]);
+  const [sort, setSort] = useState("title");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const visibleProgrammes = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+  const toggle = (setter) => (value) => setter((current) => (current.includes(value) ? current.filter((item) => item !== value) : [...current, value]));
 
-    return programmes.filter((programme) => {
-      const matchesCategory =
-        activeCategory === "All programmes" ||
-        programme.category === activeCategory;
-
-      const searchableContent = [
-        programme.title,
-        programme.category,
-        programme.description,
-        ...(programme.skills || []),
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      return matchesCategory && searchableContent.includes(query);
+  const results = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    const filtered = courses.filter((course) => {
+      if (lab.length && !lab.includes(course.lab)) return false;
+      if (level.length && !level.includes(course.level)) return false;
+      if (batch.length && !course.batches.some((item) => batch.includes(item.id) && item.seatsAvailable > 0)) return false;
+      if (!term) return true;
+      return [course.title, course.code, course.summary, ...course.tools].some((value) => value.toLowerCase().includes(term));
     });
-  }, [activeCategory, searchQuery]);
+    const sorted = [...filtered];
+    if (sort === "title") sorted.sort((a, b) => a.title.localeCompare(b.title));
+    if (sort === "fee-asc") sorted.sort((a, b) => a.feeUsd - b.feeUsd);
+    if (sort === "fee-desc") sorted.sort((a, b) => b.feeUsd - a.feeUsd);
+    if (sort === "duration") sorted.sort((a, b) => weeks(a) - weeks(b));
+    return sorted;
+  }, [courses, query, lab, level, batch, sort]);
 
-  function clearFilters() {
-    setSearchQuery("");
-    setActiveCategory("All programmes");
-  }
-
-  if (selectedProgramme) {
-    return (
-      <ProgrammeEnrollment
-        programme={selectedProgramme}
-        onBack={() => setSelectedProgramme(null)}
-      />
-    );
-  }
+  const activeCount = lab.length + level.length + batch.length + (query.trim() ? 1 : 0);
+  const reset = () => {
+    setQuery("");
+    setLab([]);
+    setLevel([]);
+    setBatch([]);
+  };
 
   return (
-    <section
-      id="programmes"
-      aria-labelledby="programmes-heading"
-      className="relative isolate overflow-hidden bg-[#F7F8F4] px-5 py-20 text-[#173A30] sm:px-8 sm:py-24 lg:px-10"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 top-12 -z-10 h-96 w-96 rounded-full bg-[#DCEBCB]/60 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-40 bottom-10 -z-10 h-96 w-96 rounded-full bg-[#F4E8CC]/60 blur-3xl"
+    <>
+      <PageHeader
+        crumbs={[{ label: "Courses" }]}
+        eyebrow="Courses"
+        title="Advanced courses in AI and cyber security"
+        intro="Every course is taught onsite, ends with a professional skills exam and lists its fees, batches and prerequisites up front."
       />
 
-      <div className="mx-auto max-w-7xl">
-        <ScrollReveal3D as="div" direction="left">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#608B3E] sm:text-sm">
-                PSCDB Learning Divisions
-              </p>
-
-              <h2
-                id="programmes-heading"
-                className="mt-4 text-balance text-4xl font-semibold tracking-[-0.04em] text-[#173A30] sm:text-5xl"
-              >
-                Find a programme
-                <span className="text-[#668D3C]"> for your career.</span>
-              </h2>
-
-              <p className="mt-5 max-w-xl text-sm leading-7 text-[#68766D] sm:text-base">
-                Explore learning pathways designed to help you build skills,
-                confidence and new possibilities.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 sm:flex sm:gap-4">
-              <div className="rounded-2xl border border-[#E5E9E1] bg-white px-5 py-4 shadow-sm">
-                <p className="text-2xl font-bold text-[#176247]">
-                  {programmes.length}
-                </p>
-                <p className="mt-1 text-xs text-[#758178]">Programmes</p>
-              </div>
-
-              <div className="rounded-2xl border border-[#E5E9E1] bg-white px-5 py-4 shadow-sm">
-                <p className="text-2xl font-bold text-[#B3892F]">
-                  {categories.length - 1}
-                </p>
-                <p className="mt-1 text-xs text-[#758178]">Skill areas</p>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal3D>
-
-        <ScrollReveal3D as="div" direction="front" delay={100}>
-          <div className="mt-10 rounded-3xl border border-[#E5E9E1] bg-white p-4 shadow-[0_18px_55px_-42px_rgba(23,58,48,.3)] sm:p-5">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <label className="relative block w-full lg:max-w-sm">
-                <span className="sr-only">Search programmes</span>
-
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#7E8D82]"
-                >
-                  <circle
-                    cx="10.8"
-                    cy="10.8"
-                    r="6.8"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path
-                    d="m16 16 4.2 4.2"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
-
-                <input
-                  type="search"
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                  placeholder="Search skills or programmes"
-                  className="w-full rounded-2xl border border-[#E3E9E1] bg-[#F8FAF6] py-3.5 pl-12 pr-4 text-sm text-[#173A30] outline-none transition placeholder:text-[#8C988F] focus:border-[#739C4A] focus:ring-4 focus:ring-[#739C4A]/10"
-                />
-              </label>
-
-              <div
-                aria-label="Filter by programme category"
-                className="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:justify-end"
-              >
-                {categories.map((category) => {
-                  const isActive = activeCategory === category;
-
-                  return (
-                    <button
-                      key={category}
-                      type="button"
-                      aria-pressed={isActive}
-                      onClick={() => setActiveCategory(category)}
-                      className={`shrink-0 rounded-full px-4 py-2.5 text-xs font-semibold transition duration-300 sm:text-sm ${
-                        isActive
-                          ? "bg-[#176247] text-white shadow-md shadow-[#176247]/15"
-                          : "border border-[#E2E8DF] bg-white text-[#56675B] hover:border-[#A7BE91] hover:bg-[#F5F8F1]"
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center justify-between border-t border-[#EDF0EB] pt-4">
-              <p aria-live="polite" className="text-sm text-[#68766D]">
-                Showing{" "}
-                <span className="font-bold text-[#173A30]">
-                  {visibleProgrammes.length}
-                </span>{" "}
-                {visibleProgrammes.length === 1 ? "programme" : "programmes"}
-              </p>
-
-              {(searchQuery || activeCategory !== "All programmes") && (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="text-sm font-semibold text-[#176247] transition hover:text-[#668D3C]"
-                >
-                  Clear filters
-                </button>
-              )}
-            </div>
-          </div>
-        </ScrollReveal3D>
-
-        <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {visibleProgrammes.map((programme, index) => {
-            const maxSeats = Number(programme.maxSeats) || 50;
-            const enrolledSeats = Number(programme.enrolledSeats) || 0;
-            const seatsLeft = Math.max(0, maxSeats - enrolledSeats);
-
-            return (
-              <ScrollReveal3D
-                key={programme.slug}
-                direction={index % 2 === 0 ? "left" : "right"}
-                delay={(index % 3) * 100}
-                className="h-full"
-              >
-                <article className="group relative cursor-pointer  flex h-full min-h-[390px] flex-col overflow-hidden rounded-[1.75rem] border border-[#E5E9E1] bg-white p-6 shadow-[0_18px_50px_-35px_rgba(23,58,48,.28)] transition duration-500 ease-out hover:-translate-y-2 hover:border-[#CAD8C2] hover:shadow-[0_28px_65px_-35px_rgba(23,58,48,.3)] motion-reduce:transition-none sm:p-7">
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-10 blur-2xl transition duration-500 group-hover:scale-125 group-hover:opacity-20"
-                    style={{ backgroundColor: programme.accent || "#76A83B" }}
-                  />
-
-                  <div className="relative cursor-pointer flex items-start justify-between gap-4">
-                    <span
-                      className="grid h-14 w-14 place-items-center rounded-2xl border border-[#E7EADF] bg-[#F7F8F3] text-sm font-black tracking-wide text-[#173A30] transition duration-500 group-hover:-rotate-3 group-hover:scale-105"
-                      style={{
-                        boxShadow: `inset 0 -3px 0 ${programme.accent || "#76A83B"}`,
-                      }}
-                    >
-                      {programme.initials}
-                    </span>
-
-                    <span className="rounded-full border border-[#E9ECE5] bg-[#F8F9F6] px-3 py-1.5 text-xs font-semibold text-[#637268]">
-                      {programme.category}
-                    </span>
-                  </div>
-
-                  <h3 className="relative mt-7 text-2xl font-semibold tracking-tight text-[#173A30]">
-                    {programme.title}
-                  </h3>
-
-                  <p className="relative mt-3 text-sm leading-7 text-[#69776D]">
-                    {programme.description}
-                  </p>
-
-                  <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#668D3C]">
-                    {programme.level}
-                  </p>
-
-                  <div className="relative mt-5 grid grid-cols-3 gap-2 border-y border-[#EDF0EB] py-4">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-[#829087]">
-                        Duration
-                      </p>
-                      <p className="mt-1 text-xs font-semibold text-[#173A30]">
-                        {programme.duration || "To be announced"}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-[#829087]">
-                        Credits
-                      </p>
-                      <p className="mt-1 text-xs font-semibold text-[#173A30]">
-                        {programme.creditHours ?? "—"} hours
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-[#829087]">
-                        Seats left
-                      </p>
-                      <p className="mt-1 text-xs font-semibold text-[#173A30]">
-                        {seatsLeft} / {maxSeats}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="relative mt-4 flex flex-wrap gap-2">
-                    {(programme.skills || []).map((skill) => (
-                      <span
-                        key={skill}
-                        className="rounded-full border border-[#E8ECE5] bg-[#F8F9F6] px-3 py-1.5 text-xs text-[#5F6F64]"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProgramme(programme)}
-                    className="relative mt-auto cursor-pointer  inline-flex items-center gap-2 pt-7 text-left text-sm font-bold text-[#176247] focus:outline-none focus-visible:underline"
-                  >
-                    View details and enrol
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
-                  </button>
-                </article>
-              </ScrollReveal3D>
-            );
-          })}
-        </div>
-
-        {visibleProgrammes.length === 0 && (
-          <div className="mt-7 rounded-3xl border border-[#E5E9E1] bg-white px-6 py-14 text-center shadow-sm">
-            <h3 className="text-xl font-semibold text-[#173A30]">
-              No matching programmes
-            </h3>
-            <p className="mt-2 text-sm text-[#718077]">
-              Try another search term or choose a different skill area.
-            </p>
+      <section aria-label="Course catalogue" className="bg-cream-100 py-12 sm:py-16">
+        <Container className="grid gap-8 lg:grid-cols-[250px_1fr]">
+          <div className="lg:hidden">
             <button
               type="button"
-              onClick={clearFilters}
-              className="mt-5 rounded-full bg-[#176247] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#0B4F3C]"
+              aria-expanded={filtersOpen}
+              aria-controls="course-filters"
+              onClick={() => setFiltersOpen((open) => !open)}
+              className="inline-flex min-h-11 w-full items-center justify-between rounded-lg border border-line bg-white px-4 text-sm font-semibold text-ink"
             >
-              Reset filters
+              Filters{activeCount ? ` (${activeCount})` : ""}
+              <span aria-hidden="true">{filtersOpen ? "−" : "+"}</span>
             </button>
           </div>
-        )}
-      </div>
-    </section>
+
+          <aside id="course-filters" aria-label="Filter courses" className={`${filtersOpen ? "block" : "hidden"} rounded-xl border border-line bg-white p-5 lg:sticky lg:top-24 lg:block lg:self-start`}>
+            <div className="flex items-center justify-between">
+              <p className="font-display text-base font-bold text-ink">Filters</p>
+              {activeCount > 0 && (
+                <button type="button" onClick={reset} className="text-sm font-semibold text-emerald-800 hover:underline">Clear all</button>
+              )}
+            </div>
+            <div className="mt-5 flex flex-col gap-6">
+              <div>
+                <label htmlFor="course-search" className="mb-2 block text-sm font-bold text-ink">Search</label>
+                <input
+                  id="course-search"
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Course, code or tool"
+                  className="h-10 w-full rounded-lg border border-line px-3 text-sm text-ink outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+              </div>
+              <CheckGroup legend="Lab" options={labOptions} selected={lab} onToggle={toggle(setLab)} />
+              <CheckGroup legend="Level" options={levelOptions} selected={level} onToggle={toggle(setLevel)} />
+              <CheckGroup legend="Batch with seats" options={batchOptions} selected={batch} onToggle={toggle(setBatch)} />
+            </div>
+          </aside>
+
+          <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-body" aria-live="polite">
+                Showing <span className="font-semibold text-ink">{results.length}</span> {results.length === 1 ? "course" : "courses"}
+                {status === "loading" && <span className="ml-2 text-muted">· updating fees and seats</span>}
+              </p>
+              <label className="flex items-center gap-3 text-sm text-body">
+                Sort by
+                <select value={sort} onChange={(event) => setSort(event.target.value)} className="h-10 rounded-lg border border-line bg-white px-3 text-sm text-ink outline-none focus:border-emerald-600">
+                  {sorts.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                </select>
+              </label>
+            </div>
+
+            {results.length > 0 ? (
+              <ul className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {results.map((course, index) => (
+                  <Reveal as="li" key={course.slug} delay={Math.min(index, 5) * 60}><CourseCard course={course} /></Reveal>
+                ))}
+              </ul>
+            ) : (
+              <div className="mt-6 rounded-xl border border-dashed border-line bg-white p-10 text-center">
+                <h2 className="font-display text-xl font-bold text-ink">No courses match these filters</h2>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted">Remove a filter or change your search. Admissions can also help you choose.</p>
+                <div className="mt-6 flex flex-wrap justify-center gap-3">
+                  <button type="button" onClick={reset} className="min-h-11 rounded-lg border border-line px-5 text-sm font-semibold text-ink hover:border-emerald-700">Clear filters</button>
+                  <a href="/contact" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Contact admissions</a>
+                </div>
+              </div>
+            )}
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

@@ -1,81 +1,56 @@
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 
-import HeroSection from "../Components/heroSection";
-import PathwaysSection from "../Components/whatWeDo";
-import CentresSection from "../Components/CentresSection";
-import AboutUs from "../Components/AboutUs";
 import MainLayout from "../MainLayout/MainLayout";
+import HomePage from "../Modules/Home/HomePage";
+import LabPage from "../Modules/Labs/LabPage";
+import { labs } from "../Modules/Labs/labsData";
+import ProgrammesSection from "../Modules/Programmes/ProgrammesSection";
+import ProgrammeDetails from "../Modules/Programmes/ProgrammeDetails";
+import PaymentsPage from "../Modules/Payments/PaymentsPage";
+import SearchPage from "../Modules/Search/SearchPage";
+import EnrolPage from "../Modules/Enrol/EnrolPage";
+import ConfirmationPage from "../Modules/Enrol/ConfirmationPage";
+import AdminApp from "../Modules/Admin/AdminApp";
+import AboutUs from "../Components/AboutUs";
+import AdmissionsPage from "../Components/Admissions";
+import LeadershipPage from "../Components/BoardOfDirectors";
+import CareersPage from "../Components/opportunities";
+import ContactPage from "../Components/contact";
+import { Container } from "../Components/ui";
 
 import "./App.css";
-import ProgrammesSection from "../Modules/Programmes/ProgrammesSection";
-import ScrollReveal3D from "../Components/ScrollReveal3D";
-import OpportunitiesSection from "../Components/opportunities";
-import OurWorkSection from "../Components/ourWork";
-import ContactPage from "../Components/contact";
-import RegisterAuth from "../Auth/RegisterAuth";
-import BoardOfDirectors from "../Components/BoardOfDirectors";
-import OTPVerification from "../Auth/otpVerification";
-import StudentPortal from "../Modules/LMS/student.portal";
-import ProtectedRoute from "../Auth/middleware/ProtectedRoute";
 
-function HomePage() {
-  return (
-    <>
-  
-      <HeroSection />
-   
-      <AboutUs />
-
-
-      <PathwaysSection />
-
-      {/* <ProgrammesSection /> */}
-      <OurWorkSection />
-
-      {/* <CentresSection /> */}
-    </>
-  );
+function LabRoute() {
+  const { slug } = useParams();
+  if (!labs[slug]) return <NotFoundPage />;
+  return <LabPage slug={slug} />;
 }
 
-function ProgrammeDetailsPage() {
+function ProgrammeRoute() {
   const { slug } = useParams();
+  return <ProgrammeDetails slug={slug} />;
+}
 
-  const title = slug
-    ? slug
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ")
-    : "Programme";
-
-  return (
-    <section className="min-h-[60vh] bg-[#062D26] px-5 py-20 text-white sm:px-8">
-      <div className="mx-auto max-w-5xl">
-        <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#B9EF73]">
-          PSCDB Programme
-        </p>
-
-        <h1 className="mt-4 text-4xl font-semibold sm:text-5xl">{title}</h1>
-
-        <p className="mt-5 max-w-2xl leading-7 text-[#D5E9DD]">
-          Programme information and application details will be shown here.
-        </p>
-      </div>
-    </section>
-  );
+function EnrolRoute() {
+  const { slug } = useParams();
+  return <EnrolPage slug={slug} />;
 }
 
 function NotFoundPage() {
   return (
-    <section className="grid min-h-[60vh] place-items-center px-5 text-center">
-      <div>
-        <p className="text-sm font-bold uppercase tracking-widest text-[#167A62]">
-          Page not found
-        </p>
-        <h1 className="mt-3 text-4xl font-semibold text-[#123B32]">404</h1>
-        <p className="mt-3 text-[#64716A]">
-          The page you’re looking for doesn’t exist.
-        </p>
-      </div>
+    <section className="flex min-h-[70vh] items-center bg-cream-100 py-24">
+      <Container>
+        <div className="mx-auto max-w-lg text-center">
+          <p className="text-sm font-bold uppercase tracking-[0.16em] text-emerald-700">Error 404</p>
+          <h1 className="mt-4 font-display text-4xl font-extrabold text-ink">This page could not be found</h1>
+          <p className="mt-4 text-base leading-7 text-muted">The link may be broken or the page may have moved. Try one of the links below, or search the site.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a href="/" className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Back to home</a>
+            <a href="/programmes" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Browse courses</a>
+            <a href="/search" className="inline-flex min-h-11 items-center rounded-lg border border-line bg-white px-5 text-sm font-semibold text-ink hover:border-emerald-700">Search</a>
+          </div>
+        </div>
+      </Container>
     </section>
   );
 }
@@ -84,34 +59,26 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="admin/*" element={<AdminApp />} />
+        <Route path="superadmin" element={<Navigate to="/admin" replace />} />
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="about" element={<AboutUs />} />
+          <Route path="labs/:slug" element={<LabRoute />} />
           <Route path="programmes" element={<ProgrammesSection />} />
-          <Route
-            path="programmes/:slug"
-            element={<ProgrammeDetailsPage />}
-          />
-          <Route path="centres" element={<CentresSection />} />
-          <Route path="opportunities" element={<OpportunitiesSection/>} />
-          <Route path="our-work" element={<OurWorkSection/>} />
-          <Route path="contact" element={<ContactPage/>} />
-
-
-<Route path="register" element={<RegisterAuth />} />
-<Route path="/student-login" element={<RegisterAuth />} />
-<Route path="directors" element={<BoardOfDirectors />} />
-<Route path="otp-verification" element={<OTPVerification />} />
-
-
-
-
+          <Route path="programmes/:slug" element={<ProgrammeRoute />} />
+          <Route path="enrol/confirmation" element={<ConfirmationPage />} />
+          <Route path="enrol/:slug" element={<EnrolRoute />} />
+          <Route path="admissions" element={<AdmissionsPage />} />
+          <Route path="about" element={<AboutUs />} />
+          <Route path="leadership" element={<LeadershipPage />} />
+          <Route path="careers" element={<CareersPage />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="payments" element={<PaymentsPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="opportunities" element={<Navigate to="/careers" replace />} />
+          <Route path="directors" element={<Navigate to="/leadership" replace />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-
-  <Route element={<ProtectedRoute/>}>
-    <Route path="/student-portal" element={<StudentPortal />} />
-  </Route>
       </Routes>
     </BrowserRouter>
   );
