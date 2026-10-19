@@ -48,7 +48,7 @@ export default function HeroSection() {
             Admissions open for morning and evening batches
           </p>
           <h1 id="hero-heading" style={{ "--delay": "80ms" }} className="rise mt-6 font-display text-4xl font-extrabold leading-[1.08] text-white sm:text-5xl lg:text-[3.4rem]">
-            Professional skills in <span className="text-gold-300">AI and cyber security</span>, taught in real labs
+            Professional Skills in <span className="text-gold-300">AI and Cyber Security</span>, Taught in Real Labs
           </h1>
           <p style={{ "--delay": "160ms" }} className="rise mt-6 max-w-xl text-lg leading-8 text-white/75">
             Onsite courses that end in a professional skills exam. Choose a course, pick a batch and reserve your seat online in minutes.

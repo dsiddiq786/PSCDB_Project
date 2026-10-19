@@ -3,7 +3,7 @@ export const labs = {
     slug: "ai",
     name: "Advanced AI Lab",
     shortName: "AI Lab",
-    headline: "Explore, train and fine-tune large language models.",
+    headline: "Explore, Train and Fine-Tune Large Language Models",
     intro:
       "The AI Lab is a working environment for engineers and researchers who want to understand how modern language models are built, adapted and evaluated. You will move from model internals to production-style systems, and you will measure every change you make.",
     pillars: [
@@ -52,7 +52,7 @@ export const labs = {
     slug: "cyber",
     name: "Cyber Security Lab",
     shortName: "Cyber Lab",
-    headline: "Learn to attack, defend and investigate, safely.",
+    headline: "Learn to Attack, Defend and Investigate, Safely",
     intro:
       "The Cyber Security Lab teaches the skills that organizations rely on: finding weaknesses before attackers do, watching for intrusions, and reconstructing incidents afterwards. Offensive techniques are practiced only in isolated lab networks, under written rules of engagement.",
     pillars: [
