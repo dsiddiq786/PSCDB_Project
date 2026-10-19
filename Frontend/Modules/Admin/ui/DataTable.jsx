@@ -174,7 +174,12 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
       return;
     }
     const cols = visible.filter((c) => c.csv !== false);
-    const escape = (v) => `"${String(v).replaceAll('"', '""')}"`;
+    // Cells starting with = + - @ or a control character could run as formulas in Excel: prefix them with '.
+    const escape = (v) => {
+      const text = String(v);
+      const safe = /^[=+\-@\t\r]/.test(text) ? `'${text}` : text;
+      return `"${safe.replaceAll('"', '""')}"`;
+    };
     const lines = [cols.map((c) => escape(c.label)).join(","), ...result.data.rows.map((row) => cols.map((c) => escape(csvValue(c, row))).join(","))];
     const blob = new Blob([`\ufeff${lines.join("\r\n")}`], { type: "text/csv;charset=utf-8" });
     const link = document.createElement("a");
@@ -229,7 +234,7 @@ export default function DataTable({ config, reloadKey = 0, onAdd, onEdit, onView
                 </label>
               ))}
             </Dropdown>
-            <Btn icon="download" onClick={exportCsv} disabled={exporting || !state.total}>{exporting ? "Exporting…" : "Export CSV"}</Btn>
+            {hasRole(me, "manager") && <Btn icon="download" onClick={exportCsv} disabled={exporting || !state.total}>{exporting ? "Exporting…" : "Export CSV"}</Btn>}
             <IconBtn icon="refresh" label="Refresh" onClick={refresh} />
             {canCreate && <Btn variant="primary" icon="plus" onClick={onAdd}>Add {titleWords(config.singular)}</Btn>}
           </div>

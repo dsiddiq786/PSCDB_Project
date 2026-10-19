@@ -9,6 +9,12 @@ const adminSchema = new mongoose.Schema(
     role: { type: String, enum: ["superadmin", "manager", "staff"], default: "staff" },
     active: { type: Boolean, default: true },
     lastLoginAt: { type: Date },
+    phone: { type: String, trim: true, maxlength: 20, default: "" },
+    jobTitle: { type: String, trim: true, maxlength: 80, default: "" },
+    // File name of the profile picture in uploads/avatars.
+    avatar: { type: String, default: "" },
+    // Raised whenever the password, role or access changes, which signs out every existing session.
+    tokenVersion: { type: Number, default: 0, select: false },
     failedLogins: { type: Number, default: 0, select: false },
     lockedUntil: { type: Date, default: null, select: false },
   },

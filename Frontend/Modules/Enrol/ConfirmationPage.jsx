@@ -90,7 +90,7 @@ export default function ConfirmationPage() {
               </dl>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                {paid && (
+                {paid && institute.lmsUrl && (
                   <a href={institute.lmsUrl} className="inline-flex min-h-11 items-center rounded-lg bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800">Go to the Student Portal (LMS)</a>
                 )}
                 {paid && (

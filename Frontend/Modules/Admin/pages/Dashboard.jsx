@@ -77,6 +77,7 @@ export default function Dashboard() {
                   { label: "Awaiting Payment", value: data.statusBreakdown.find((s) => s.status === "pending_payment").count, color: "#c9a24a" },
                   { label: "Expired", value: data.statusBreakdown.find((s) => s.status === "expired").count, color: "#94a3b8" },
                   { label: "Canceled", value: data.statusBreakdown.find((s) => s.status === "cancelled").count, color: "#e11d48" },
+                  ...(data.statusBreakdown.find((s) => s.status === "refund_due")?.count ? [{ label: "Refund Due", value: data.statusBreakdown.find((s) => s.status === "refund_due").count, color: "#7f1d1d" }] : []),
                 ]}
               />
               <div className="mt-6 border-t border-slate-100 pt-5">

@@ -14,7 +14,7 @@ const columns = [
     title: "Students",
     links: [
       { label: "How to Enroll", href: "/admissions" },
-      { label: "Student Login (LMS)", href: institute.lmsUrl },
+      ...(institute.lmsUrl ? [{ label: "Student Login (LMS)", href: institute.lmsUrl }] : []),
       { label: "Code of Conduct", href: "/about#conduct" },
       { label: "Search", href: "/search" },
     ],

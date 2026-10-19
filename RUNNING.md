@@ -19,7 +19,7 @@
 2. Create `Backend/.env` from `Backend/.env.example`. For local development:
    - Leave `MONGODB_URI` empty to use an in-memory database (data resets on restart).
    - Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` (12 characters or more). The first superadmin is created on startup.
-   - Set `ADMIN_JWT_SECRET`, `JWT_ACCESS_SECRET` and `OTP_HMAC_SECRET` to long random strings.
+   - Set `ADMIN_JWT_SECRET` to a long random string (`openssl rand -hex 32`).
    - Set `ALLOW_SIMULATED_PAYMENTS=true` to test enrolment without Stripe.
 
 3. Start both servers in separate terminals:

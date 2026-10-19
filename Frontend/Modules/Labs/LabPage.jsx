@@ -52,7 +52,7 @@ export default function LabPage({ slug }) {
         <Container className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <Reveal>
             <figure className="relative overflow-hidden rounded-xl">
-              <img src={meta.banner} alt={`Students working in the ${lab.name}`} loading="lazy" className="aspect-[16/7] w-full object-cover" />
+              <img src={meta.banner} alt={`Illustration of students working in the ${lab.name}`} loading="lazy" className="aspect-[16/7] w-full object-cover" />
               <IllustrativeTag />
             </figure>
           </Reveal>

@@ -86,42 +86,51 @@ async function reserveSeatAnyStatus(courseId, batchId) {
   return result.modifiedCount === 1;
 }
 
-/* Changes status, batch or payment note. Seats move with every change, never twice. */
+/* Changes status, batch or payment note. The update only applies if the booking has not changed since it
+   was read (a payment or an expiring hold may change it at the same moment), and seats move exactly once. */
 export async function updateEnrolment(req, res) {
   needRole(req, "manager");
-  const enrolment = await Enrolment.findById(objectId(req.params.id, "enrollment"));
+  const enrolment = await Enrolment.findById(objectId(req.params.id, "enrollment")).lean();
   if (!enrolment) throw new HttpError(404, "Enrollment not found.");
   const body = req.body || {};
   const nextStatus = body.status ?? enrolment.status;
-  if (!["pending_payment", "paid", "expired", "cancelled"].includes(nextStatus)) throw new HttpError(400, "Choose a valid status.", "status");
+  if (!["pending_payment", "paid", "expired", "cancelled", "refund_due"].includes(nextStatus)) throw new HttpError(400, "Choose a valid status.", "status");
+  if (nextStatus === "refund_due" && enrolment.status !== "refund_due") throw new HttpError(400, "Only the payment system can mark a booking as refund due.", "status");
   const nextBatch = body.batchId ?? enrolment.batchId;
 
-  const course = await Course.findById(enrolment.course);
+  const course = await Course.findById(enrolment.course).lean();
   if (!course) throw new HttpError(409, "The course for this enrollment no longer exists.");
   if (!course.batches.some((b) => b.id === nextBatch)) throw new HttpError(400, "Choose a batch offered by this course.", "batchId");
 
   const held = HOLDS_SEAT.includes(enrolment.status);
   const willHold = HOLDS_SEAT.includes(nextStatus);
   const batchChanged = nextBatch !== enrolment.batchId;
+  const takesSeat = willHold && (!held || batchChanged);
+  const freesSeat = held && (!willHold || batchChanged);
 
-  // Take the new seat first, so a full batch stops the change before anything is released.
-  if (willHold && (!held || batchChanged)) {
-    if (!(await reserveSeatAnyStatus(course._id, nextBatch))) throw new HttpError(409, "The chosen batch is full.", "batchId");
+  // Take the new seat first, so a full batch stops the change before anything else happens.
+  if (takesSeat && !(await reserveSeatAnyStatus(course._id, nextBatch))) throw new HttpError(409, "The chosen batch is full.", "batchId");
+
+  const set = { status: nextStatus, batchId: nextBatch };
+  if (nextStatus === "paid" && !enrolment.paidAt) set.paidAt = new Date();
+  if (typeof body.paymentNote === "string") set.paymentNote = body.paymentNote.trim().slice(0, 300);
+  const updated = await Enrolment.findOneAndUpdate(
+    { _id: enrolment._id, status: enrolment.status, batchId: enrolment.batchId },
+    { $set: set },
+    { returnDocument: "after" },
+  ).lean();
+  if (!updated) {
+    if (takesSeat) await releaseSeat(course._id, nextBatch);
+    throw new HttpError(409, "This booking changed while you were editing it. Refresh and try again.");
   }
-  if (held && (!willHold || batchChanged)) await releaseSeat(course._id, enrolment.batchId);
+  if (freesSeat) await releaseSeat(course._id, enrolment.batchId);
+  if (nextStatus === "paid") await linkStudent(updated);
 
   const changes = [];
   if (nextStatus !== enrolment.status) changes.push(`status ${enrolment.status} to ${nextStatus}`);
   if (batchChanged) changes.push(`batch ${enrolment.batchId} to ${nextBatch}`);
-  enrolment.status = nextStatus;
-  enrolment.batchId = nextBatch;
-  if (nextStatus === "paid" && !enrolment.paidAt) enrolment.paidAt = new Date();
-  if (typeof body.paymentNote === "string") enrolment.paymentNote = body.paymentNote.trim().slice(0, 300);
-  await enrolment.save();
-  if (nextStatus === "paid") await linkStudent(enrolment.toObject());
-
   await audit(req, "update", "enrolments", enrolment._id, `${enrolment.reference}: ${changes.join(", ") || "note updated"}`);
-  res.json({ success: true, data: { id: String(enrolment._id), status: enrolment.status, batchId: enrolment.batchId } });
+  res.json({ success: true, data: { id: String(updated._id), status: updated.status, batchId: updated.batchId } });
 }
 
 export async function deleteEnrolment(req, res) {
@@ -366,7 +375,7 @@ export async function dashboard(_req, res) {
         pkrPerUsd: settings.pkrPerUsd,
       },
       series,
-      statusBreakdown: ["paid", "pending_payment", "expired", "cancelled"].map((s) => ({ status: s, count: status(s).count })),
+      statusBreakdown: ["paid", "pending_payment", "expired", "cancelled", "refund_due"].map((s) => ({ status: s, count: status(s).count })),
       labSplit: labTotals,
       courses: courses.map((c) => ({
         code: c.code,

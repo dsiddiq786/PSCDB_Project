@@ -1,4 +1,3 @@
-// Replace or confirm names and titles with the client before launch.
 export const leadership = [
   {
     name: "Rana Kaif Ullah",

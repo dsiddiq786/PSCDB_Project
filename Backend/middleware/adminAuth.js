@@ -20,7 +20,17 @@ function secret() {
 }
 
 export function signAdmin(admin) {
-  return jwt.sign({ sub: String(admin._id), role: admin.role }, secret(), { expiresIn: "8h", issuer: "pscdb-admin", audience: "pscdb-admin" });
+  return jwt.sign({ sub: String(admin._id), role: admin.role, v: admin.tokenVersion || 0 }, secret(), { expiresIn: "8h", issuer: "pscdb-admin", audience: "pscdb-admin" });
+}
+
+/* The admin id in a valid session cookie, or null. Used by sign-out, which must work even for expired roles. */
+export function readAdminId(req) {
+  try {
+    const token = req.cookies?.[ADMIN_COOKIE];
+    return token ? jwt.verify(token, secret(), { issuer: "pscdb-admin", audience: "pscdb-admin" }).sub : null;
+  } catch {
+    return null;
+  }
 }
 
 const RANK = { staff: 1, manager: 2, superadmin: 3 };
@@ -32,8 +42,12 @@ export function requireAdmin(role) {
       const token = req.cookies?.[ADMIN_COOKIE];
       if (!token) return res.status(401).json({ success: false, message: "Please sign in." });
       const payload = jwt.verify(token, secret(), { issuer: "pscdb-admin", audience: "pscdb-admin" });
-      const admin = await Admin.findById(payload.sub).lean();
-      if (!admin || admin.active === false) return res.status(401).json({ success: false, message: "Please sign in." });
+      const admin = await Admin.findById(payload.sub).select("+tokenVersion").lean();
+      // A changed password, role or access level makes older sessions invalid.
+      if (!admin || admin.active === false || (payload.v || 0) !== (admin.tokenVersion || 0)) {
+        res.clearCookie(ADMIN_COOKIE, { ...adminCookieOptions(), maxAge: undefined });
+        return res.status(401).json({ success: false, message: "Please sign in." });
+      }
       if (role && (RANK[admin.role] || 0) < RANK[role]) {
         return res.status(403).json({ success: false, message: "You do not have permission to do this." });
       }

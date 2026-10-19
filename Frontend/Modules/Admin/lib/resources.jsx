@@ -13,7 +13,7 @@ const person = (name, sub) => (
 
 const STUDENT_STATUS = ["active", "suspended", "graduated", "withdrawn"];
 const STAFF_ROLES = ["instructor", "lab_engineer", "admissions", "accounts", "management", "support"];
-const ENROLMENT_STATUS = ["paid", "pending_payment", "expired", "cancelled"];
+const ENROLMENT_STATUS = ["paid", "pending_payment", "expired", "cancelled", "refund_due"];
 const TOPICS = ["admission", "programme", "payment", "research", "partnership", "opportunity", "other"];
 
 export const resources = {
@@ -138,7 +138,7 @@ export const resources = {
         dependsOn: "courseId",
         options: (values, lookups) => lookups.courses.find((c) => c.value === (values.courseId || values.course))?.batches || [],
       },
-      { name: "status", label: "Status", type: "select", required: true, default: "paid", options: (values) => opts(values.reference ? ENROLMENT_STATUS : ["paid", "pending_payment"]) },
+      { name: "status", label: "Status", type: "select", required: true, default: "paid", options: (values) => opts(values.reference ? ENROLMENT_STATUS.filter((s) => s !== "refund_due" || values.status === "refund_due") : ["paid", "pending_payment"]) },
       { name: "course", label: "Course", type: "hidden", editOnly: true },
       { name: "reference", label: "Reference", type: "hidden", editOnly: true },
       { name: "paymentNote", label: "Payment Note", type: "textarea", max: 300, hint: "For example: paid in cash, receipt 1043." },
@@ -373,7 +373,7 @@ export const resources = {
       { key: "ip", label: "IP Address", hidden: true },
     ],
     filters: [
-      { key: "action", label: "Action", options: opts(["create", "update", "delete", "login", "check_in", "check_out", "settings"]) },
+      { key: "action", label: "Action", options: opts(["create", "update", "delete", "login", "check_in", "check_out", "settings", "export"]) },
       { key: "resource", label: "Section", options: opts(["students", "staff", "enrolments", "courses", "shifts", "centres", "attendance", "enquiries", "users", "settings"]) },
     ],
     form: [],

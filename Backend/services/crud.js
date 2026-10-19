@@ -200,6 +200,8 @@ export function resource(cfg) {
       guard(req, "read");
       const filter = buildFilter(req.query);
       const exporting = req.query.export === "1";
+      // Bulk exports of personal data are limited to managers and recorded.
+      if (exporting && !canDo(req.admin, "manager")) throw new HttpError(403, "Only managers can export records.");
       const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 10, 1), exporting ? 5000 : 100);
       const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
       const requested = typeof req.query.sort === "string" ? req.query.sort : defaultSort;
@@ -212,6 +214,7 @@ export function resource(cfg) {
         model.find(filter).sort({ [dbKey]: direction, _id: direction }).skip((page - 1) * limit).limit(limit).lean(),
         model.countDocuments(filter),
       ]);
+      if (exporting) await audit(req, "export", name, "", `Exported ${rows.length} rows`);
       res.json({ success: true, data: { rows: rows.map(present), total, page, limit } });
     },
 
@@ -241,7 +244,7 @@ export function resource(cfg) {
       if (!existing) throw new HttpError(404, "Record not found.");
       let data = parseBody(fields, req.body, { partial: true });
       if (hooks.beforeUpdate) data = await hooks.beforeUpdate(data, existing, req);
-      const doc = await model.findByIdAndUpdate(existing._id, { $set: data }, { new: true, runValidators: true }).lean();
+      const doc = await model.findByIdAndUpdate(existing._id, { $set: data }, { returnDocument: "after", runValidators: true }).lean();
       await audit(req, "update", name, doc._id, `${describe(doc)} (${Object.keys(data).join(", ") || "no changes"})`);
       res.json({ success: true, data: present(doc) });
     },

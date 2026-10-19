@@ -5,7 +5,7 @@ const auditSchema = new mongoose.Schema(
   {
     actor: { type: String, required: true },
     actorRole: { type: String, default: "" },
-    action: { type: String, required: true, enum: ["create", "update", "delete", "login", "check_in", "check_out", "settings"] },
+    action: { type: String, required: true, enum: ["create", "update", "delete", "login", "check_in", "check_out", "settings", "export"] },
     resource: { type: String, required: true },
     recordId: { type: String, default: "" },
     summary: { type: String, maxlength: 300, default: "" },

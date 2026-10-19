@@ -59,11 +59,11 @@ export default function Navbar() {
           <div className="flex items-center gap-5">
             <a href={`mailto:${institute.email}`} className="hover:text-white">{institute.email}</a>
             <a href="/contact" className="hover:text-white">Contact</a>
-            <a href={institute.lmsUrl} className="inline-flex items-center gap-1.5 font-semibold text-gold-300 hover:text-gold-200">
-              Student login
+            {institute.lmsUrl && <a href={institute.lmsUrl} className="inline-flex items-center gap-1.5 font-semibold text-gold-300 hover:text-gold-200">
+              Student Login
               <span className="sr-only">(opens the learning platform)</span>
               <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M7 17 17 7M9 7h8v8" /></svg>
-            </a>
+            </a>}
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a href={institute.lmsUrl} className="border-b border-line py-4 text-lg font-semibold text-emerald-800">Student Login (LMS)</a>
+              {institute.lmsUrl && <a href={institute.lmsUrl} className="border-b border-line py-4 text-lg font-semibold text-emerald-800">Student Login (LMS)</a>}
               <a href="/courses" className="mt-8 rounded-lg bg-emerald-700 py-3.5 text-center text-sm font-semibold text-white">Enroll Now</a>
             </nav>
           </div>

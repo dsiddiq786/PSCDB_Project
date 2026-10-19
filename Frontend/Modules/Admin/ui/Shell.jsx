@@ -3,7 +3,8 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { api } from "../../Api/client";
 import AdminIcon from "./AdminIcon";
 import { Badge } from "./kit";
-import { initials } from "../lib/format";
+import Avatar from "./Avatar";
+import { label } from "../lib/format";
 import { hasRole, useAdmin } from "../lib/adminContext";
 
 const MENU = [
@@ -84,20 +85,20 @@ function UserMenu({ me, onSignOut }) {
   return (
     <div ref={ref} className="relative">
       <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-slate-100">
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-emerald-700 text-xs font-bold text-white">{initials(me.name)}</span>
+        <Avatar name={me.name} src={me.avatarUrl} size="xs" className="h-8 w-8" />
         <span className="hidden text-sm font-semibold text-slate-700 md:block">{me.name}</span>
         <AdminIcon name="chevronDown" className="hidden h-4 w-4 text-slate-400 md:block" />
       </button>
       {open && (
         <div className="admin-pop absolute right-0 top-full z-40 mt-1.5 w-64 overflow-hidden rounded-md border border-slate-200 bg-white shadow-xl">
           <div className="bg-emerald-950 px-4 py-5 text-center text-white">
-            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-700 font-display text-lg font-bold ring-4 ring-white/10">{initials(me.name)}</span>
+            <Avatar name={me.name} src={me.avatarUrl} size="lg" className="mx-auto ring-4 ring-white/10" />
             <p className="mt-2 font-semibold">{me.name}</p>
             <p className="text-xs text-white/60">{me.email}</p>
             <div className="mt-2"><Badge value={me.role} /></div>
           </div>
           <div className="flex justify-between gap-2 p-3">
-            <Link to="/admin/settings" onClick={() => setOpen(false)} className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Settings</Link>
+            <Link to="/admin/profile" onClick={() => setOpen(false)} className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">My Profile</Link>
             <button type="button" onClick={onSignOut} className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"><AdminIcon name="logout" className="h-4 w-4" />Sign Out</button>
           </div>
         </div>
@@ -150,16 +151,16 @@ export default function Shell({ children, toasts, dismissToast, onSignOut }) {
           <img src="/brand/crest-768.png" alt="" className="h-9 w-9 shrink-0 object-contain" />
           <span className={`font-display text-lg font-extrabold text-white ${narrow ? "lg:hidden" : ""}`}>PSCDB <span className="font-medium text-white/60">Admin</span></span>
         </Link>
-        <div className={`flex items-center gap-3 border-b border-white/10 px-4 py-3.5 ${narrow ? "lg:justify-center lg:px-0" : ""}`}>
-          <span className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full bg-emerald-700 text-xs font-bold text-white">
-            {initials(me.name)}
+        <Link to="/admin/profile" title="My Profile" className={`flex items-center gap-3 border-b border-white/10 px-4 py-3.5 transition-colors hover:bg-white/5 ${narrow ? "lg:justify-center lg:px-0" : ""}`}>
+          <span className="relative shrink-0">
+            <Avatar name={me.name} src={me.avatarUrl} size="sm" />
             <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-[#05201a]" />
           </span>
           <div className={`min-w-0 ${narrow ? "lg:hidden" : ""}`}>
             <p className="truncate text-sm font-semibold text-white">{me.name}</p>
-            <p className="text-xs capitalize text-gold-300">{me.role}</p>
+            <p className="truncate text-xs text-gold-300">{me.jobTitle || label(me.role)}</p>
           </div>
-        </div>
+        </Link>
         <div className={`px-3 pt-3 ${narrow ? "lg:hidden" : ""}`}>
           <div className="relative">
             <AdminIcon name="search" className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />

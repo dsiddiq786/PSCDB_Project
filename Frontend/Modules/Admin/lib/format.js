@@ -13,6 +13,8 @@ export const LABELS = {
   pending_payment: "Awaiting Payment",
   expired: "Expired",
   cancelled: "Canceled",
+  refund_due: "Refund Due",
+  export: "Exported",
   new: "New",
   answered: "Answered",
   active: "Active",
@@ -79,7 +81,7 @@ const GOLD = "bg-gold-50 text-gold-600 ring-gold-500/30";
 export const TONES = {
   paid: GREEN, active: GREEN, present: GREEN, answered: GREEN, true: GREEN, graduated: BLUE, online: BLUE, stripe: BLUE, check_in: GREEN,
   pending_payment: AMBER, late: AMBER, on_leave: AMBER, new: GOLD, leave: AMBER, suspended: AMBER, update: AMBER, check_out: BLUE,
-  cancelled: RED, absent: RED, delete: RED, withdrawn: RED,
+  cancelled: RED, refund_due: RED, absent: RED, delete: RED, withdrawn: RED,
   expired: GREY, inactive: GREY, false: GREY, desk: GREY, manual: GREY, simulated: GREY,
   superadmin: GOLD, manager: BLUE, staff: GREY, create: GREEN, login: GREY, settings: BLUE,
   ai: GREEN, cyber: BLUE, student: GREEN,

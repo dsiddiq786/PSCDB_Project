@@ -59,7 +59,7 @@ const labFilters = [
 ];
 
 const questions = [
-  { q: "Are any classes held online?", a: "No. Every course is taught onsite in our labs in Sahiwal. Learning materials and exam results are shared through the student learning platform." },
+  { q: "Are any classes held online?", a: "No. Every course is taught onsite in our labs in Sahiwal." },
   { q: "How long is my seat held while I pay?", a: "Your seat is held for 30 minutes from the moment you continue to payment. If payment is not completed in that time, the seat is released for other students." },
   { q: "Is the exam fee included in the course fee?", a: "It depends on the course. Some courses include the professional skills exam fee, and others charge it separately. Each course page and the fees page show which applies." },
   { q: "Can I move to another batch after enrolling?", a: "Contact admissions with your booking reference. A change depends on seats being available in the batch you want." },
@@ -203,7 +203,7 @@ export default function AdmissionsPage() {
             </SectionHeading>
             <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-cream-100 px-4 py-2 text-sm text-body">
               <Icon name="user" className="h-4 w-4 text-emerald-700" />
-              Each batch is limited to 50 students
+              Seats in every batch are limited
             </p>
           </Reveal>
           <div className="grid gap-5 sm:grid-cols-2">

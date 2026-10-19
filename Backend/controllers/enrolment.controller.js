@@ -5,7 +5,7 @@ import { priceFor } from "../services/pricing.js";
 import { HOLD_MINUTES, closeUnpaid, newReference, releaseSeat, reserveSeat } from "../services/enrolment.service.js";
 import { linkStudent } from "../services/people.service.js";
 import { properName } from "../services/names.js";
-import { createCheckoutSession, simulatedPaymentsAllowed, stripeEnabled } from "../services/stripe.service.js";
+import { createCheckoutSession, expireCheckout, simulatedPaymentsAllowed, stripeEnabled } from "../services/stripe.service.js";
 
 const rules = {
   fullName: { re: /^[\p{L}][\p{L} .'-]{1,99}$/u, message: "Enter your full name." },
@@ -62,6 +62,17 @@ export async function createEnrolment(req, res) {
   if (!course) return res.status(404).json({ success: false, message: "Course not found." });
   if (!course.batches.some((batch) => batch.id === batchId)) {
     return res.status(400).json({ success: false, message: "Choose a batch offered by this course." });
+  }
+
+  // One unpaid booking per person at a time, so nobody can hold seats they are not paying for.
+  if (await Enrolment.exists({ status: "pending_payment", $or: [{ "student.email": student.email.toLowerCase() }, { "student.identityNumber": student.identityNumber }] })) {
+    return res.status(409).json({ success: false, message: "You already have a booking waiting for payment. Complete it, or wait 30 minutes for it to expire." });
+  }
+  // Unpaid holds may take at most a fifth of a batch, so a batch cannot be blocked with fake bookings.
+  const capacity = course.batches.find((batch) => batch.id === batchId).capacity;
+  const pending = await Enrolment.countDocuments({ course: course._id, batchId, status: "pending_payment" });
+  if (pending >= Math.max(5, Math.ceil(capacity * 0.2))) {
+    return res.status(409).json({ success: false, message: "Many people are paying for this batch right now. Please try again in a few minutes." });
   }
 
   const reserved = await reserveSeat(course._id, batchId);
@@ -122,7 +133,19 @@ export async function getEnrolment(req, res) {
 
 export async function cancelEnrolment(req, res) {
   const reference = String(req.params.reference || "").toUpperCase();
-  const enrolment = await closeUnpaid({ reference }, "cancelled");
+  if (!/^PSCDB-[A-Z0-9]{10}$/.test(reference)) return res.status(404).json({ success: false, message: "Booking not found." });
+  const booking = await Enrolment.findOne({ reference, status: "pending_payment" }).lean();
+  if (!booking) return res.status(409).json({ success: false, message: "This booking cannot be canceled." });
+  // Close the Stripe checkout first, so a canceled booking can never be paid afterwards.
+  try {
+    if (!(await expireCheckout(booking.stripeSessionId))) {
+      return res.status(409).json({ success: false, message: "This booking has already been paid." });
+    }
+  } catch (err) {
+    console.error("Could not close the Stripe checkout:", err.message);
+    return res.status(502).json({ success: false, message: "The booking could not be canceled right now. Please try again." });
+  }
+  const enrolment = await closeUnpaid({ _id: booking._id }, "cancelled");
   if (!enrolment) return res.status(409).json({ success: false, message: "This booking cannot be canceled." });
   res.json({ success: true, data: { reference, status: "cancelled" } });
 }
@@ -134,7 +157,7 @@ export async function simulatePayment(req, res) {
   const enrolment = await Enrolment.findOneAndUpdate(
     { reference, status: "pending_payment", paymentProvider: "simulated", holdExpiresAt: { $gt: new Date() } },
     { $set: { status: "paid", paidAt: new Date() } },
-    { new: true },
+    { returnDocument: "after" },
   );
   if (!enrolment) return res.status(409).json({ success: false, message: "This booking cannot be paid. It may have expired." });
   await linkStudent(enrolment.toObject());

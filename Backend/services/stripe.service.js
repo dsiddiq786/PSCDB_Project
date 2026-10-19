@@ -12,6 +12,32 @@ export function stripe() {
   return client;
 }
 
+/* Test keys (sk_test_) are refused in production unless STRIPE_TEST_MODE_ACK=true is set on purpose. */
+export function testKeysAllowed() {
+  return process.env.NODE_ENV !== "production" || process.env.STRIPE_TEST_MODE_ACK === "true";
+}
+
+/* Stops the API from starting with a payment setup that would lose or fake payments. */
+export function checkStripeConfig() {
+  const key = process.env.STRIPE_SECRET_KEY || "";
+  if (!key) return;
+  if (process.env.NODE_ENV === "production" && !process.env.STRIPE_WEBHOOK_SECRET) {
+    throw new Error("STRIPE_WEBHOOK_SECRET must be set when STRIPE_SECRET_KEY is set, or paid bookings are never confirmed.");
+  }
+  if (key.startsWith("sk_test_") && !testKeysAllowed()) {
+    throw new Error("Stripe test keys are not allowed in production. Use live keys, or set STRIPE_TEST_MODE_ACK=true for a supervised test.");
+  }
+}
+
+/* Ends a Checkout Session so it can no longer be paid. Returns false if it was already paid. */
+export async function expireCheckout(sessionId) {
+  if (!stripeEnabled() || !sessionId) return true;
+  const session = await stripe().checkout.sessions.retrieve(sessionId);
+  if (session.status === "complete") return false;
+  if (session.status === "open") await stripe().checkout.sessions.expire(sessionId);
+  return true;
+}
+
 /* Simulated payments exist only to test the flow locally without Stripe keys. */
 export function simulatedPaymentsAllowed() {
   return !stripeEnabled() && process.env.NODE_ENV !== "production" && process.env.ALLOW_SIMULATED_PAYMENTS === "true";

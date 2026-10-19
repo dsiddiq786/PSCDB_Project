@@ -35,7 +35,7 @@ export async function closeUnpaid(filter, status) {
   const enrolment = await Enrolment.findOneAndUpdate(
     { ...filter, status: "pending_payment" },
     { $set: { status } },
-    { new: true },
+    { returnDocument: "after" },
   );
   if (enrolment) await releaseSeat(enrolment.course, enrolment.batchId);
   return enrolment;

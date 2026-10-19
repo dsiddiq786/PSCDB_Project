@@ -25,7 +25,8 @@ const enrolmentSchema = new mongoose.Schema(
     pkrPerUsd: { type: Number, required: true },
     status: {
       type: String,
-      enum: ["pending_payment", "paid", "expired", "cancelled"],
+      // refund_due: paid after the hold ended while the batch was full; staff must refund or move it.
+      enum: ["pending_payment", "paid", "expired", "cancelled", "refund_due"],
       default: "pending_payment",
       index: true,
     },
@@ -38,5 +39,10 @@ const enrolmentSchema = new mongoose.Schema(
   },
   { timestamps: true, versionKey: false, strict: "throw" },
 );
+
+// Supports the one-unpaid-booking-per-person check and the per-batch hold count.
+enrolmentSchema.index({ status: 1, "student.email": 1 });
+enrolmentSchema.index({ status: 1, "student.identityNumber": 1 });
+enrolmentSchema.index({ course: 1, batchId: 1, status: 1 });
 
 export default mongoose.model("Enrolment", enrolmentSchema);

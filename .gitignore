@@ -23,3 +23,6 @@ Frontend/dist/
 
 # Production secrets on the server
 .env.production
+
+# Uploaded files (profile pictures, documents) are personal data and live only on the server
+Backend/uploads/

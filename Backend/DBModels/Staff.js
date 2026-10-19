@@ -16,6 +16,8 @@ const staffSchema = new mongoose.Schema(
     status: { type: String, enum: ["active", "on_leave", "inactive"], default: "active", index: true },
     joinedOn: { type: Date },
     notes: { type: String, trim: true, maxlength: 1000, default: "" },
+    // File name of the profile picture in uploads/avatars.
+    avatar: { type: String, default: "" },
   },
   { timestamps: true, versionKey: false, strict: "throw" },
 );

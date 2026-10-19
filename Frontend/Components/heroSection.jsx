@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import HeroParticles from "./HeroParticles";
 
 const slides = [
-  { image: "/images/lab/ai-lab-room.jpg", label: "Advanced AI Lab", href: "/labs/ai", alt: "Workstations in the Advanced AI Lab" },
-  { image: "/images/lab/cyber-lab-room.jpg", label: "Cyber Security Lab", href: "/labs/cyber", alt: "Monitoring screens and equipment in the Cyber Security Lab" },
-  { image: "/images/lab/ai-lab-team.jpg", label: "Students in the AI Lab", href: "/labs/ai", alt: "Students working with language models in the AI Lab" },
-  { image: "/images/lab/cyber-lab-team.jpg", label: "Students in the Cyber Lab", href: "/labs/cyber", alt: "Students investigating a security incident in the Cyber Lab" },
+  { image: "/images/lab/ai-lab-room.jpg", label: "Advanced AI Lab", href: "/labs/ai", alt: "Illustration of workstations in the Advanced AI Lab" },
+  { image: "/images/lab/cyber-lab-room.jpg", label: "Cyber Security Lab", href: "/labs/cyber", alt: "Illustration of monitoring screens in the Cyber Security Lab" },
+  { image: "/images/lab/ai-lab-team.jpg", label: "Students in the AI Lab", href: "/labs/ai", alt: "Illustration of students working with language models in the AI Lab" },
+  { image: "/images/lab/cyber-lab-team.jpg", label: "Students in the Cyber Lab", href: "/labs/cyber", alt: "Illustration of students investigating a security incident in the Cyber Lab" },
 ];
 
 const popular = [

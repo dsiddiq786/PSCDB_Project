@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../Api/client";
 import AdminIcon from "../ui/AdminIcon";
 import DataTable from "../ui/DataTable";
@@ -184,6 +185,9 @@ export default function ResourcePage({ name, openNew = false }) {
   const tableConfig = useMemo(() => ({ ...config, filters }), [config, filters]);
   const canUpdate = hasRole(me, config.can?.update ?? "manager");
   const closeView = useCallback(() => setViewing(null), []);
+  const navigate = useNavigate();
+  // People have full profile pages; other records open in the side panel.
+  const hasProfile = ["students", "staff", "users"].includes(name);
 
   const saved = () => {
     setForm(null);
@@ -211,7 +215,7 @@ export default function ResourcePage({ name, openNew = false }) {
         reloadKey={reloadKey}
         onAdd={config.readOnly || name === "attendance" ? undefined : () => setForm({ row: null })}
         onEdit={config.readOnly ? undefined : (row) => setForm({ row })}
-        onView={(row) => setViewing(row)}
+        onView={(row) => (hasProfile ? navigate(`/admin/${name}/${row.id}`) : setViewing(row))}
         extraActions={name === "courses" && hasRole(me, "manager") ? (row) => <IconBtn icon="layers" label="Batches" tone="green" onClick={() => setBatches(row)} /> : undefined}
         extraTools={name === "attendance" && hasRole(me, "manager") ? <Btn icon="alert" onClick={() => setAbsent(true)}>Mark Absentees</Btn> : name === "attendance" ? null : undefined}
       />

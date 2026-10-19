@@ -50,7 +50,7 @@ try {
     await Admin.create({ email, name: properName(fullName).slice(0, 100), passwordHash, role: "superadmin", active: true });
     console.log(`Created superadmin ${email}. Sign in at https://pscdb.org/admin`);
   } else {
-    await Admin.updateOne({ _id: existing._id }, { $set: { passwordHash, failedLogins: 0, lockedUntil: null, active: true } });
+    await Admin.updateOne({ _id: existing._id }, { $set: { passwordHash, failedLogins: 0, lockedUntil: null, active: true }, $inc: { tokenVersion: 1 } });
     console.log(`Password updated for ${email}. Sign in at https://pscdb.org/admin`);
   }
   process.exitCode = 0;

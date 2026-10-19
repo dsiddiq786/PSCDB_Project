@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import CheckInDesk from "./pages/CheckInDesk";
 import ResourcePage from "./pages/ResourcePage";
 import Settings from "./pages/Settings";
+import ProfilePage from "./pages/ProfilePage";
 
 const EMPTY_LOOKUPS = { shifts: [], centres: [], courses: [], students: [] };
 
@@ -66,7 +67,8 @@ export default function AdminApp() {
     setMe(null);
   };
 
-  const value = useMemo(() => ({ me, lookups, refreshLookups, toast }), [me, lookups, refreshLookups, toast]);
+  const updateMe = useCallback((patch) => setMe((current) => (current ? { ...current, ...patch } : current)), []);
+  const value = useMemo(() => ({ me, lookups, refreshLookups, toast, updateMe }), [me, lookups, refreshLookups, toast, updateMe]);
 
   if (me === undefined) {
     return <div className="grid min-h-screen place-items-center bg-[#f4f6f9] text-emerald-700"><Spinner className="h-8 w-8" /></div>;
@@ -87,6 +89,10 @@ export default function AdminApp() {
           <Route path="users" element={guard("superadmin", <Resource name="users" />)} />
           <Route path="audit" element={guard("superadmin", <Resource name="audit" />)} />
           <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<ProfilePage key="me" kind="me" />} />
+          <Route path="students/:id" element={<ProfilePage key="students" kind="students" />} />
+          <Route path="staff/:id" element={<ProfilePage key="staff" kind="staff" />} />
+          <Route path="users/:id" element={guard("superadmin", <ProfilePage key="users" kind="users" />)} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </Shell>

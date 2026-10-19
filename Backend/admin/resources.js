@@ -11,6 +11,7 @@ import Staff, { STAFF_ROLES } from "../DBModels/Staff.js";
 import Student from "../DBModels/Student.js";
 import { nextCode } from "../DBModels/Counter.js";
 import { HttpError, resource } from "../services/crud.js";
+import { attendanceSummary, avatarUrl, removeAvatarFile } from "./profile.js";
 
 const NAME = /^[\p{L}][\p{L} .'-]{1,99}$/u;
 const ID_NUMBER = /^[A-Za-z0-9-]{5,30}$/;
@@ -42,6 +43,7 @@ const students = resource({
   roles: { create: "staff", update: "staff" },
   describe: (doc) => `${doc.studentId} ${doc.fullName}`,
   hooks: {
+    present: (doc) => ({ ...doc, avatarUrl: avatarUrl(doc.avatar) }),
     async beforeCreate(data) {
       return { ...data, studentId: await nextCode("student", "STU", 5), source: "desk" };
     },
@@ -50,6 +52,7 @@ const students = resource({
         throw new HttpError(409, "This student has active enrollments. Set their status to withdrawn instead.");
       }
       await Attendance.deleteMany({ personType: "student", person: doc._id });
+      await removeAvatarFile(doc.avatar);
     },
     async related(doc) {
       const [enrolments, attendance] = await Promise.all([
@@ -57,6 +60,7 @@ const students = resource({
         Attendance.find({ personType: "student", person: doc._id }).sort({ date: -1 }).limit(60).lean(),
       ]);
       return {
+        attendanceSummary: await attendanceSummary("student", doc._id),
         enrolments: enrolments.map((e) => ({ id: String(e._id), reference: e.reference, courseCode: e.courseCode, courseTitle: e.courseTitle, batchId: e.batchId, status: e.status, totalUsd: e.totalUsdCents / 100, createdAt: e.createdAt })),
         attendance: attendance.map((a) => ({ id: String(a._id), date: a.date, status: a.status, checkInAt: a.checkInAt, checkOutAt: a.checkOutAt })),
       };
@@ -86,6 +90,7 @@ const staff = resource({
   filters: ["role", "department", "status", "shift", "centre"],
   describe: (doc) => `${doc.staffId} ${doc.fullName}`,
   hooks: {
+    present: (doc) => ({ ...doc, avatarUrl: avatarUrl(doc.avatar) }),
     async beforeCreate(data) {
       await requireShift(data.shift);
       await requireCentre(data.centre);
@@ -98,10 +103,17 @@ const staff = resource({
     },
     async beforeDelete(doc) {
       await Attendance.deleteMany({ personType: "staff", person: doc._id });
+      await removeAvatarFile(doc.avatar);
     },
     async related(doc) {
-      const attendance = await Attendance.find({ personType: "staff", person: doc._id }).sort({ date: -1 }).limit(60).lean();
-      return { attendance: attendance.map((a) => ({ id: String(a._id), date: a.date, status: a.status, checkInAt: a.checkInAt, checkOutAt: a.checkOutAt })) };
+      const [attendance, account] = await Promise.all([
+        Attendance.find({ personType: "staff", person: doc._id }).sort({ date: -1 }).limit(60).lean(),
+        Admin.findOne({ email: doc.email }).lean(),
+      ]);
+      return {
+        attendanceSummary: await attendanceSummary("staff", doc._id),
+        account: account && { role: account.role, active: account.active !== false, lastLoginAt: account.lastLoginAt },
+        attendance: attendance.map((a) => ({ id: String(a._id), date: a.date, status: a.status, checkInAt: a.checkInAt, checkOutAt: a.checkOutAt })) };
     },
   },
 });
@@ -314,8 +326,8 @@ const users = resource({
   describe: (doc) => doc.email,
   hooks: {
     present(user) {
-      const { passwordHash: _hash, failedLogins: _failed, lockedUntil: _locked, ...safe } = user;
-      return safe;
+      const { passwordHash: _hash, failedLogins: _failed, lockedUntil: _locked, tokenVersion: _version, ...safe } = user;
+      return { ...safe, avatarUrl: avatarUrl(user.avatar) };
     },
     async beforeCreate(data) {
       if (!data.password) throw new HttpError(400, "Set a password of at least 12 characters.", "password");
@@ -329,7 +341,22 @@ const users = resource({
       await guardLastSuperadmin(existing, { role: data.role ?? existing.role, active: data.active ?? existing.active });
       const { password, ...rest } = data;
       if (password) Object.assign(rest, { passwordHash: await hashPassword(password), failedLogins: 0, lockedUntil: null });
+      // Changing the password, role or access signs the user out everywhere.
+      if (password || (rest.role && rest.role !== existing.role) || rest.active === false) {
+        const { tokenVersion = 0 } = await Admin.findById(existing._id).select("+tokenVersion").lean();
+        rest.tokenVersion = tokenVersion + 1;
+      }
       return rest;
+    },
+    async related(doc) {
+      const [staffRecord, activity] = await Promise.all([
+        Staff.findOne({ email: doc.email }).lean(),
+        AuditLog.find({ actor: doc.email }).sort({ createdAt: -1 }).limit(15).lean(),
+      ]);
+      return {
+        staff: staffRecord && { id: String(staffRecord._id), staffId: staffRecord.staffId, role: staffRecord.role, department: staffRecord.department, shift: staffRecord.shift, status: staffRecord.status },
+        activity: activity.map((a) => ({ id: String(a._id), action: a.action, resource: a.resource, summary: a.summary, createdAt: a.createdAt })),
+      };
     },
     async beforeDelete(doc, req) {
       if (String(doc._id) === String(req.admin._id)) throw new HttpError(409, "You cannot delete your own account.");
