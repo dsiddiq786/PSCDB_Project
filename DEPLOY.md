@@ -1,6 +1,6 @@
 # Deploying PSCDB to servio.servicesground.com
 
-The site runs as three Docker containers: `web` (nginx serving the React build and forwarding `/api`), `api` (Node) and `mongo`. They share a private network. Only `web` is published, on `127.0.0.1:8090`, so nothing is reachable from outside except through the host's reverse proxy. Other projects on the server are not touched: the stack has its own Compose project name (`pscdb`), its own network and volumes, and a host nginx site that answers only for `servio.servicesground.com`.
+The site runs as three Docker containers: `web` (nginx serving the React build and forwarding `/api`), `api` (Node) and `mongo`. They share a private network. Only `web` is published, on `127.0.0.1:9000`, so nothing is reachable from outside except through the host's reverse proxy. Other projects on the server are not touched: the stack has its own Compose project name (`pscdb`), its own network and volumes, and a host nginx site that answers only for `servio.servicesground.com`.
 
 ## 1. DNS
 
@@ -28,7 +28,7 @@ chmod 600 .env.production
 nano .env.production
 ```
 
-- Make sure `WEB_PORT` is free: `ss -ltn | grep 8090` should print nothing. If it is taken, pick another port and use the same one in the nginx site file.
+- Make sure `WEB_PORT` is free: `ss -ltn | grep 9000` should print nothing. If it is taken, pick another port and use the same one in the nginx site file.
 - Fill every secret with `openssl rand -hex 32`. The admin account is created on the first start from `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
 
 ## 5. Start the stack
@@ -36,7 +36,7 @@ nano .env.production
 ```bash
 docker compose --env-file .env.production up -d --build
 docker compose --env-file .env.production ps
-curl -s http://127.0.0.1:8090/api/v1/health
+curl -s http://127.0.0.1:9000/api/v1/health
 ```
 
 The last command should print `{"success":true}`.
@@ -72,10 +72,10 @@ docker compose --env-file .env.production exec -T mongo sh -c 'mongodump --archi
 
 ## If the server does not use nginx
 
-Point the new domain at `http://127.0.0.1:8090`. For Caddy, the site block is:
+Point the new domain at `http://127.0.0.1:9000`. For Caddy, the site block is:
 
 ```
 servio.servicesground.com {
-    reverse_proxy 127.0.0.1:8090
+    reverse_proxy 127.0.0.1:9000
 }
 ```
