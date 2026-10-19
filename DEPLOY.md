@@ -1,81 +1,41 @@
-# Deploying PSCDB to servio.servicesground.com
+# Deploying PSCDB to pscdb.org
 
-The site runs as three Docker containers: `web` (nginx serving the React build and forwarding `/api`), `api` (Node) and `mongo`. They share a private network. Only `web` is published, on `127.0.0.1:9000`, so nothing is reachable from outside except through the host's reverse proxy. Other projects on the server are not touched: the stack has its own Compose project name (`pscdb`), its own network and volumes, and a host nginx site that answers only for `servio.servicesground.com`.
+Production runs on the Contabo server `173.212.243.194` in `/opt/pscdb` as three Docker containers:
 
-## 1. DNS
+- `web`: nginx serving the React build and forwarding `/api` to the API.
+- `api`: the Node backend.
+- `mongo`: MongoDB 8.2 with a root password. MongoDB 8.0 does not start on this server's Linux kernel (6.19 or newer).
 
-Add an `A` record for `servio` in the `servicesground.com` zone that points to the server's public IP address. Wait until `dig +short servio.servicesground.com` returns that address.
+The server already runs a shared `nginx-proxy` container with `nginx-proxy-acme` (Let's Encrypt). The `web` container joins that proxy's Docker network (`PROXY_NETWORK`) and declares `VIRTUAL_HOST` and `LETSENCRYPT_HOST` from `SITE_HOSTS`. The proxy then routes `pscdb.org` and `www.pscdb.org` to it and renews their certificates automatically. `web` is also published on `127.0.0.1:9000` for checks from the server itself. The API and MongoDB are only on the stack's private network.
 
-## 2. Server prerequisites
+Other projects on the server (`restaurant-voice-os` on servio.servicesground.com, `dr-shafiq-classroom`, `edge-8443`) are not touched.
 
-- Docker Engine with the Compose plugin (`docker compose version`).
-- nginx on the host as the reverse proxy, with certbot (`certbot --version`). If the server uses Caddy or Traefik instead, see the note at the end.
-- Ports 80 and 443 open in the firewall (they already are if another site is served).
+## Configuration
 
-## 3. Get the code
+Settings and secrets live in `/opt/pscdb/.env.production` (mode 600, never committed). The template is `.env.production.example`. The superadmin account is created on first start from `ADMIN_EMAIL` and `ADMIN_PASSWORD`. Changing those values later does not change an existing account.
 
-```bash
-sudo mkdir -p /opt/pscdb && sudo chown "$USER" /opt/pscdb
-git clone -b feature/platform-redesign https://github.com/dsiddiq786/PSCDB_Project.git /opt/pscdb
-cd /opt/pscdb
-```
+## Deploying a new version
 
-## 4. Configure
+From the project folder on your Mac, package the committed code (without the uploads folder) and send it:
 
 ```bash
-cp .env.production.example .env.production
-chmod 600 .env.production
-nano .env.production
+git archive --format=tar.gz -o /tmp/pscdb.tar.gz HEAD -- . ':(exclude)Backend/uploads' ':(exclude)node_modules' && ssh root@173.212.243.194 'cd /opt/pscdb && tar xzf - && docker compose --env-file .env.production up -d --build' < /tmp/pscdb.tar.gz
 ```
 
-- Make sure `WEB_PORT` is free: `ss -ltn | grep 9000` should print nothing. If it is taken, pick another port and use the same one in the nginx site file.
-- Fill every secret with `openssl rand -hex 32`. The admin account is created on the first start from `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
-
-## 5. Start the stack
+Then check:
 
 ```bash
-docker compose --env-file .env.production up -d --build
-docker compose --env-file .env.production ps
-curl -s http://127.0.0.1:9000/api/v1/health
+curl -s https://pscdb.org/api/v1/health
 ```
 
-The last command should print `{"success":true}`.
+The site may be unreachable for a few seconds while the proxy reloads.
 
-## 6. Host nginx and HTTPS
+## Stripe webhook (sandbox)
 
-```bash
-sudo cp deploy/servio.servicesground.com.conf /etc/nginx/sites-available/
-sudo ln -s /etc/nginx/sites-available/servio.servicesground.com.conf /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d servio.servicesground.com
-```
-
-`nginx -t` must pass before reloading, so a mistake cannot take the other sites down. Certbot then adds HTTPS and the redirect from HTTP.
-
-## 7. Stripe webhook (sandbox)
-
-In the Stripe dashboard (test mode), add the endpoint `https://servio.servicesground.com/api/v1/payments/stripe/webhook` for the `checkout.session.completed` and `checkout.session.expired` events. Put its signing secret in `STRIPE_WEBHOOK_SECRET`, then run `docker compose --env-file .env.production up -d` again.
-
-## Updating
-
-```bash
-cd /opt/pscdb
-git pull
-docker compose --env-file .env.production up -d --build
-```
+In the Stripe dashboard (test mode), add the endpoint `https://pscdb.org/api/v1/payments/stripe/webhook` for the `checkout.session.completed` and `checkout.session.expired` events. Put the secret key and the webhook signing secret in `.env.production`, then run `docker compose --env-file .env.production up -d` in `/opt/pscdb`.
 
 ## Backups
 
 ```bash
-docker compose --env-file .env.production exec -T mongo sh -c 'mongodump --archive --gzip -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin' > pscdb-$(date +%F).archive.gz
-```
-
-## If the server does not use nginx
-
-Point the new domain at `http://127.0.0.1:9000`. For Caddy, the site block is:
-
-```
-servio.servicesground.com {
-    reverse_proxy 127.0.0.1:9000
-}
+cd /opt/pscdb && docker compose --env-file .env.production exec -T mongo sh -c 'mongodump --archive --gzip -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin' > /root/pscdb-$(date +%F).archive.gz
 ```
